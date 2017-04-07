@@ -8,6 +8,7 @@ If a player dies (which can happen before they haunt) they become a ghost.
   -Cannot explore new rooms or open new doors
   -Potentially have some fun effects (i.e. haunted confetti, spoopy transformation, etc...). 
  
+ 
  Other Potential Mechanics
   -Will vary depending on the haunt that occurs
   -Ghosts can be used as triggers for haunts (ex. Poltergeist)
@@ -16,3 +17,18 @@ If a player dies (which can happen before they haunt) they become a ghost.
   -Haunts have to account for current ghost players when the haunt starts.
 Customization (of player and ghost...)?
   -To be determined
+
+
+Determining of whether or not ghost players should be an in-game mechanic...
+  Pros (fuller story, more mechanics)
+    -No *total* player elimination
+      -Death is no longer a *huge* penalty
+    -More in-depth and logical story
+    -More varied and ingenuitive mechanics
+    -Differentiates the game, making this mechanic *unique* compared to other games of its type
+  Cons (Longer/harder development, more mechanics)
+    -More complexity
+    -More rules (heroes)
+    -More lore to write/create
+    -Higher chance of error
+    -More models to develop
