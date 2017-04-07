@@ -11,9 +11,13 @@ by Avalon Hill.
 Project development is broken into multiple parts
 
 master (main versions)
+
     \-> Development (work on project)
+    
         \-> Model development (models/textures, boring stuff)
+        
         \-> Writing/Mechaines development (text files and pretty stuff)
+        
         \-> Game development (Unity work and implementation)
 
 ## License
