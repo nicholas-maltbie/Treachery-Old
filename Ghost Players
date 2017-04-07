@@ -1,0 +1,18 @@
+Once a player dies, what do they do?
+
+If a player dies (which can happen before they haunt) they become a ghost. 
+  As a ghost, they leave their body and enter a spectate mode. 
+  -They are invisible to everyone
+  -Can fly (to an extent) 
+  -Cannot pass through walls by default
+  -Cannot explore new rooms or open new doors
+  -Potentially have some fun effects (i.e. haunted confetti, spoopy transformation, etc...). 
+ 
+ Other Potential Mechanics
+  -Will vary depending on the haunt that occurs
+  -Ghosts can be used as triggers for haunts (ex. Poltergeist)
+  -Ghost mechanics can change depending on haunts (i.e. Ring Haunt: Dead heros can help their friends search for the traitor)
+  -Ghost mechanics can be changed by haunts (i.e. Fiddler’s song reincarnating insane heroes to fight for him)
+  -Haunts have to account for current ghost players when the haunt starts.
+Customization (of player and ghost...)?
+  -To be determined
