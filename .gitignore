@@ -1,3 +1,6 @@
+#Template generated from GitHub’s collection of .gitignore file templates
+# https://github.com/github/gitignore
+
 TreacheryProject/[Ll]ibrary/
 TreacheryProject/[Tt]emp/
 TreacheryProject/[Oo]bj/
