@@ -7,3 +7,7 @@ Inspiriation for model from Missy minifigure from Betrayal at house on the hill 
 Used this video to model face and get help
 
 https://www.youtube.com/watch?v=OOc4ATqZetk
+
+In order to get a defined face with low polys, I used this tutorial
+
+https://cgi.tutsplus.com/articles/sculpt-model-and-texture-a-low-poly-skull-in-blender--cg-7
