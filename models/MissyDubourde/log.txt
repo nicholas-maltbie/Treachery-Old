@@ -1,13 +1,19 @@
-Model guide from
+Inspiriation for model from Missy minifigure from Betrayal at house on the hill game.
+
+Base model guide from
 
 https://en.wikibooks.org/wiki/Blender_3D:_Noob_to_Pro/Modeling_a_Human_Character_-_Modeling
 
-Inspiriation for model from Missy minifigure from Betrayal at house on the hill game.
-
-Used this video to model face and get help
+Used this video to model face and get help to make mesh/sculpt
 
 https://www.youtube.com/watch?v=OOc4ATqZetk
 
 In order to get a defined face with low polys, I used this tutorial
 
 https://cgi.tutsplus.com/articles/sculpt-model-and-texture-a-low-poly-skull-in-blender--cg-7
+
+Used this video to find a method to unwrap an entire human body.
+
+https://vimeo.com/9866038
+
+
