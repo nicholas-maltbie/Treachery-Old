@@ -16,4 +16,10 @@ Used this video to find a method to unwrap an entire human body.
 
 https://vimeo.com/9866038
 
+In order to model the hair, I used this tutorial
+
+https://cgi.tutsplus.com/tutorials/female-character-modeling-in-blender-part-5--cms-21211
+
+Now that I have sculpted a human by hand, I will try and make a human with makehuman as it will probably look better.
+
 
