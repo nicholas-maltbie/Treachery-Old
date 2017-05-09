@@ -20,6 +20,10 @@ master (main versions)
         
         \-> Game development (Unity work and implementation)
 
+## Unity
+
+This project is using Unity version 5.6
+        
 ## License
 
 Copyright (C) 2017 Nicholas Maltbie, Erin Assaf, Zach Driggs,
