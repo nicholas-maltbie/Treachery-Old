@@ -156,6 +156,16 @@ ModelImporter:
     7400004: Shoulders
     7400006: WalkForward
     7400008: Shoulders (1)
+    7400010: Shoulders (2)
+    7400012: Shoulders (3)
+    7400014: Shoulders (4)
+    7400016: Jump
+    7400018: TurnClockwise
+    7400020: TurnCounterclockwise
+    7400022: WalkBack
+    7400024: StrafeLeft
+    7400026: StrafeRight
+    7400028: Land
     9500000: //RootNode
     11100000: //RootNode
     13700000: Body
@@ -195,7 +205,7 @@ ModelImporter:
     clipAnimations:
     - serializedVersion: 16
       name: Idle
-      takeName: ArmatureAction
+      takeName: Idle
       firstFrame: -1
       lastFrame: 0
       wrapMode: 2
@@ -527,6 +537,1140 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Root
+        weight: 1
+      - path: Armature/Root/Base
+        weight: 1
+      - path: Armature/Root/Base/Pelvis
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L/Foot_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L/Foot_L/Toe_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R/Foot_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R/Foot_R/Toe_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L/Index2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L/Index2_L/Index3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L/Middle2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L/Middle2_L/Middle3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L/Pnky2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L/Pnky2_L/Pink3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L/Ring2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L/Ring2_L/Ring3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L/Thumb2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L/Thumb2_L/Thumb3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R/Index2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R/Index2_R/Index3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R/Middle2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R/Middle2_R/Middle3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R/Pnky2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R/Pnky2_R/Pink3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R/Ring2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R/Ring2_R/Ring3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R/Thumb2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R/Thumb2_R/Thumb3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Neck
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Neck/Head
+        weight: 1
+      - path: Body
+        weight: 1
+      - path: Bow
+        weight: 1
+      - path: EyebrowL
+        weight: 1
+      - path: EyebrowR
+        weight: 1
+      - path: Eyes
+        weight: 1
+      - path: Hair
+        weight: 1
+      - path: Hairband
+        weight: 1
+      - path: Shirt
+        weight: 1
+      - path: ShoeL
+        weight: 1
+      - path: ShoeR
+        weight: 1
+      - path: Skirt
+        weight: 1
+      - path: Underware
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Jump
+      takeName: Jump
+      firstFrame: -1
+      lastFrame: 29
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Root
+        weight: 1
+      - path: Armature/Root/Base
+        weight: 1
+      - path: Armature/Root/Base/Pelvis
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L/Foot_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L/Foot_L/Toe_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R/Foot_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R/Foot_R/Toe_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L/Index2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L/Index2_L/Index3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L/Middle2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L/Middle2_L/Middle3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L/Pnky2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L/Pnky2_L/Pink3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L/Ring2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L/Ring2_L/Ring3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L/Thumb2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L/Thumb2_L/Thumb3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R/Index2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R/Index2_R/Index3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R/Middle2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R/Middle2_R/Middle3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R/Pnky2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R/Pnky2_R/Pink3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R/Ring2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R/Ring2_R/Ring3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R/Thumb2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R/Thumb2_R/Thumb3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Neck
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Neck/Head
+        weight: 1
+      - path: Body
+        weight: 1
+      - path: Bow
+        weight: 1
+      - path: EyebrowL
+        weight: 1
+      - path: EyebrowR
+        weight: 1
+      - path: Eyes
+        weight: 1
+      - path: Hair
+        weight: 1
+      - path: Hairband
+        weight: 1
+      - path: Shirt
+        weight: 1
+      - path: ShoeL
+        weight: 1
+      - path: ShoeR
+        weight: 1
+      - path: Skirt
+        weight: 1
+      - path: Underware
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: TurnClockwise
+      takeName: TurnClockwise
+      firstFrame: -1
+      lastFrame: 50
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Root
+        weight: 1
+      - path: Armature/Root/Base
+        weight: 1
+      - path: Armature/Root/Base/Pelvis
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L/Foot_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L/Foot_L/Toe_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R/Foot_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R/Foot_R/Toe_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L/Index2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L/Index2_L/Index3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L/Middle2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L/Middle2_L/Middle3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L/Pnky2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L/Pnky2_L/Pink3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L/Ring2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L/Ring2_L/Ring3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L/Thumb2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L/Thumb2_L/Thumb3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R/Index2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R/Index2_R/Index3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R/Middle2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R/Middle2_R/Middle3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R/Pnky2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R/Pnky2_R/Pink3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R/Ring2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R/Ring2_R/Ring3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R/Thumb2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R/Thumb2_R/Thumb3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Neck
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Neck/Head
+        weight: 1
+      - path: Body
+        weight: 1
+      - path: Bow
+        weight: 1
+      - path: EyebrowL
+        weight: 1
+      - path: EyebrowR
+        weight: 1
+      - path: Eyes
+        weight: 1
+      - path: Hair
+        weight: 1
+      - path: Hairband
+        weight: 1
+      - path: Shirt
+        weight: 1
+      - path: ShoeL
+        weight: 1
+      - path: ShoeR
+        weight: 1
+      - path: Skirt
+        weight: 1
+      - path: Underware
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: TurnCounterclockwise
+      takeName: TurnCounterclockwise
+      firstFrame: -1
+      lastFrame: 49
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Root
+        weight: 1
+      - path: Armature/Root/Base
+        weight: 1
+      - path: Armature/Root/Base/Pelvis
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L/Foot_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L/Foot_L/Toe_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R/Foot_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R/Foot_R/Toe_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L/Index2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L/Index2_L/Index3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L/Middle2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L/Middle2_L/Middle3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L/Pnky2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L/Pnky2_L/Pink3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L/Ring2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L/Ring2_L/Ring3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L/Thumb2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L/Thumb2_L/Thumb3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R/Index2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R/Index2_R/Index3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R/Middle2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R/Middle2_R/Middle3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R/Pnky2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R/Pnky2_R/Pink3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R/Ring2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R/Ring2_R/Ring3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R/Thumb2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R/Thumb2_R/Thumb3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Neck
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Neck/Head
+        weight: 1
+      - path: Body
+        weight: 1
+      - path: Bow
+        weight: 1
+      - path: EyebrowL
+        weight: 1
+      - path: EyebrowR
+        weight: 1
+      - path: Eyes
+        weight: 1
+      - path: Hair
+        weight: 1
+      - path: Hairband
+        weight: 1
+      - path: Shirt
+        weight: 1
+      - path: ShoeL
+        weight: 1
+      - path: ShoeR
+        weight: 1
+      - path: Skirt
+        weight: 1
+      - path: Underware
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: WalkBack
+      takeName: WalkBack
+      firstFrame: -1
+      lastFrame: 39
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Root
+        weight: 1
+      - path: Armature/Root/Base
+        weight: 1
+      - path: Armature/Root/Base/Pelvis
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L/Foot_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L/Foot_L/Toe_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R/Foot_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R/Foot_R/Toe_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L/Index2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L/Index2_L/Index3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L/Middle2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L/Middle2_L/Middle3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L/Pnky2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L/Pnky2_L/Pink3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L/Ring2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L/Ring2_L/Ring3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L/Thumb2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L/Thumb2_L/Thumb3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R/Index2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R/Index2_R/Index3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R/Middle2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R/Middle2_R/Middle3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R/Pnky2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R/Pnky2_R/Pink3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R/Ring2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R/Ring2_R/Ring3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R/Thumb2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R/Thumb2_R/Thumb3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Neck
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Neck/Head
+        weight: 1
+      - path: Body
+        weight: 1
+      - path: Bow
+        weight: 1
+      - path: EyebrowL
+        weight: 1
+      - path: EyebrowR
+        weight: 1
+      - path: Eyes
+        weight: 1
+      - path: Hair
+        weight: 1
+      - path: Hairband
+        weight: 1
+      - path: Shirt
+        weight: 1
+      - path: ShoeL
+        weight: 1
+      - path: ShoeR
+        weight: 1
+      - path: Skirt
+        weight: 1
+      - path: Underware
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: StrafeLeft
+      takeName: StrafeLeft
+      firstFrame: -1
+      lastFrame: 46
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Root
+        weight: 1
+      - path: Armature/Root/Base
+        weight: 1
+      - path: Armature/Root/Base/Pelvis
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L/Foot_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L/Foot_L/Toe_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R/Foot_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R/Foot_R/Toe_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L/Index2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L/Index2_L/Index3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L/Middle2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L/Middle2_L/Middle3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L/Pnky2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L/Pnky2_L/Pink3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L/Ring2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L/Ring2_L/Ring3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L/Thumb2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L/Thumb2_L/Thumb3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R/Index2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R/Index2_R/Index3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R/Middle2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R/Middle2_R/Middle3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R/Pnky2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R/Pnky2_R/Pink3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R/Ring2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R/Ring2_R/Ring3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R/Thumb2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R/Thumb2_R/Thumb3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Neck
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Neck/Head
+        weight: 1
+      - path: Body
+        weight: 1
+      - path: Bow
+        weight: 1
+      - path: EyebrowL
+        weight: 1
+      - path: EyebrowR
+        weight: 1
+      - path: Eyes
+        weight: 1
+      - path: Hair
+        weight: 1
+      - path: Hairband
+        weight: 1
+      - path: Shirt
+        weight: 1
+      - path: ShoeL
+        weight: 1
+      - path: ShoeR
+        weight: 1
+      - path: Skirt
+        weight: 1
+      - path: Underware
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: StrafeRight
+      takeName: StrafeRight
+      firstFrame: -1
+      lastFrame: 46
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Root
+        weight: 1
+      - path: Armature/Root/Base
+        weight: 1
+      - path: Armature/Root/Base/Pelvis
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L/Foot_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_L/LowerLeg_L/Foot_L/Toe_L
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R/Foot_R
+        weight: 1
+      - path: Armature/Root/Base/Pelvis/Thigh_R/LowerLeg_R/Foot_R/Toe_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L/Index2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Index1_L/Index2_L/Index3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L/Middle2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Middle1_L/Middle2_L/Middle3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L/Pnky2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Pinky1_L/Pnky2_L/Pink3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L/Ring2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Ring1_L/Ring2_L/Ring3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L/Thumb2_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_L/Uperarm_L/LowerArm_L/LowerArm_L_001/Thumb1_L/Thumb2_L/Thumb3_L
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R/Index2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Index1_R/Index2_R/Index3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R/Middle2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Middle1_R/Middle2_R/Middle3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R/Pnky2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Pinky1_R/Pnky2_R/Pink3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R/Ring2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Ring1_R/Ring2_R/Ring3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R/Thumb2_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Collar_R/Uperarm_R/LowerArm_R/LowerArm_R_001/Thumb1_R/Thumb2_R/Thumb3_R
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Neck
+        weight: 1
+      - path: Armature/Root/Base/Stomach/Chest/Neck/Head
+        weight: 1
+      - path: Body
+        weight: 1
+      - path: Bow
+        weight: 1
+      - path: EyebrowL
+        weight: 1
+      - path: EyebrowR
+        weight: 1
+      - path: Eyes
+        weight: 1
+      - path: Hair
+        weight: 1
+      - path: Hairband
+        weight: 1
+      - path: Shirt
+        weight: 1
+      - path: ShoeL
+        weight: 1
+      - path: ShoeR
+        weight: 1
+      - path: Skirt
+        weight: 1
+      - path: Underware
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Land
+      takeName: Land
+      firstFrame: -1
+      lastFrame: 33
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
