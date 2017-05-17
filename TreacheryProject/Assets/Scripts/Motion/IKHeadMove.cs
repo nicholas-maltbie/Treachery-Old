@@ -82,13 +82,20 @@ public class IKHeadMove : MonoBehaviour {
 
 		if (canTurnBody) {
 			//Rotate body towards camera angle at a speed of bodyRotateSpeed
+			//assume default no rotation
 			float dir = 0;
+			//If player is moving left, negative roation
 			if (bodyTransform.eulerAngles.y - lookAngleVert > 0)
 				dir = -1;
+			//positive if moving right
 			else if (bodyTransform.eulerAngles.y - lookAngleVert < 0)
 				dir = 1;
+			//Rotate body transform by at most body rotation speed to close gap between 
+			// direction of the camera and direction of the character
 			bodyTransform.Rotate(0, dir * Mathf.Min(Mathf.Abs(bodyTransform.eulerAngles.y - lookAngleVert), 
 				bodyRotateSpeed * Time.deltaTime), 0);
+
+			//Update animator informaiton to allow rotation animation.
 			if (Mathf.Abs (bodyTransform.eulerAngles.y - lookAngleVert) > 0.1f)
 				animator.SetFloat ("rotate", 
 					Mathf.Min(dir * (Mathf.Abs(animator.GetFloat("rotate")) + Time.deltaTime), 1));
