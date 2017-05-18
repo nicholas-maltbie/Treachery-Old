@@ -21,20 +21,20 @@ public class IKHeadMove : MonoBehaviour {
 
 	//Camera transform
 	public Transform cameraTransform;
-	//look object position (used to point camera, just a sphere in front of the character
-	public Vector3 lookPos = Vector3.forward;
 	//Transform of the character
 	public Transform bodyTransform;
+	//Head transform
+	public Transform headBone;
 
+	//look object position (used to point camera, just a sphere in front of the character
+	private Vector3 lookPos = Vector3.forward;
 	//Distance look object is placed in front of the camera, this is just some arbitrary value
 	private float lookDist = 1;
 	//Angle of the object in front of the character (in radians)
 	private float lookAngleVert = 0;	//Angle with respect to vertical axis (left, right)
 	private float lookAngleHoriz = 0;	//Angle with respect to horizontal axis (up, down)
 	//Define bounds for head movement
-	private float minAngleVert = -45, maxAngleVert = 45, minAngleHoriz = -45, maxAngleHoriz = 35;
-	//Define body rotate speed (In degrees per second)
-	public float bodyRotateSpeed = 90f;
+	private float minAngleHoriz = -45, maxAngleHoriz = 35;
 
 	//Animator for character
 	private Animator animator;
@@ -58,26 +58,30 @@ public class IKHeadMove : MonoBehaviour {
 				animator.SetLookAtWeight(1);
 				//Set look target at the look object
 				animator.SetLookAtPosition(lookPos);  
-		}
+			}
 		}
 	}
 
 	//On update, move the look object  based on the mouse movement
 	void Update()
 	{
+		float changeVert = 0;
 		if (canMoveHead) {
+			changeVert = Input.GetAxis ("Mouse X");
 			//Update camera angle based on mouse movement
-			lookAngleVert += Input.GetAxis ("Mouse X");
+			lookAngleVert += changeVert;
 			lookAngleHoriz -= Input.GetAxis ("Mouse Y");
 
 			//bound values
-			float bodyVert = bodyTransform.eulerAngles.y, bodyHoriz = bodyTransform.eulerAngles.z;
-
-			lookAngleVert = Mathf.Max (minAngleVert, Mathf.Min(maxAngleVert, lookAngleVert - bodyVert)) + bodyVert;
-			lookAngleHoriz = Mathf.Max (minAngleHoriz, Mathf.Min (maxAngleHoriz, lookAngleHoriz - bodyHoriz)) + bodyHoriz;
+			float bodyVert = bodyTransform.eulerAngles.y, bodyHoriz = 
+				bodyTransform.eulerAngles.x;
+			
+			lookAngleHoriz = Mathf.Max (minAngleHoriz, Mathf.Min (maxAngleHoriz,
+				lookAngleHoriz - bodyHoriz)) + bodyHoriz;
 
 			//Update position of the look transform based on new look angles
-			lookPos = cameraTransform.position + Quaternion.Euler(lookAngleHoriz, lookAngleVert, 0) * Vector3.forward * lookDist;
+			lookPos = cameraTransform.position + Quaternion.Euler(lookAngleHoriz,
+				lookAngleVert, 0) * Vector3.forward * lookDist;
 		}
 
 		if (canTurnBody) {
@@ -92,17 +96,18 @@ public class IKHeadMove : MonoBehaviour {
 				dir = 1;
 			//Rotate body transform by at most body rotation speed to close gap between 
 			// direction of the camera and direction of the character
-			bodyTransform.Rotate(0, dir * Mathf.Min(Mathf.Abs(bodyTransform.eulerAngles.y - lookAngleVert), 
-				bodyRotateSpeed * Time.deltaTime), 0);
+			bodyTransform.eulerAngles = new Vector3(bodyTransform.eulerAngles.x, 
+				lookAngleVert, bodyTransform.eulerAngles.z);
 
 			//Update animator informaiton to allow rotation animation.
-			if (Mathf.Abs (bodyTransform.eulerAngles.y - lookAngleVert) > 0.1f)
-				animator.SetFloat ("rotate", 
-					Mathf.Min(dir * (Mathf.Abs(animator.GetFloat("rotate")) + Time.deltaTime), 1));
+			if (Mathf.Abs (bodyTransform.eulerAngles.y - lookAngleVert) > 0)
+				animator.SetFloat ("rotate", changeVert);
 			else
-				animator.SetFloat ("rotate", 
-					Mathf.Max(dir * (Mathf.Abs(animator.GetFloat("rotate")) - Time.deltaTime), 0));
+				animator.SetFloat ("rotate", 0);
 		}
+		//Update camera angle
+		cameraTransform.eulerAngles = new Vector3 (lookAngleHoriz - bodyTransform.eulerAngles.x, cameraTransform.eulerAngles.y, 0);
+		cameraTransform.position = headBone.position;
 		
 
 	}
