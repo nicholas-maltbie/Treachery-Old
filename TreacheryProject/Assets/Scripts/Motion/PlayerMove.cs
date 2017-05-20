@@ -9,25 +9,28 @@ public class PlayerMove : MonoBehaviour {
 
 	public float moveSpeed = 1.0f;
 	public float jumpSpeed = 3.0f;
+	public float minDownTimeBeforeJump = 1.0f;
 
 	public bool canMove = true;
 	public bool canJump = true;
-
-	private float gravity = 1.0f;
+	
+	private float groundTime = 0.0f;
 	private bool prevGround = true;
 
 	public Rigidbody characterRigidbody;
 	public Transform characterTransform;
 	public Animator characterAnimator;
-	public Collider characterCollider;
+	public CapsuleCollider characterCollider;
 
 	bool IsGrounded() {
 		RaycastHit hit;
-
-		if (Physics.Raycast (characterTransform.position, -Vector3.up, out hit))
-			return hit.distance <= 0.1f;
+		if (Physics.SphereCast(characterTransform.position + new Vector3(0, characterCollider.height, 0), 
+				characterCollider.radius, Vector3.down, out hit, Mathf.Infinity)) {
+			return hit.distance <= characterCollider.height + 0.1f;
+		}
 		return false;
 	}
+
 	// Update is called once per frame
 	void Update () {
 		//Init move vector to zero
@@ -36,24 +39,35 @@ public class PlayerMove : MonoBehaviour {
 		float dz = Input.GetAxis ("Vertical");
 		float dx = Input.GetAxis ("Horizontal");
 		float jump = Input.GetAxis ("Jump");
+		bool grounded = IsGrounded ();
 
-		if (characterAnimator.GetBool ("jump") && IsGrounded ()) {
+
+		if (characterAnimator.GetBool ("jump") && grounded) {
 			characterAnimator.SetBool ("jump", false);
-		}else if (jump == 1 && canJump && IsGrounded ()) {
+		}else if (jump == 1 && canJump && grounded && groundTime >= minDownTimeBeforeJump) {
 			characterAnimator.SetBool ("jump", true);
 			characterRigidbody.velocity = new Vector3 (characterRigidbody.velocity.x, 
 				jumpSpeed, characterRigidbody.velocity.z);
 		}
 
+		if (grounded) {
+			groundTime += Time.deltaTime;
+		} else {
+			groundTime = 0;
+		}
+
 		//Move the player if he or she can move
-		if (canMove) {
+		if (canMove && grounded) {
 			//Add vertical movement
 			move += dz * characterTransform.forward;
 			//Add horizontal movement
 			move += dx * characterTransform.right;
 
-			//Set movement distance to movespeed * time elapsed
-			move = move.normalized * moveSpeed * Time.deltaTime;
+			//Set movement distance to movespeed
+			move = move.normalized * moveSpeed;
+
+			//Translate character based on move.
+			characterRigidbody.velocity = new Vector3(move.x, characterRigidbody.velocity.y, move.z);
 		}
 
 		//set animator value walking to true (just for now though)
@@ -61,9 +75,6 @@ public class PlayerMove : MonoBehaviour {
 		//Set animator vx and vz
 		characterAnimator.SetFloat ("vx", dx);
 		characterAnimator.SetFloat ("vz", dz);
-
-		//Translate character based on move.
-		characterTransform.position += move;
 
 		//Save the previous grounded state of the character
 		prevGround = IsGrounded ();
