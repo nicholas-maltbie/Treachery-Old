@@ -73,8 +73,7 @@ public class IKHeadMove : MonoBehaviour {
 			lookAngleHoriz -= Input.GetAxis ("Mouse Y");
 
 			//bound values
-			float bodyVert = bodyTransform.eulerAngles.y, bodyHoriz = 
-				bodyTransform.eulerAngles.x;
+			float bodyHoriz = bodyTransform.eulerAngles.x;
 			
 			lookAngleHoriz = Mathf.Max (minAngleHoriz, Mathf.Min (maxAngleHoriz,
 				lookAngleHoriz - bodyHoriz)) + bodyHoriz;
@@ -86,14 +85,6 @@ public class IKHeadMove : MonoBehaviour {
 
 		if (canTurnBody) {
 			//Rotate body towards camera angle at a speed of bodyRotateSpeed
-			//assume default no rotation
-			float dir = 0;
-			//If player is moving left, negative roation
-			if (bodyTransform.eulerAngles.y - lookAngleVert > 0)
-				dir = -1;
-			//positive if moving right
-			else if (bodyTransform.eulerAngles.y - lookAngleVert < 0)
-				dir = 1;
 			//Rotate body transform by at most body rotation speed to close gap between 
 			// direction of the camera and direction of the character
 			bodyTransform.eulerAngles = new Vector3(bodyTransform.eulerAngles.x, 

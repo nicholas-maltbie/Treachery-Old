@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FootSound>
+    <Material materialName="Concrete" directory="Concrete">
+        <Action actionName="Step">
+            <Clip type="wav">ConcreteStep1.wav</Clip>
+            <Clip type="wav">ConcreteStep2.wav</Clip>
+            <Clip type="wav">ConcreteStep3.wav</Clip>
+            <Clip type="wav">ConcreteStep4.wav</Clip>
+            <Clip type="wav">ConcreteStep5.wav</Clip>
+            <Clip type="wav">ConcreteStep6.wav</Clip>
+            <Clip type="wav">ConcreteStep7.wav</Clip>
+            <Clip type="wav">ConcreteStep8.wav</Clip>
+            <Clip type="wav">ConcreteStep9.wav</Clip>
+            <Clip type="wav">ConcreteStep10.wav</Clip>
+            <Clip type="wav">ConcreteStep11.wav</Clip>
+            <Clip type="wav">ConcreteStep12.wav</Clip>
+            <Clip type="wav">ConcreteStep13.wav</Clip>
+            <Clip type="wav">ConcreteStep14.wav</Clip>
+            <Clip type="wav">ConcreteStep15.wav</Clip>
+            <Clip type="wav">ConcreteStep16.wav</Clip>
+            <Clip type="wav">ConcreteStep17.wav</Clip>
+        </Action>
+        <Action actionName = "Jump">
+            <Clip type="wav">ConcreteJump1.wav</Clip>
+            <Clip type="wav">ConcreteJump2.wav</Clip>
+            <Clip type="wav">ConcreteJump3.wav</Clip>
+            <Clip type="wav">ConcreteJump4.wav</Clip>
+            <Clip type="wav">ConcreteJump5.wav</Clip>
+            <Clip type="wav">ConcreteJump6.wav</Clip>
+            <Clip type="wav">ConcreteJump7.wav</Clip>
+            <Clip type="wav">ConcreteJump8.wav</Clip>
+            <Clip type="wav">ConcreteJump9.wav</Clip>
+            <Clip type="wav">ConcreteJump10.wav</Clip>
+            <Clip type="wav">ConcreteJump11.wav</Clip>
+            <Clip type="wav">ConcreteJump12.wav</Clip>
+        </Action>
+        <Action actionName = "Land">
+            <Clip type="wav">ConcreteLand1.wav</Clip>
+            <Clip type="wav">ConcreteLand2.wav</Clip>
+            <Clip type="wav">ConcreteLand3.wav</Clip>
+            <Clip type="wav">ConcreteLand4.wav</Clip>
+            <Clip type="wav">ConcreteLand5.wav</Clip>
+            <Clip type="wav">ConcreteLand6.wav</Clip>
+            <Clip type="wav">ConcreteLand7.wav</Clip>
+            <Clip type="wav">ConcreteLand8.wav</Clip>
+            <Clip type="wav">ConcreteLand9.wav</Clip>
+            <Clip type="wav">ConcreteLand10.wav</Clip>
+            <Clip type="wav">ConcreteLand11.wav</Clip>
+            <Clip type="wav">ConcreteLand12.wav</Clip>
+        </Action>
+    </Material>
+    <Material materialName="Wood" directory="Hardwood">
+        <Action actionName = "Step">
+            <Clip type="wav">HardwoodStep1.wav</Clip>
+            <Clip type="wav">HardwoodStep2.wav</Clip>
+            <Clip type="wav">HardwoodStep3.wav</Clip>
+            <Clip type="wav">HardwoodStep4.wav</Clip>
+            <Clip type="wav">HardwoodStep5.wav</Clip>
+            <Clip type="wav">HardwoodStep6.wav</Clip>
+            <Clip type="wav">HardwoodStep7.wav</Clip>
+            <Clip type="wav">HardwoodStep8.wav</Clip>
+            <Clip type="wav">HardwoodStep9.wav</Clip>
+            <Clip type="wav">HardwoodStep10.wav</Clip>
+        </Action>
+        <Action actionName ="Jump">
+            <Clip type="wav">HardwoodJump1.wav</Clip>
+            <Clip type="wav">HardwoodJump2.wav</Clip>
+            <Clip type="wav">HardwoodJump3.wav</Clip>
+            <Clip type="wav">HardwoodJump4.wav</Clip>
+            <Clip type="wav">HardwoodJump5.wav</Clip>
+            <Clip type="wav">HardwoodJump6.wav</Clip>
+            <Clip type="wav">HardwoodJump7.wav</Clip>
+            <Clip type="wav">HardwoodJump8.wav</Clip>
+        </Action>
+        <Action actionName = "Land">
+            <Clip type="wav">HardwoodLand1.wav</Clip>
+            <Clip type="wav">HardwoodLand2.wav</Clip>
+            <Clip type="wav">HardwoodLand3.wav</Clip>
+            <Clip type="wav">HardwoodLand4.wav</Clip>
+            <Clip type="wav">HardwoodLand5.wav</Clip>
+            <Clip type="wav">HardwoodLand6.wav</Clip>
+            <Clip type="wav">HardwoodLand7.wav</Clip>
+            <Clip type="wav">HardwoodLand8.wav</Clip>
+            
+        </Action>
+    </Material>
+</FootSound>
