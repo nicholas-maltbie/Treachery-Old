@@ -13,65 +13,24 @@ using System.Xml;
  * Each of these sounds can have a different sound based on the material.
  */
 public class FootSounds : MonoBehaviour {
-	
-	public TextAsset keyFile;
-
-	private string defaultMat = "";
-	/**
-	 * Dctionary formatted as follows:
-	 * Material Name -> Action Name -> Audio Clip
-	 */
-	private Dictionary<string, Dictionary<string, List<AudioClip>>> materialSounds = 
-		new Dictionary<string, Dictionary<string, List<AudioClip>>>();
-
-	void Start() {
-		XmlDocument footstepKey = new XmlDocument ();
-		//Load XML document
-		try { 
-			footstepKey.LoadXml(keyFile.text); 
-			XmlNode footNode = footstepKey.SelectSingleNode("FootSound");
-			//Get footstep folder
-			string mainFolder = (string) footNode.Attributes["directory"].Value;
-			defaultMat = (string) footNode.Attributes["defaultMaterial"].Value;
-
-			//Loop over materials
-			foreach (XmlNode mat in footNode.SelectNodes("Material")) {
-				//Get material folder and name
-				string matName = (string) mat.Attributes["materialName"].Value;
-				string materialFolder = (string) mat.Attributes["directory"].Value;
-				//Initialize dictionary
-				Dictionary<string, List<AudioClip>> matSounds = new Dictionary<string, List<AudioClip>>();
-
-				//Lop over actions
-				foreach (XmlNode action in mat.SelectNodes("Action")) {
-					string actionName = (string)action.Attributes["actionName"].Value;
-					//Load all clips for individual actions
-					List<AudioClip> actionSounds = new List<AudioClip>();
-
-					//Loop over clilps
-					foreach(XmlNode clip in action.SelectNodes("Clip")) {
-						//Get and load audio clip
-						string fileName = clip.InnerText;
-						string path = mainFolder + "/" + materialFolder + "/" + fileName;
-						AudioClip loaded = Resources.Load<AudioClip>(path.Replace("/", "\\"));
-						Debug.Log(loaded + " " + path);
-						actionSounds.Add(loaded);
-					}
-					//Save loaded clips
-					matSounds.Add(actionName, actionSounds);
-				}
-				//Save loaded sounds
-				materialSounds.Add(matName, matSounds);
-			}
-		}
-		catch (System.IO.FileNotFoundException) {
-			Debug.Log ("Could not find xml key document");
-		}
-		
-	}
+	public FootstepIndex soundIndex;
+	public Transform basePos;
+	public bool makeFootsteps = true;
+	public float volumeMult = 1.0f;
 
 	void Lift() {
+		if (makeFootsteps) {
+			RaycastHit hit;
+			if (Physics.Raycast (basePos.position, Vector3.down, out hit, Mathf.Infinity)) {
+				string material = hit.collider.material.name;
+				material = material.Substring (0, material.IndexOf ("(Instance)")).Trim ();
 
+				List<AudioClip> clips = soundIndex.materialSounds [material] ["Jump"];
+				AudioClip clip = clips [(int)Random.Range (0, clips.Count)];
+
+				AudioSource.PlayClipAtPoint (clip, basePos.position, volumeMult);
+			}
+		}
 	}
 
 	void Land() {
@@ -79,19 +38,20 @@ public class FootSounds : MonoBehaviour {
 	}
 
 	public void FootDown(Vector3 footPosition, string foot, string material) {
-		if (material == null) {
-			material = defaultMat;
+		if (makeFootsteps) {
+			if (material == null) {
+				material = soundIndex.defaultMat;
+			}
+
+			string thing = "";
+			foreach (string key in soundIndex.materialSounds.Keys) {
+				thing += key + " ";
+			}
+
+			List<AudioClip> clips = soundIndex.materialSounds [material] ["Step"];
+			AudioClip clip = clips [(int)Random.Range (0, clips.Count)];
+
+			AudioSource.PlayClipAtPoint (clip, footPosition, volumeMult);
 		}
-
-		string thing = "";
-		foreach (string key in materialSounds.Keys) {
-			thing += key + " ";
-		}
-
-		List<AudioClip> clips = materialSounds [material] ["Step"];
-		AudioClip clip = clips [(int)Random.Range (0, clips.Count)];
-
-		Debug.Log (footPosition.x + " " + footPosition.y + " " + footPosition.z + " " + clip.name);
-		//AudioSource.PlayClipAtPoint(clip, footPosition);
 	}
 }
