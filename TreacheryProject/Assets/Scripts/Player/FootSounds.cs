@@ -13,10 +13,7 @@ using UnityEngine;
  */
 public class FootSounds : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+	public Dictionary<string, List<AudioClip>> materialSounds;
 
 	void Lift() {
 
@@ -26,16 +23,7 @@ public class FootSounds : MonoBehaviour {
 
 	}
 
-	void LFootDown() {
+	public void FootDown(Vector3 footPosition) {
 
-	}
-
-	void RFootDown() {
-
-	}
-
-	// Update is called once per frame
-	void Update () {
-		
 	}
 }

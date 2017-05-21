@@ -6,6 +6,11 @@ using UnityEngine;
  * This script manages how a player can move
  */
 public class PlayerMove : MonoBehaviour {
+
+	/**
+	 * Gravity on the character (Acceleration due to gravity)
+	 */
+	public float gravity = 1.0f;
 	/**
 	 * Speed that the character moves
 	 */
@@ -32,11 +37,15 @@ public class PlayerMove : MonoBehaviour {
 	 * How long has the character been on the ground
 	 */
 	private float groundTime = 0.0f;
+	/**
+	 * Vertical velocity of the character
+	 */
+	private float verticalVel = 0.0f;
 
 	/**
-	 * Character's rigidbody
+	 * Character's movement controller
 	 */
-	public Rigidbody characterRigidbody;
+	private CharacterController characterController;
 	/**
 	 * Character base that moves
 	 */
@@ -50,27 +59,20 @@ public class PlayerMove : MonoBehaviour {
 	 *  jump - Is the character currently jumping/airborne
 	 */
 	public Animator characterAnimator;
-	/**
-	 * Character collider
-	 */
-	public CapsuleCollider characterCollider;
+
+	void Start() {
+		characterController = GetComponent<CharacterController> ();
+	}
 
 	/**
 	 * Function to check if the character is currently grounded
 	 */
 	bool IsGrounded() {
-		RaycastHit hit;
-		if (Physics.SphereCast(characterTransform.position + new Vector3(0, characterCollider.height, 0), 
-				characterCollider.radius, Vector3.down, out hit, Mathf.Infinity)) {
-			return hit.distance <= characterCollider.height + 0.1f;
-		}
-		return false;
+		return characterController.isGrounded;
 	}
 
 	// Update is called once per frame
 	void Update () {
-		//Init move vector to zero
-		Vector3 move = Vector3.zero;
 		//Get vertical and horizontal movement.
 		float dz = Input.GetAxis ("Vertical");
 		float dx = Input.GetAxis ("Horizontal");
@@ -88,8 +90,7 @@ public class PlayerMove : MonoBehaviour {
 		// is on the gorund and has waited for the cooldown to to wear off, jump
 		else if (jump == 1 && canJump && grounded && groundTime >= minDownTimeBeforeJump) {
 			characterAnimator.SetBool ("jump", true);
-			characterRigidbody.velocity = new Vector3 (characterRigidbody.velocity.x, 
-				jumpSpeed, characterRigidbody.velocity.z);
+			verticalVel = jumpSpeed;
 		}
 
 		//If the player is grounded, update ground time.
@@ -98,10 +99,14 @@ public class PlayerMove : MonoBehaviour {
 		} else {
 			//If not grounded, set ground time to zero.
 			groundTime = 0;
+			//have gravity act on the character
+			verticalVel += - gravity * Time.deltaTime;
 		}
-
+		
+		//Init move vector to zero
+		Vector3 move = Vector3.zero;
 		//Move the player if he or she can move
-		if (canMove && grounded) {
+		if (canMove) {
 			//Add vertical movement
 			move += dz * characterTransform.forward;
 			//Add horizontal movement
@@ -109,10 +114,10 @@ public class PlayerMove : MonoBehaviour {
 
 			//Set movement distance to movespeed
 			move = move.normalized * moveSpeed;
-
-			//Translate character based on move.
-			characterRigidbody.velocity = new Vector3(move.x, characterRigidbody.velocity.y, move.z);
 		}
+
+		//Translate character based on move.
+		characterController.Move(new Vector3(move.x, verticalVel, move.z) * Time.deltaTime);
 
 		//set animator value walking to true (just for now though)
 		characterAnimator.SetBool("walking", Mathf.Abs(dz) + Mathf.Abs(dx) > 0);
