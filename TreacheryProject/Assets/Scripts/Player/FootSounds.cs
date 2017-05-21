@@ -25,10 +25,12 @@ public class FootSounds : MonoBehaviour {
 				string material = hit.collider.material.name;
 				material = material.Substring (0, material.IndexOf ("(Instance)")).Trim ();
 
-				List<AudioClip> clips = soundIndex.materialSounds [material] ["Jump"];
-				AudioClip clip = clips [(int)Random.Range (0, clips.Count)];
+				if (soundIndex.materialSounds.ContainsKey (material)) {
+					List<AudioClip> clips = soundIndex.materialSounds [material] ["Jump"];
+					AudioClip clip = clips [(int)Random.Range (0, clips.Count)];
 
-				AudioSource.PlayClipAtPoint (clip, basePos.position, volumeMult);
+					AudioSource.PlayClipAtPoint (clip, basePos.position, volumeMult);
+				}
 			}
 		}
 	}
@@ -39,19 +41,16 @@ public class FootSounds : MonoBehaviour {
 
 	public void FootDown(Vector3 footPosition, string foot, string material) {
 		if (makeFootsteps) {
-			if (material == null) {
+			if (material == null || material == "Default") {
 				material = soundIndex.defaultMat;
 			}
 
-			string thing = "";
-			foreach (string key in soundIndex.materialSounds.Keys) {
-				thing += key + " ";
+			if (soundIndex.materialSounds.ContainsKey (material)) {
+				List<AudioClip> clips = soundIndex.materialSounds [material] ["Step"];
+				AudioClip clip = clips [(int)Random.Range (0, clips.Count)];
+
+				AudioSource.PlayClipAtPoint (clip, footPosition, volumeMult);
 			}
-
-			List<AudioClip> clips = soundIndex.materialSounds [material] ["Step"];
-			AudioClip clip = clips [(int)Random.Range (0, clips.Count)];
-
-			AudioSource.PlayClipAtPoint (clip, footPosition, volumeMult);
 		}
 	}
 }

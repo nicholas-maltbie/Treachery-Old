@@ -36,7 +36,8 @@ public class FootCollider : MonoBehaviour {
 		if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity)) {
 			grounded = hit.distance <= .1;
 			if (! prevGround && grounded && elapsed >= minDelay) {
-				material = hit.collider.material.name;
+				if(hit.collider.material != null)
+					material = hit.collider.material.name;
 				material = material.Substring (0, material.IndexOf ("(Instance)")).Trim ();
 				soundHandler.FootDown (gameObject.transform.position, footName, material);
 				elapsed = 0;
