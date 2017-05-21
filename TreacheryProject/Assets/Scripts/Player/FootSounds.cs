@@ -31,6 +31,7 @@ public class FootSounds : MonoBehaviour {
 			footstepKey.LoadXml(keyFile.text); 
 			XmlNode footNode = footstepKey.SelectSingleNode("FootSound");
 			//Get footstep folder
+			string mainFolder = (string) footNode.Attributes["directory"].Value;
 			defaultMat = (string) footNode.Attributes["defaultMaterial"].Value;
 
 			//Loop over materials
@@ -51,8 +52,9 @@ public class FootSounds : MonoBehaviour {
 					foreach(XmlNode clip in action.SelectNodes("Clip")) {
 						//Get and load audio clip
 						string fileName = clip.InnerText;
-						string clipName = materialFolder + "/" + fileName;
-						AudioClip loaded = FootstepsIndex.GetClip(clipName);
+						string path = mainFolder + "/" + materialFolder + "/" + fileName;
+						AudioClip loaded = Resources.Load<AudioClip>(path.Replace("/", "\\"));
+						Debug.Log(loaded + " " + path);
 						actionSounds.Add(loaded);
 					}
 					//Save loaded clips
@@ -89,7 +91,7 @@ public class FootSounds : MonoBehaviour {
 		List<AudioClip> clips = materialSounds [material] ["Step"];
 		AudioClip clip = clips [(int)Random.Range (0, clips.Count)];
 
-		//Debug.Log (footPosition.x + " " + footPosition.y + " " + footPosition.z + " " + clip.name);
+		Debug.Log (footPosition.x + " " + footPosition.y + " " + footPosition.z + " " + clip.name);
 		//AudioSource.PlayClipAtPoint(clip, footPosition);
 	}
 }
