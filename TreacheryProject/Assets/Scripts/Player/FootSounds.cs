@@ -15,6 +15,8 @@ using System.Xml;
 public class FootSounds : MonoBehaviour {
 	
 	public TextAsset keyFile;
+
+	private string defaultMat = "";
 	/**
 	 * Dctionary formatted as follows:
 	 * Material Name -> Action Name -> Audio Clip
@@ -29,7 +31,7 @@ public class FootSounds : MonoBehaviour {
 			footstepKey.LoadXml(keyFile.text); 
 			XmlNode footNode = footstepKey.SelectSingleNode("FootSound");
 			//Get footstep folder
-			string mainFolder = (string) footNode.Attributes["directory"].Value;
+			defaultMat = (string) footNode.Attributes["defaultMaterial"].Value;
 
 			//Loop over materials
 			foreach (XmlNode mat in footNode.SelectNodes("Material")) {
@@ -49,8 +51,8 @@ public class FootSounds : MonoBehaviour {
 					foreach(XmlNode clip in action.SelectNodes("Clip")) {
 						//Get and load audio clip
 						string fileName = clip.InnerText;
-						string path = mainFolder + "/" + materialFolder + "/" + fileName;
-						AudioClip loaded = Resources.Load<AudioClip>(path);
+						string clipName = materialFolder + "/" + fileName;
+						AudioClip loaded = FootstepsIndex.GetClip(clipName);
 						actionSounds.Add(loaded);
 					}
 					//Save loaded clips
@@ -74,7 +76,20 @@ public class FootSounds : MonoBehaviour {
 
 	}
 
-	public void FootDown(Vector3 footPosition) {
+	public void FootDown(Vector3 footPosition, string foot, string material) {
+		if (material == null) {
+			material = defaultMat;
+		}
 
+		string thing = "";
+		foreach (string key in materialSounds.Keys) {
+			thing += key + " ";
+		}
+
+		List<AudioClip> clips = materialSounds [material] ["Step"];
+		AudioClip clip = clips [(int)Random.Range (0, clips.Count)];
+
+		//Debug.Log (footPosition.x + " " + footPosition.y + " " + footPosition.z + " " + clip.name);
+		//AudioSource.PlayClipAtPoint(clip, footPosition);
 	}
 }

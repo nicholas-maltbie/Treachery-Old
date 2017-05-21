@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<FootSound directory="Sounds/Effects/Footsetps">
+<FootSound defaultMaterial="Concrete">
     <Material materialName="Concrete" directory="Concrete">
         <Action actionName="Step">
             <Clip type="wav">ConcreteStep1.wav</Clip>
