@@ -34,7 +34,7 @@ public class IKHeadMove : MonoBehaviour {
 	private float lookAngleVert = 0;	//Angle with respect to vertical axis (left, right)
 	private float lookAngleHoriz = 0;	//Angle with respect to horizontal axis (up, down)
 	//Define bounds for head movement
-	private float minAngleHoriz = -45, maxAngleHoriz = 35;
+	private float minAngleHoriz = -80, maxAngleHoriz = 50;
 
 	//Animator for character
 	private Animator animator;
