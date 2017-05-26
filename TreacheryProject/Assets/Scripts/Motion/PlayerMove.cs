@@ -87,7 +87,7 @@ public class PlayerMove : MonoBehaviour {
 			characterAnimator.SetBool ("jump", false);
 		}
 		//If the player wants to jump, is permitted to jump,
-		// is on the gorund and has waited for the cooldown to to wear off, jump
+		// is on the ground and has waited for the cooldown to to wear off, jump
 		else if (jump == 1 && canJump && grounded && groundTime >= minDownTimeBeforeJump) {
 			characterAnimator.SetBool ("jump", true);
 			verticalVel = jumpSpeed;
