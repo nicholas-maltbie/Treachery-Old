@@ -78,6 +78,25 @@ public class PlayerMove : MonoBehaviour {
 		float dx = Input.GetAxis ("Horizontal");
 		//does the player want to jump
 		float jump = Input.GetAxis ("Jump");
+		//does the player want to crouch
+		float crouch = Input.GetAxis ("Crouch");
+		float sprint = Input.GetAxis ("Sprint");
+
+		float speed = moveSpeed;
+		if(crouch == 1)
+			speed = 0.5f * speed;
+		else if (sprint == 1)
+			speed = 2 * speed;
+
+		GetComponentInChildren<FootSounds> ().volumeMult = speed * speed;
+
+		if (crouch == 1) {
+			characterAnimator.SetBool ("crouch", true);
+		} else {
+			characterAnimator.SetBool ("crouch", false);
+		}
+
+
 		//check if the player is grounded
 		bool grounded = IsGrounded ();
 
@@ -113,7 +132,7 @@ public class PlayerMove : MonoBehaviour {
 			move += dx * characterTransform.right;
 
 			//Set movement distance to movespeed
-			move = move.normalized * moveSpeed;
+			move = move.normalized * speed;
 		}
 
 		//Translate character based on move.
@@ -123,6 +142,6 @@ public class PlayerMove : MonoBehaviour {
 		characterAnimator.SetBool("walking", Mathf.Abs(dz) + Mathf.Abs(dx) > 0);
 		//Set animator vx and vz
 		characterAnimator.SetFloat ("vx", dx);
-		characterAnimator.SetFloat ("vz", dz);
+		characterAnimator.SetFloat ("vz", dz + sprint);
 	}
 }
