@@ -34,7 +34,7 @@ public class FootCollider : MonoBehaviour {
 		RaycastHit hit;
 		bool grounded = false;
 		if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity)) {
-			grounded = hit.distance <= .1;
+			grounded = hit.distance <= 0.08;
 			if (! prevGround && grounded && elapsed >= minDelay) {
 				if(hit.collider.material != null)
 					material = hit.collider.material.name;

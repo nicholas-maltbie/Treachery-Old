@@ -45,7 +45,7 @@ public class PlayerMove : MonoBehaviour {
 	/**
 	 * Character's movement controller
 	 */
-	private CharacterController characterController;
+	public CharacterController characterController;
 	/**
 	 * Character base that moves
 	 */
@@ -59,10 +59,6 @@ public class PlayerMove : MonoBehaviour {
 	 *  jump - Is the character currently jumping/airborne
 	 */
 	public Animator characterAnimator;
-
-	void Start() {
-		characterController = GetComponent<CharacterController> ();
-	}
 
 	/**
 	 * Function to check if the character is currently grounded
