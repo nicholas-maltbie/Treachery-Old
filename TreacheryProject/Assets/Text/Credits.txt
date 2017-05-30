@@ -2,6 +2,14 @@ Credits:
 
 This Game was made using Unity
 
+Creators -
+	Nicholas Maltbie
+	Erin Assaf
+	Jorden Deny
+
+Track the project and new updates on the github page
+  - https://github.com/nicholas-maltbie/Treachery
+
 I used Assets from the Unity Standard assets in order to create this game:
   - Environment package
   - Character package
@@ -19,15 +27,21 @@ Assets from the Unity Asset Store:
   - Fence from ArtTI's "Medieval Fence Pack" 
   - Cloud background from Profi Developers' "Evening Storm Skybox"
 
+To make adition models the following programs were used
+  - Blender
+  - Sweet Home 3D
+  - Google Sketchup
+  - Unity Engine
+
+Songs
+  - Nocturne in Eb minor - Peter Bradley-Fulgoni (piano). Publisher Info. Peter Bradley-Fulgoni
+
 Sound effects were used to create the environment:
   - Thunder, Thunder Strike 1, 2, and 3 are all from Mike Koenig licensed 
       under the Creative Commons Attribution 3.0. I found these sound
       effects on the website http://soundbible.com/ 
   - Door Open, Close, and knocking are all from 
       http://www.soundjay.com/tos.html
-
-Thank You too all these people that have shared 
-    their great works over the Internet
 
 The rest of the assets were made for this game  
   

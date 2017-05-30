@@ -97,6 +97,16 @@ public class PlayerMove : NetworkBehaviour {
 		return characterController.isGrounded;
 	}
 
+	[Command]
+	public void CmdSetHeadIK(Vector3 lookPos) {
+		RpcSetHeadIK (lookPos);
+	}
+
+	[ClientRpc]
+	public void RpcSetHeadIK(Vector3 lookPos) {
+		headMoveScript.lookPos = lookPos;
+	}
+
 	// Update is called once per frame
 	void Update () {
 		//Only move if local player
@@ -116,8 +126,10 @@ public class PlayerMove : NetworkBehaviour {
 					lookAngleHoriz - bodyHoriz)) + bodyHoriz;
 
 				//Update position of the look transform based on new look angles
-				headMoveScript.lookPos = cameraTransform.position + Quaternion.Euler (lookAngleHoriz,
+				Vector3 lookPos = cameraTransform.position + Quaternion.Euler (lookAngleHoriz,
 					lookAngleVert, 0) * Vector3.forward * lookDist;
+
+				CmdSetHeadIK(lookPos);
 			}
 
 			if (canTurnBody) {

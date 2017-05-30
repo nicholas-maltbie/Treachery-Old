@@ -11,7 +11,7 @@ using UnityEngine.Networking;
  * This class handles rotating the character camera and moving the character's body when the 
  * character rotates his or her head enough.
  */
-public class IKHeadMove : NetworkBehaviour {
+public class IKHeadMove : MonoBehaviour {
 
 	//Should the neck turn when the head is moving?
 	public bool ikActive = true;
