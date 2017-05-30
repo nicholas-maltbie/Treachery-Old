@@ -199,10 +199,10 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'CrouchBack' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
-      improve retargeting quality.\n\t'Collar_L' has translation animation that will
-      be discarded.\n\t'Collar_R' has translation animation that will be discarded.\n\t'Pelvis'
+    animationImportWarnings: "\nClip 'Default Take' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'Collar_L' has translation animation that
+      will be discarded.\n\t'Collar_R' has translation animation that will be discarded.\n\t'Pelvis'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
       'CrouchForward' has import animation warnings that might lower retargeting quality:\nNote:
       Activate translation DOF on avatar to improve retargeting quality.\n\t'Collar_L'
@@ -213,12 +213,11 @@ ModelImporter:
       translation DOF on avatar to improve retargeting quality.\n\t'Collar_L' has
       translation animation that will be discarded.\n\t'Collar_R' has translation
       animation that will be discarded.\n\t'Pelvis' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n\t'Thigh_R' has translation
-      animation that will be discarded.\n\t'LowerLeg_R' has translation animation
-      that will be discarded.\n\nClip 'WalkBack' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
-      improve retargeting quality.\n\t'Collar_L' has translation animation that will
-      be discarded.\n\t'Collar_R' has translation animation that will be discarded.\n\t'Pelvis'
+      and has rotation animation that will be discarded.\n\t'LowerLeg_L' has translation
+      animation that will be discarded.\n\nClip 'WalkBack' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'Collar_L' has translation animation that
+      will be discarded.\n\t'Collar_R' has translation animation that will be discarded.\n\t'Pelvis'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
       'WalkForward' has import animation warnings that might lower retargeting quality:\nNote:
       Activate translation DOF on avatar to improve retargeting quality.\n\t'Collar_L'
@@ -743,14 +742,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0.670823
-        functionName: Lift
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask:
       - path: 
         weight: 1

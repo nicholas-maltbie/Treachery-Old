@@ -1,0 +1,33 @@
+Credits:
+
+This Game was made using Unity
+
+I used Assets from the Unity Standard assets in order to create this game:
+  - Environment package
+  - Character package
+  - CrossPlatformInput package
+  - Utility package
+
+Assets from the Unity Asset Store:
+  - Angel Statue from Busina
+  - Bed from Gooseman's Graphics "Bed Collection"
+  - Piano from Miroslav Uhlíř
+  - Staircase from Digital Forest
+  - Worn Bookshelf from Jason Wong
+  - Desk from Lef's "Free Furniture Set"
+  - Alchemy Station from David Stenfors
+  - Fence from ArtTI's "Medieval Fence Pack" 
+  - Cloud background from Profi Developers' "Evening Storm Skybox"
+
+Sound effects were used to create the environment:
+  - Thunder, Thunder Strike 1, 2, and 3 are all from Mike Koenig licensed 
+      under the Creative Commons Attribution 3.0. I found these sound
+      effects on the website http://soundbible.com/ 
+  - Door Open, Close, and knocking are all from 
+      http://www.soundjay.com/tos.html
+
+Thank You too all these people that have shared 
+    their great works over the Internet
+
+The rest of the assets were made for this game  
+  
