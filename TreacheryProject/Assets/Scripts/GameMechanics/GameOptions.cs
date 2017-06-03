@@ -24,7 +24,7 @@ public class GameOptions : MonoBehaviour {
 	/// <summary>
 	/// The camera animator to move the camera on animation.
 	/// </summary>
-	private Animator cameraAnimator;
+	public Animator cameraAnimator;
 	/// <summary>
 	/// the size of the credit boxes.
 	/// </summary>
@@ -74,16 +74,27 @@ public class GameOptions : MonoBehaviour {
 	{
 		//if not connected to server
 		if (currentState == GameState.OFFLINE) {
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
 			//if not in animation
 			if (canDisplay) {
 				//if the state is the basic menu, display buttons and allow changes
 				if (cameraAnimator.GetInteger ("State") == 0) {
+
+					camera.enabled = true;
+					listener.enabled = true;
+
+					address = GUI.TextField (new Rect (Screen.width * .21f, Screen.height * .2f, Screen.width * .19f, Screen.height * .05f), address);
 					if (GUI.Button (new Rect (Screen.width * .1f, Screen.height * .1f, Screen.width * .3f, Screen.height * .05f), "Host Game")) {
 						networkManager.StartHost ();
+						Cursor.lockState = CursorLockMode.Locked;
+						Cursor.visible = false;
 					}
 					else if (GUI.Button (new Rect (Screen.width * .1f, Screen.height * .2f, Screen.width * .1f, Screen.height * .05f), "Join Game")) {
 						networkManager.networkAddress = address;
 						networkManager.StartClient ();
+						Cursor.lockState = CursorLockMode.Locked;
+						Cursor.visible = false;
 					}
 					else if (GUI.Button (new Rect (Screen.width * .1f, Screen.height * .3f, Screen.width * .3f, Screen.height * .05f), "Credits")) {
 						cameraAnimator.SetInteger ("State", 1);
@@ -98,7 +109,6 @@ public class GameOptions : MonoBehaviour {
 						Application.Quit();
 						#endif 
 					}
-					address = GUI.TextField (new Rect (Screen.width * .21f, Screen.height * .2f, Screen.width * .19f, Screen.height * .05f), address);
 				} 
 				//if the display is credis, display credits and allow the user to interact
 				else if (cameraAnimator.GetInteger ("State") == 1) {
@@ -126,6 +136,8 @@ public class GameOptions : MonoBehaviour {
 			//if the menu is open, display the menu and allow the player to interact.
 			if(isMenuOpen)
 			{
+				camera.enabled = false;
+				listener.enabled = false;
 				GUI.Box(new Rect(Screen.width * .4f, Screen.height * .2f, Screen.width * .2f, Screen.height * .24f), "", squareStyle);
 				if(GUI.Button(new Rect(Screen.width * .42f, Screen.height * .22f, Screen.width * .16f, Screen.height * .08f), "Back To Game"))
 				{
@@ -154,7 +166,6 @@ public class GameOptions : MonoBehaviour {
 	
 	void Start () {
 		style.alignment = TextAnchor.MiddleCenter;
-		cameraAnimator = GetComponent<Animator> ();
 		creditLines = creditsFile.text;
 		Texture2D gray = new Texture2D (1, 1);
 		gray.SetPixel (0, 0, Color.gray);
