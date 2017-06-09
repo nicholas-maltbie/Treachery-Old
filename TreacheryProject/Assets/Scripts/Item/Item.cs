@@ -2,9 +2,9 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-public class Item : Interactable {
+public class Item : NetworkBehaviour {
 
-	public const int INTERACTABLE_LAYER = 8;
+	/*public const int INTERACTABLE_LAYER = 8;
 	public float mass = 1, drag = 0, angularDrag = 0.05f;
 	public bool useGravity = true, isKinematic = true;
 	[SyncVar]
@@ -35,7 +35,7 @@ public class Item : Interactable {
 			GetComponent<NetworkTransform>().enabled = false;
 			gameObject.layer = 0;
 		}*/
-	}
+	/*}
 
 	public void DisablePhysics()
 	{
@@ -55,7 +55,7 @@ public class Item : Interactable {
 		rigidbody.isKinematic = isKinematic;
 	}
 
-	public void DropItem (GameObject player)
+	/*public void DropItem (GameObject player)
 	{
 		gameObject.SendMessage ("ItemDropped");
 		holder = null;
@@ -92,7 +92,7 @@ public class Item : Interactable {
 		return holder.GetComponent<Player> ();
 	}*/
 
-	public void Update()
+	/*public void Update()
 	{
 		if (!initialized) {
 			if(holder != null && !isHeld)
@@ -113,10 +113,10 @@ public class Item : Interactable {
 		}
 	}
 
-	public void Start()
+	/*public void Start()
 	{
 		if (isServer && hasPhysics) {
 			EnablePhysics();
 		}
-	}
+	}*/
 }

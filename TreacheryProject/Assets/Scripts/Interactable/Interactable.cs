@@ -6,7 +6,7 @@ using System.Collections.Generic;
 /// <summary>
 /// An object that the player can interact with.
 /// </summary>
-public class Interactable : NetworkBehaviour {
+public class Interactable : MonoBehaviour {
 	/// <summary>
 	/// The icons.
 	/// </summary>
@@ -27,22 +27,22 @@ public class Interactable : NetworkBehaviour {
 	/// <summary>
 	/// The current interaction message to determine the icon.
 	/// </summary>
-	[SyncVar]
 	public string interactionMessage;
 	/// <summary>
 	/// Can this object be interacted with.
 	/// </summary>
-	[SyncVar]
 	public bool canInteract = true;
 
 	/// <summary>
 	/// Interacts the with object.
 	/// </summary>
-	/// <param name="player">Player who is giving the command.</param>
-	[ServerCallback]
-	public void InteractWithObject (GameObject player)
+	/// <param name="player">Player who is giving the command.
+	/// </param>
+	public void InteractWithObject (GameObject actor)
 	{
-		actionScript.SendMessage ("Interact", player);
+		if (canInteract) {
+			actionScript.SendMessage ("Interact", actor);
+		}
 	}
 
 	/// <summary>
