@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 /**
  * This script manages how a player can move
  */
-public class PlayerMove : MonoBehaviour {
+public class PlayerMove : NetworkBehaviour {
 
 	/**
 	 * Gravity on the character (Acceleration due to gravity)
@@ -32,7 +33,31 @@ public class PlayerMove : MonoBehaviour {
 	 * Can the player currently jump
 	 */
 	public bool canJump = true;
+	//Can move head
+	public bool canMoveHead = true;
+	//Can move body
+	public bool canTurnBody = true;
 
+	//Camera transform
+	public Transform cameraTransform;
+	//Head transform
+	public Transform headBone;
+
+	public IKHeadMove headMoveScript;
+	
+	//Distance look object is placed in front of the camera, this is just some arbitrary value
+	private float lookDist = 1;
+	//Angle of the object in front of the character (in radians)
+	private float lookAngleVert = 0;	//Angle with respect to vertical axis (left, right)
+	private float lookAngleHoriz = 0;	//Angle with respect to horizontal axis (up, down)
+	//Define bounds for head movement
+	private float minAngleHoriz = -80, maxAngleHoriz = 50;
+
+
+	/// <summary>
+	/// Was the player grounded last frame
+	/// </summary>
+	private bool wasGrounded = true;
 	/**
 	 * How long has the character been on the ground
 	 */
@@ -42,10 +67,15 @@ public class PlayerMove : MonoBehaviour {
 	 */
 	private float verticalVel = 0.0f;
 
+
+	/// <summary>
+	/// Object that makes foot sounds for this player.
+	/// </summary>
+	public FootSounds footSounds;
 	/**
 	 * Character's movement controller
 	 */
-	private CharacterController characterController;
+	public CharacterController characterController;
 	/**
 	 * Character base that moves
 	 */
@@ -60,10 +90,6 @@ public class PlayerMove : MonoBehaviour {
 	 */
 	public Animator characterAnimator;
 
-	void Start() {
-		characterController = GetComponent<CharacterController> ();
-	}
-
 	/**
 	 * Function to check if the character is currently grounded
 	 */
@@ -71,58 +97,136 @@ public class PlayerMove : MonoBehaviour {
 		return characterController.isGrounded;
 	}
 
+	[Command]
+	public void CmdSetHeadIK(Vector3 lookPos) {
+		RpcSetHeadIK (lookPos);
+	}
+
+	[ClientRpc]
+	public void RpcSetHeadIK(Vector3 lookPos) {
+		headMoveScript.lookPos = lookPos;
+	}
+
 	// Update is called once per frame
 	void Update () {
-		//Get vertical and horizontal movement.
-		float dz = Input.GetAxis ("Vertical");
-		float dx = Input.GetAxis ("Horizontal");
-		//does the player want to jump
-		float jump = Input.GetAxis ("Jump");
-		//check if the player is grounded
-		bool grounded = IsGrounded ();
+		//Only move if local player
+		if (isLocalPlayer) {
 
-		//If the player was jumping due to being airbone and is now on the ground
-		// tell the animator that the character is on the ground
-		if (characterAnimator.GetBool ("jump") && grounded) {
-			characterAnimator.SetBool ("jump", false);
-		}
-		//If the player wants to jump, is permitted to jump,
-		// is on the gorund and has waited for the cooldown to to wear off, jump
-		else if (jump == 1 && canJump && grounded && groundTime >= minDownTimeBeforeJump) {
-			characterAnimator.SetBool ("jump", true);
-			verticalVel = jumpSpeed;
-		}
+			float changeVert = 0;
+			if (canMoveHead) {
+				changeVert = Input.GetAxis ("Mouse X");
+				//Update camera angle based on mouse movement
+				lookAngleVert += changeVert;
+				lookAngleHoriz -= Input.GetAxis ("Mouse Y");
 
-		//If the player is grounded, update ground time.
-		if (grounded) {
-			groundTime += Time.deltaTime;
-		} else {
-			//If not grounded, set ground time to zero.
-			groundTime = 0;
-			//have gravity act on the character
-			verticalVel += - gravity * Time.deltaTime;
-		}
+				//bound values
+				float bodyHoriz = characterTransform.eulerAngles.x;
+
+				lookAngleHoriz = Mathf.Max (minAngleHoriz, Mathf.Min (maxAngleHoriz,
+					lookAngleHoriz - bodyHoriz)) + bodyHoriz;
+
+				//Update position of the look transform based on new look angles
+				Vector3 lookPos = cameraTransform.position + Quaternion.Euler (lookAngleHoriz,
+					lookAngleVert, 0) * Vector3.forward * lookDist;
+
+				CmdSetHeadIK(lookPos);
+			}
+
+			if (canTurnBody) {
+				//Rotate body towards camera angle at a speed of bodyRotateSpeed
+				//Rotate body transform by at most body rotation speed to close gap between 
+				// direction of the camera and direction of the character
+				characterTransform.eulerAngles = new Vector3 (characterTransform.eulerAngles.x, 
+					lookAngleVert, characterTransform.eulerAngles.z);
+
+				//Update animator informaiton to allow rotation animation.
+				if (Mathf.Abs (characterTransform.eulerAngles.y - lookAngleVert) > 0)
+					characterAnimator.SetFloat ("rotate", changeVert);
+				else
+					characterAnimator.SetFloat ("rotate", 0);
+			}
+			//Update camera angle
+			cameraTransform.eulerAngles = new Vector3 (lookAngleHoriz - characterTransform.eulerAngles.x, cameraTransform.eulerAngles.y, 0);
+			cameraTransform.position = headBone.position;
+
+			//Get vertical and horizontal movement.
+			float dz = Input.GetAxis ("Vertical");
+			float dx = Input.GetAxis ("Horizontal");
+			//does the player want to jump
+			float jump = Input.GetAxis ("Jump");
+			//does the player want to crouch
+			float crouch = Input.GetAxis ("Crouch");
+			float sprint = Input.GetAxis ("Sprint");
+
+			float speed = moveSpeed;
+			if (crouch == 1)
+				speed = 0.5f * speed;
+			else if (sprint == 1)
+				speed = 2 * speed;
+
+			GetComponentInChildren<FootSounds> ().volumeMult = speed * speed;
+
+			if (crouch == 1) {
+				characterAnimator.SetBool ("crouch", true);
+			} else {
+				characterAnimator.SetBool ("crouch", false);
+			}
+
+
+			//check if the player is grounded
+			bool grounded = IsGrounded ();
+
+			if (wasGrounded && !grounded) {
+				footSounds.Lift ();
+			} else if (!wasGrounded && grounded) {
+				footSounds.Land ();
+			}
+
+			//If the player was jumping due to being airbone and is now on the ground
+			// tell the animator that the character is on the ground
+			if (characterAnimator.GetBool ("jump") && grounded) {
+				characterAnimator.SetBool ("jump", false);
+			}
+			//If the player wants to jump, is permitted to jump,
+			// is on the ground and has waited for the cooldown to to wear off, jump
+			else if (jump == 1 && canJump && grounded && groundTime >= minDownTimeBeforeJump) {
+				characterAnimator.SetBool ("jump", true);
+				verticalVel = jumpSpeed;
+			}
+
+			//If the player is grounded, update ground time.
+			if (grounded) {
+				groundTime += Time.deltaTime;
+			} else {
+				//If not grounded, set ground time to zero.
+				groundTime = 0;
+				//have gravity act on the character
+				verticalVel += -gravity * Time.deltaTime;
+			}
 		
-		//Init move vector to zero
-		Vector3 move = Vector3.zero;
-		//Move the player if he or she can move
-		if (canMove) {
-			//Add vertical movement
-			move += dz * characterTransform.forward;
-			//Add horizontal movement
-			move += dx * characterTransform.right;
+			//Init move vector to zero
+			Vector3 move = Vector3.zero;
+			//Move the player if he or she can move
+			if (canMove) {
+				//Add vertical movement
+				move += dz * characterTransform.forward;
+				//Add horizontal movement
+				move += dx * characterTransform.right;
 
-			//Set movement distance to movespeed
-			move = move.normalized * moveSpeed;
+				//Set movement distance to movespeed
+				move = move.normalized * speed;
+			}
+
+			//Translate character based on move.
+			characterController.Move (new Vector3 (move.x, verticalVel, move.z) * Time.deltaTime);
+
+			//set animator value walking to true (just for now though)
+			characterAnimator.SetBool ("walking", Mathf.Abs (dz) + Mathf.Abs (dx) > 0);
+			//Set animator vx and vz
+			characterAnimator.SetFloat ("vx", dx);
+			characterAnimator.SetFloat ("vz", dz + sprint);
+
+			wasGrounded = grounded;
 		}
-
-		//Translate character based on move.
-		characterController.Move(new Vector3(move.x, verticalVel, move.z) * Time.deltaTime);
-
-		//set animator value walking to true (just for now though)
-		characterAnimator.SetBool("walking", Mathf.Abs(dz) + Mathf.Abs(dx) > 0);
-		//Set animator vx and vz
-		characterAnimator.SetFloat ("vx", dx);
-		characterAnimator.SetFloat ("vz", dz);
 	}
 }
