@@ -72,6 +72,8 @@ public class GameOptions : MonoBehaviour {
 
 	void OnGUI()
 	{
+		GUI.skin.label.fontSize = GUI.skin.box.fontSize = GUI.skin.button.fontSize = GUI.skin.textField.fontSize = 
+			GUI.skin.textArea.fontSize = 25;
 		//if not connected to server
 		if (currentState == GameState.OFFLINE) {
 			Cursor.lockState = CursorLockMode.None;
@@ -112,7 +114,7 @@ public class GameOptions : MonoBehaviour {
 				} 
 				//if the display is credis, display credits and allow the user to interact
 				else if (cameraAnimator.GetInteger ("State") == 1) {
-					if (GUI.Button (new Rect (Screen.width * .1f, Screen.height * .1f, Screen.width * .3f, Screen.height * .05f), "Back")) {
+						if (GUI.Button (new Rect (Screen.width * .1f, Screen.height * .1f, Screen.width * .3f, Screen.height * .05f), "Back")) {
 						cameraAnimator.SetInteger ("State", 0);
 						canDisplay = false;
 					}
