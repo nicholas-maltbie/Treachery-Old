@@ -4,38 +4,38 @@ using UnityEngine.Networking;
 
 public class Item : NetworkBehaviour {
 
-	/*public const int INTERACTABLE_LAYER = 8;
+	public Interactable clicker;
+
 	public float mass = 1, drag = 0, angularDrag = 0.05f;
 	public bool useGravity = true, isKinematic = true;
 	[SyncVar]
 	public string name, description, flavorText;
 	[SyncVar]
 	private GameObject holder;
-	private GameObject delayedHolder;
 	private float attempts;
 	public bool hasPhysics;
 	private bool isHeld, initialized;
 	public Texture icon; 
 
 	[ServerCallback]
-	public void Interact (GameObject player)
+	public void Interact (GameObject actor)
 	{
-		/*Player personThingy = player.GetComponent<Player>();
-		if (personThingy.HasOpenSpace ()) {
-			holder = player;
-			if(gameObject.GetComponent<NetworkIdentity> ().clientAuthorityOwner != this.connectionToClient) {
-				gameObject.GetComponent<NetworkIdentity>().AssignClientAuthority(player.GetComponent<NetworkIdentity>().connectionToClient);
+		Inventory bag = actor.GetComponent<Inventory>();
+		if (bag.HasOpenSpace ()) {
+			holder = actor;
+			if(GetComponent<NetworkIdentity> ().clientAuthorityOwner != actor.GetComponent<NetworkIdentity>().connectionToClient) {
+				GetComponent<NetworkIdentity>().AssignClientAuthority(actor.GetComponent<NetworkIdentity>().connectionToClient);
 			}
-			personThingy.RpcPickupItem(gameObject);
+			bag.PickupItem(gameObject);
 			gameObject.SendMessage("PickupItem");
-			canInteract = false;
+			clicker.canInteract = false;
 			isHeld = true;
 			if(hasPhysics)
 				DisablePhysics();
 			GetComponent<NetworkTransform>().enabled = false;
 			gameObject.layer = 0;
-		}*/
-	/*}
+		}
+	}
 
 	public void DisablePhysics()
 	{
@@ -52,16 +52,15 @@ public class Item : NetworkBehaviour {
 		rigidbody.drag = drag;
 		rigidbody.angularDrag = angularDrag;
 		rigidbody.useGravity = useGravity;
-		rigidbody.isKinematic = isKinematic;
 	}
 
-	/*public void DropItem (GameObject player)
+	public void DropItem (GameObject player)
 	{
 		gameObject.SendMessage ("ItemDropped");
 		holder = null;
 		isHeld = false;
-		canInteract = true;
-		if(gameObject.GetComponent<NetworkIdentity> ().clientAuthorityOwner != this.connectionToClient)
+		clicker.canInteract = true;
+		if(gameObject.GetComponent<NetworkIdentity> ().clientAuthorityOwner != player.GetComponent<NetworkIdentity>().connectionToClient)
 			gameObject.GetComponent<NetworkIdentity> ().RemoveClientAuthority (player.GetComponent<NetworkIdentity>().connectionToClient);
 		EnablePhysics ();
 		GetComponent<NetworkTransform>().enabled = true;
@@ -69,7 +68,7 @@ public class Item : NetworkBehaviour {
 
 	public void ItemDropped()
 	{
-		gameObject.layer = INTERACTABLE_LAYER;
+		//gameObject.layer = INTERACTABLE_LAYER;
 	}
 
 	public void PutInBag()
@@ -87,12 +86,12 @@ public class Item : NetworkBehaviour {
 
 	}
 
-	/*public Player getHolder()
+	public GameObject getHolder()
 	{
-		return holder.GetComponent<Player> ();
-	}*/
+		return holder;
+	}
 
-	/*public void Update()
+	public void Update()
 	{
 		if (!initialized) {
 			if(holder != null && !isHeld)
@@ -113,10 +112,12 @@ public class Item : NetworkBehaviour {
 		}
 	}
 
-	/*public void Start()
+	public void Start()
 	{
-		if (isServer && hasPhysics) {
-			EnablePhysics();
+		if (GetComponent<NetworkIdentity> ().isServer && hasPhysics) {
+			EnablePhysics ();
+		} else {
+			DisablePhysics ();
 		}
-	}*/
+	}
 }
