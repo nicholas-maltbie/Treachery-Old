@@ -17,8 +17,8 @@ public class Item : NetworkBehaviour {
 	private bool isHeld, initialized;
 	public Texture icon; 
 
-	[ServerCallback]
-	public void Interact (GameObject actor)
+	[Command]
+	public void CmdAttemptPickup (GameObject actor) 
 	{
 		Inventory bag = actor.GetComponent<Inventory>();
 		if (bag.HasOpenSpace ()) {
@@ -35,6 +35,11 @@ public class Item : NetworkBehaviour {
 			GetComponent<NetworkTransform>().enabled = false;
 			gameObject.layer = 0;
 		}
+	}
+
+	public void Interact (GameObject actor)
+	{
+		CmdAttemptPickup (actor);
 	}
 
 	public void DisablePhysics()
