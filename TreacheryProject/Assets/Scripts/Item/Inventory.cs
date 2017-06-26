@@ -1,94 +1,96 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Inventory : MonoBehaviour {
+public class Inventory : NetworkBehaviour {
 
 	public int selected;
-	public Item[] items;
+	public string[] items;
 	public GameObject held;
-	public Transform hand, backpack;
+	public Transform hand;
 
-	public void DropItem(GameObject item)
-	{
-		item.GetComponent<Item>().DropItem (gameObject);
-		item.transform.position = hand.transform.position;
-		item.transform.parent = null;
-		for (int i = 0; i < items.Length; i++) {
-			if(items[i] == item.GetComponent<Item>())
-			{
-				items[i] = null;
-				if (i == selected) {
-					held = null;
-					HoldItem(null);
+	public void Update() {
+		if (isLocalPlayer) {
+			if (held == null) { //not holding an item
+				if (IsSpotEmpty (selected)) {
+					//Do nothing
+				} else {		//Supposed to be holding an item
+					CmdHoldItem (items [selected]);
+				}
+			} else {			//holding an item
+				if (IsSpotEmpty (selected)) {
+					RpcRemoveHeldItem ();
+				} else {		//Supposed to be holding an item
+					if (held.GetComponent<Item> ().itemName == items [selected]) {
+						//Do nothing, this is good
+					} else {
+						RpcRemoveHeldItem ();
+						CmdHoldItem (items [selected]);
+					}
 				}
 			}
 		}
 	}
 
-	public void HoldItem(GameObject item)
+	public void DropItem(int index)
 	{
-		if (held != null) {
-			held.transform.position = backpack.transform.position;
-			held.transform.eulerAngles = gameObject.transform.eulerAngles;
-			held.SendMessage("PutInBag");
-		}
-		if (item != null) {
-			held = item;
-			held.transform.position = hand.transform.position;
-			held.transform.eulerAngles = hand.transform.eulerAngles;
-			held.SendMessage ("HoldItem");
-		}
+		items [index] = null;
+	}
+
+	[Command]
+	public void CmdHoldItem(string itemName) {
+		RpcRemoveHeldItem ();
+		RpcPutItemInHand (ItemManager.SpawnHeldItem (itemName));
+	}
+
+	[ClientRpc]
+	public void RpcPutItemInHand(GameObject item) {
+		item.GetComponent<Item> ().DisablePhysics ();
+		item.transform.position = hand.position;
+		item.transform.rotation = hand.rotation;
+		item.transform.parent = hand;
 		held = item;
 	}
 
-	public void PickupItem(GameObject item)
-	{
-		PickupItem (item, -1);
-	}
-
-	public void PickupItem(GameObject item, int index)
-	{
-		if (index == -1)
-			index = AddItem (item.GetComponent<Item> ());
-		else
-			items [index] = item.GetComponent<Item>();
-		if (index == selected) {
-			HoldItem(item);
+	[ClientRpc]
+	public void RpcRemoveHeldItem() {
+		if (held != null) {
+			Destroy (held);
+			held = null;
 		}
-		item.transform.position = backpack.transform.position;
-		item.transform.eulerAngles = gameObject.transform.eulerAngles;
-		item.transform.parent = gameObject.transform;
 	}
 
-	public int AddItem(Item item)
-	{
-		for(int i = items.Length - 1; i >= 0; i--)
-		{
-			if(items[i] == null)
-			{
-				items[i] = item;
+	[Command]
+	public void CmdPickupItem(GameObject item) {
+		NetworkServer.Destroy (item);
+	}
+
+	public void AttemptPickup(Item item) {
+		if (HasOpenSpace ()) {
+			items [FirstOpenSpace ()] = item.itemName;
+			item.isHeld = true;
+			CmdPickupItem (item.gameObject);
+		}
+	}
+
+	public bool IsSpotEmpty(int spot) {
+		return items [spot] == null || items [spot] == "";
+	}
+
+	public int FirstOpenSpace() {
+		for (int i = 0; i < items.Length; i++)
+			if (IsSpotEmpty(i))
 				return i;
-			}
-		}
 		return -1;
+	}
+
+	public bool IsHoldingItem() {
+		return ! IsSpotEmpty (selected);
 	}
 
 	public bool HasOpenSpace()
 	{
-		foreach (Item i in items) {
-			if(i == null)
-				return true;
-		}
-		return false;
-	}
-
-	public bool HasItem(Item item)
-	{
-		for (int i = 0; i < items.Length; i++) {
-			if(items[i] == item)
-				return true;
-		}
-		return false;
+		return FirstOpenSpace() != -1;
 	}
 }

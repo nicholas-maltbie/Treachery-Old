@@ -24,6 +24,10 @@ public class NetworkGame : NetworkManager {
 	/// The prefabs to register.
 	/// </summary>
 	public GameObject[] playerPrefabs;
+	/// <summary>
+	/// The item prefabs.
+	/// </summary>
+	public GameObject[] itemPrefabs;
 
 	/// <summary>
 	/// The players connected if this is the server.
@@ -37,6 +41,9 @@ public class NetworkGame : NetworkManager {
 		if (!Network.isServer) {
 			for (int i = 0; i < playerPrefabs.Length; i++) {
 				ClientScene.RegisterPrefab (playerPrefabs [i]);
+			}
+			for (int i = 0; i < itemPrefabs.Length; i++) {
+				ClientScene.RegisterPrefab (itemPrefabs [i]);
 			}
 		}
 	}

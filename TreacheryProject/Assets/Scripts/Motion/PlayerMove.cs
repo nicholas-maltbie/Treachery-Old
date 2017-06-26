@@ -6,12 +6,15 @@ using UnityEngine.Networking;
 /**
  * This script manages how a player can move
  */
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(FootSounds))]
 public class PlayerMove : NetworkBehaviour {
 
 	/**
 	 * Gravity on the character (Acceleration due to gravity)
 	 */
 	public float gravity = 1.0f;
+	private float handDist = 0.25f;
 	/**
 	 * Speed that the character moves
 	 */
@@ -33,6 +36,7 @@ public class PlayerMove : NetworkBehaviour {
 	 * Can the player currently jump
 	 */
 	public bool canJump = true;
+	public Transform handPivotPos;
 	//Can move head
 	public bool canMoveHead = true;
 	//Can move body
@@ -40,10 +44,10 @@ public class PlayerMove : NetworkBehaviour {
 
 	//Camera transform
 	public Transform cameraTransform;
+	//Hand transform
+	public Transform handTransform;
 	//Head transform
 	public Transform headBone;
-
-	public IKHeadMove headMoveScript;
 	
 	//Distance look object is placed in front of the camera, this is just some arbitrary value
 	private float lookDist = 1;
@@ -51,7 +55,7 @@ public class PlayerMove : NetworkBehaviour {
 	private float lookAngleVert = 0;	//Angle with respect to vertical axis (left, right)
 	private float lookAngleHoriz = 0;	//Angle with respect to horizontal axis (up, down)
 	//Define bounds for head movement
-	private float minAngleHoriz = -80, maxAngleHoriz = 50;
+	private float minAngleHoriz = -80, maxAngleHoriz = 40;
 
 
 	/// <summary>
@@ -71,15 +75,13 @@ public class PlayerMove : NetworkBehaviour {
 	/// <summary>
 	/// Object that makes foot sounds for this player.
 	/// </summary>
-	public FootSounds footSounds;
+	private FootSounds footSounds;
 	/**
 	 * Character's movement controller
 	 */
-	public CharacterController characterController;
-	/**
-	 * Character base that moves
-	 */
-	public Transform characterTransform;
+	private CharacterController characterController;
+	
+	public IKHeadMove headMoveScript;
 	/**
 	 * Character animator, for animating the character.
 	 * The animator must have the following parameters.
@@ -91,10 +93,31 @@ public class PlayerMove : NetworkBehaviour {
 	public Animator characterAnimator;
 
 	/**
+	 * Character base that moves
+	 */
+	public Transform characterTransform;
+
+	void Start() {
+		characterController = GetComponent<CharacterController> ();
+		footSounds = GetComponent<FootSounds> ();
+	}
+
+	/**
 	 * Function to check if the character is currently grounded
 	 */
 	bool IsGrounded() {
 		return characterController.isGrounded;
+	}
+
+	[Command]
+	public void CmdSetHandIK(Vector3 handPos, Quaternion handRot) {
+		RpcSetHandIK (handPos, handRot);
+	}
+
+	[ClientRpc]
+	public void RpcSetHandIK(Vector3 handPos, Quaternion handRot) {
+		handTransform.position = handPos;
+		handTransform.rotation = handRot;
 	}
 
 	[Command]
@@ -130,7 +153,11 @@ public class PlayerMove : NetworkBehaviour {
 					lookAngleVert, 0) * Vector3.forward * lookDist;
 
 				CmdSetHeadIK(lookPos);
+				Vector3 handPos = handPivotPos.position + Quaternion.Euler(lookAngleHoriz,
+					lookAngleVert, 0) * Vector3.forward * handDist;
+				CmdSetHandIK (handPos, Quaternion.Euler(lookAngleHoriz, lookAngleVert, 0));
 			}
+
 
 			if (canTurnBody) {
 				//Rotate body towards camera angle at a speed of bodyRotateSpeed

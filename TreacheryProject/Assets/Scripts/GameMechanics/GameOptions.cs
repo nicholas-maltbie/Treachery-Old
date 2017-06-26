@@ -72,8 +72,6 @@ public class GameOptions : MonoBehaviour {
 
 	void OnGUI()
 	{
-		GUI.skin.label.fontSize = GUI.skin.box.fontSize = GUI.skin.button.fontSize = GUI.skin.textField.fontSize = 
-			GUI.skin.textArea.fontSize = 25;
 		//if not connected to server
 		if (currentState == GameState.OFFLINE) {
 			Cursor.lockState = CursorLockMode.None;
