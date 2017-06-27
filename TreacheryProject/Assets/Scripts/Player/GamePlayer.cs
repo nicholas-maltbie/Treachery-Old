@@ -31,6 +31,10 @@ public class GamePlayer : NetworkBehaviour {
 				if (inventory.selected < 0)
 					inventory.selected = inventory.items.Length - 1;
 			}
+
+			if (Input.GetButton ("Drop") && inventory.IsHoldingItem()) {
+				inventory.CmdDropItem (inventory.selected);
+			}
 		}
 	}
 }

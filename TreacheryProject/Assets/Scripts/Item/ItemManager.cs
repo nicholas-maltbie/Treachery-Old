@@ -5,12 +5,12 @@ using UnityEngine.Networking;
 
 public class ItemManager : NetworkBehaviour {
 
-	public Item[] possibleItems;
+	public GameObject[] possibleItems;
 	private static Dictionary<string, GameObject> indexedItems = new Dictionary<string, GameObject>();
 
 	void Start() {
-		foreach (Item item in possibleItems)
-			indexedItems.Add (item.itemName, item.gameObject);
+		foreach (GameObject item in possibleItems)
+			indexedItems.Add (item.GetComponent<Item>().itemName, item);
 		if (isServer) {
 			foreach (Item item in GameObject.FindObjectsOfType<Item>())
 				item.EnablePhysics ();
@@ -28,14 +28,20 @@ public class ItemManager : NetworkBehaviour {
 		}
 		return null;
 	}
-
-	[ServerCallback]
+	
 	public static GameObject SpawnHeldItem(string name) {
-		GameObject item = SpawnItem (name);
-		item.GetComponent<Item> ().isHeld = true;
-		foreach (Interactable interactable in item.GetComponentsInChildren<Interactable>()) {
-			interactable.enabled = false;
+		if (indexedItems.ContainsKey (name)) {
+			GameObject prefab = indexedItems [name];
+			GameObject item = Instantiate (prefab);
+			if (item.GetComponent<NetworkIdentity> () != null) {
+				item.GetComponent<NetworkIdentity> ().enabled = false;
+			}
+			item.GetComponent<Item> ().isHeld = true;
+			foreach (Interactable interactable in item.GetComponentsInChildren<Interactable>()) {
+				interactable.enabled = false;
+			}
+			return item;
 		}
-		return item;
+		return null;
 	}
 }

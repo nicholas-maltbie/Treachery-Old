@@ -19,6 +19,7 @@ public class PlayerMove : NetworkBehaviour {
 	 * Speed that the character moves
 	 */
 	public float moveSpeed = 1.0f;
+	public Inventory inv;
 	/**
 	 * Velocity the character takes off from the ground at
 	 */
@@ -82,6 +83,7 @@ public class PlayerMove : NetworkBehaviour {
 	private CharacterController characterController;
 	
 	public IKHeadMove headMoveScript;
+	public IKHandMove handMoveScript;
 	/**
 	 * Character animator, for animating the character.
 	 * The animator must have the following parameters.
@@ -110,14 +112,17 @@ public class PlayerMove : NetworkBehaviour {
 	}
 
 	[Command]
-	public void CmdSetHandIK(Vector3 handPos, Quaternion handRot) {
-		RpcSetHandIK (handPos, handRot);
+	public void CmdSetHandIK(Vector3 handPos, Quaternion handRot, bool active) {
+		RpcSetHandIK (handPos, handRot, active);
 	}
 
 	[ClientRpc]
-	public void RpcSetHandIK(Vector3 handPos, Quaternion handRot) {
-		handTransform.position = handPos;
-		handTransform.rotation = handRot;
+	public void RpcSetHandIK(Vector3 handPos, Quaternion handRot, bool active) {
+		if (!isLocalPlayer) {
+			handTransform.position = handPos;
+			handTransform.rotation = handRot;
+			handMoveScript.active = active;
+		}
 	}
 
 	[Command]
@@ -155,7 +160,10 @@ public class PlayerMove : NetworkBehaviour {
 				CmdSetHeadIK(lookPos);
 				Vector3 handPos = handPivotPos.position + Quaternion.Euler(lookAngleHoriz,
 					lookAngleVert, 0) * Vector3.forward * handDist;
-				CmdSetHandIK (handPos, Quaternion.Euler(lookAngleHoriz, lookAngleVert, 0));
+				CmdSetHandIK (handPos, Quaternion.Euler(lookAngleHoriz, lookAngleVert, 0), inv.IsHoldingItem ());
+				handTransform.position = handPos;
+				handTransform.rotation = Quaternion.Euler(lookAngleHoriz, lookAngleVert, 0);
+				handMoveScript.active = inv.IsHoldingItem ();
 			}
 
 

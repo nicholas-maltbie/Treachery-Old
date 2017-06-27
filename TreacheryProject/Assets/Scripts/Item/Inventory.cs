@@ -20,12 +20,12 @@ public class Inventory : NetworkBehaviour {
 				}
 			} else {			//holding an item
 				if (IsSpotEmpty (selected)) {
-					RpcRemoveHeldItem ();
+					CmdRemoveHeldItem ();
 				} else {		//Supposed to be holding an item
 					if (held.GetComponent<Item> ().itemName == items [selected]) {
 						//Do nothing, this is good
 					} else {
-						RpcRemoveHeldItem ();
+						CmdRemoveHeldItem ();
 						CmdHoldItem (items [selected]);
 					}
 				}
@@ -33,19 +33,30 @@ public class Inventory : NetworkBehaviour {
 		}
 	}
 
-	public void DropItem(int index)
+	[Command]
+	public void CmdRemoveHeldItem() {
+		RpcRemoveHeldItem ();
+	}
+
+	[Command]
+	public void CmdDropItem(int index)
 	{
-		items [index] = null;
+		GameObject spawned = ItemManager.SpawnItem (items [index]);
+		spawned.transform.position = held.transform.position;
+		spawned.transform.rotation = held.transform.rotation;
+		RpcRemoveHeldItem ();
+		RpcEmptyItemSlot (index);
 	}
 
 	[Command]
 	public void CmdHoldItem(string itemName) {
 		RpcRemoveHeldItem ();
-		RpcPutItemInHand (ItemManager.SpawnHeldItem (itemName));
+		RpcPutItemInHand (itemName);
 	}
 
 	[ClientRpc]
-	public void RpcPutItemInHand(GameObject item) {
+	public void RpcPutItemInHand(string itemName) {
+		GameObject item = ItemManager.SpawnHeldItem (itemName);
 		item.GetComponent<Item> ().DisablePhysics ();
 		item.transform.position = hand.position;
 		item.transform.rotation = hand.rotation;
@@ -61,17 +72,29 @@ public class Inventory : NetworkBehaviour {
 		}
 	}
 
-	[Command]
-	public void CmdPickupItem(GameObject item) {
+	[ServerCallback]
+	public void PickupItem(GameObject item) {
 		NetworkServer.Destroy (item);
 	}
 
+	[ServerCallback]
 	public void AttemptPickup(Item item) {
 		if (HasOpenSpace ()) {
+			RpcAddItemToHand (item.itemName, FirstOpenSpace ());
 			items [FirstOpenSpace ()] = item.itemName;
 			item.isHeld = true;
-			CmdPickupItem (item.gameObject);
+			PickupItem (item.gameObject);
 		}
+	}
+
+	[ClientRpc]
+	public void RpcAddItemToHand(string item, int space) {
+		items [space] = item;
+	}
+
+	[ClientRpc]
+	public void RpcEmptyItemSlot(int space) {
+		items [space] = "";
 	}
 
 	public bool IsSpotEmpty(int spot) {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class IKHandMove : MonoBehaviour {
 
 	public Transform handPos;
+	public bool active = true;
 	public bool ikActive = true;
 
 	public Inventory inv;
@@ -19,7 +20,7 @@ public class IKHandMove : MonoBehaviour {
 	{
 		if(GetComponent<Animator>()) {
 			//if the IK is active, set the position and rotation directly to the goal. 
-			if (ikActive && inv.IsHoldingItem ()) {
+			if (ikActive && active) {
 				//Set look weight (speed)
 				anim.SetIKPositionWeight (AvatarIKGoal.RightHand, 1);
 				anim.SetIKRotationWeight (AvatarIKGoal.RightHand, 1);

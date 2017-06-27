@@ -38,7 +38,9 @@ public class Actor : NetworkBehaviour {
 	/// </summary>
 	[Command]
 	public void CmdInteract(GameObject looking) {
-		looking.GetComponent<Interactable>().InteractWithObject (gameObject);
+		if (looking != null) {
+			looking.GetComponentInChildren<Interactable> ().InteractWithObject (gameObject);
+		}
 	}
 
 	/// <summary>
@@ -46,7 +48,7 @@ public class Actor : NetworkBehaviour {
 	/// </summary>
 	public void InteractWithObject() {
 		if (IsLooking () && canInteract) {
-			CmdInteract (interactable.gameObject);
+			CmdInteract (interactable.gameObject.GetComponentInParent<NetworkIdentity> ().gameObject);
 		}
 	}
 

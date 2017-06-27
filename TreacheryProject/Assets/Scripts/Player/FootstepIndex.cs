@@ -41,8 +41,10 @@ public class FootstepIndex : MonoBehaviour {
 				foreach(XmlNode clip in action.SelectNodes("Clip")) {
 					//Get and load audio clip
 					string fileName = clip.InnerText;
-					AudioClip loaded = clipIndex[fileName];
-					actionSounds.Add(loaded);
+					if (clipIndex.ContainsKey (fileName)) {
+						AudioClip loaded = clipIndex [fileName];
+						actionSounds.Add (loaded);
+					}
 				}
 				//Save loaded clips
 				matSounds.Add(actionName, actionSounds);
