@@ -43,6 +43,8 @@ public class PlayerMove : NetworkBehaviour {
 	//Can move body
 	public bool canTurnBody = true;
 
+	private Quaternion look = Quaternion.identity;
+
 	//Camera transform
 	public Transform cameraTransform;
 	//Hand transform
@@ -112,27 +114,25 @@ public class PlayerMove : NetworkBehaviour {
 	}
 
 	[Command]
-	public void CmdSetHandIK(Vector3 handPos, Quaternion handRot, bool active) {
-		RpcSetHandIK (handPos, handRot, active);
+	public void CmdSetLook(Quaternion look) {
+		RpcSetLook (look);
 	}
 
 	[ClientRpc]
-	public void RpcSetHandIK(Vector3 handPos, Quaternion handRot, bool active) {
-		if (!isLocalPlayer) {
-			handTransform.position = handPos;
-			handTransform.rotation = handRot;
-			handMoveScript.active = active;
-		}
+	public void RpcSetLook(Quaternion look) {
+		this.look = look;
 	}
 
 	[Command]
-	public void CmdSetHeadIK(Vector3 lookPos) {
-		RpcSetHeadIK (lookPos);
+	public void CmdSetHandIK(bool active) {
+		RpcSetHandIK (active);
 	}
 
 	[ClientRpc]
-	public void RpcSetHeadIK(Vector3 lookPos) {
-		headMoveScript.lookPos = lookPos;
+	public void RpcSetHandIK(bool active) {
+		if (!isLocalPlayer) {
+			handMoveScript.active = active;
+		}
 	}
 
 	// Update is called once per frame
@@ -154,16 +154,9 @@ public class PlayerMove : NetworkBehaviour {
 					lookAngleHoriz - bodyHoriz)) + bodyHoriz;
 
 				//Update position of the look transform based on new look angles
-				Vector3 lookPos = cameraTransform.position + Quaternion.Euler (lookAngleHoriz,
-					lookAngleVert, 0) * Vector3.forward * lookDist;
 
-				CmdSetHeadIK(lookPos);
-				Vector3 handPos = handPivotPos.position + Quaternion.Euler(lookAngleHoriz,
-					lookAngleVert, 0) * Vector3.forward * handDist;
-				CmdSetHandIK (handPos, Quaternion.Euler(lookAngleHoriz, lookAngleVert, 0), inv.IsHoldingItem ());
-				handTransform.position = handPos;
-				handTransform.rotation = Quaternion.Euler(lookAngleHoriz, lookAngleVert, 0);
-				handMoveScript.active = inv.IsHoldingItem ();
+				CmdSetLook (Quaternion.Euler (lookAngleHoriz, lookAngleVert, 0));
+				CmdSetHandIK (inv.IsHoldingItem ());
 			}
 
 
@@ -263,5 +256,11 @@ public class PlayerMove : NetworkBehaviour {
 
 			wasGrounded = grounded;
 		}
+		Vector3 lookPos = cameraTransform.position + look * Vector3.forward * lookDist;
+		Vector3 handPos = handPivotPos.position + look * Vector3.forward * handDist;
+		handTransform.position = handPos;
+		handTransform.rotation = look;
+		handMoveScript.active = inv.IsHoldingItem ();
+		headMoveScript.lookPos = lookPos;
 	}
 }

@@ -27,7 +27,8 @@ public class GraphicalInventory : NetworkBehaviour {
 					items += "*";
 				else
 					items += " ";
-				items += " " + inventory.items [index];
+				if (inventory.items [index] != null)
+					items += " " + inventory.items [index].GetComponent<Item>().itemName;
 				if (index < inventory.items.Length)
 					items += "\n";
 			}

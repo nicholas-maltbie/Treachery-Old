@@ -33,7 +33,7 @@ public class GamePlayer : NetworkBehaviour {
 			}
 
 			if (Input.GetButton ("Drop") && inventory.IsHoldingItem()) {
-				inventory.CmdDropItem (inventory.selected);
+				inventory.DropItem (inventory.selected);
 			}
 		}
 	}

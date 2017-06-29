@@ -29,7 +29,7 @@ public class ItemManager : NetworkBehaviour {
 		return null;
 	}
 	
-	public static GameObject SpawnHeldItem(string name) {
+	/*public static GameObject SpawnHeldItem(string name) {
 		if (indexedItems.ContainsKey (name)) {
 			GameObject prefab = indexedItems [name];
 			GameObject item = Instantiate (prefab);
@@ -43,5 +43,5 @@ public class ItemManager : NetworkBehaviour {
 			return item;
 		}
 		return null;
-	}
+	}*/
 }

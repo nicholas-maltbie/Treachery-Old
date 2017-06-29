@@ -6,9 +6,34 @@ using UnityEngine.Networking;
 public class Inventory : NetworkBehaviour {
 
 	public int selected;
-	public string[] items;
+	public GameObject[] items;
 	public GameObject held;
 	public Transform hand;
+
+	private GameObject inactiveItems;
+
+	void Start() {
+		inactiveItems = new GameObject ();
+		inactiveItems.transform.parent = gameObject.transform;
+		inactiveItems.SetActive (false);
+		inactiveItems.name = "InactiveItems";
+	}
+
+	public void DropItem(int index) {
+		if (!isServer) {
+			GameObject dropped = items [index];
+			dropped.transform.position = hand.transform.position;
+			dropped.transform.rotation = hand.transform.rotation;
+			dropped.transform.parent = null;
+			items [index] = null;
+			if (index == selected)
+				held = null;
+			dropped.GetComponent<Item> ().EnablePhysics ();
+			dropped.GetComponentInChildren<NetworkTransform> ().enabled = true;
+			dropped.GetComponent<Item> ().isHeld = false;
+		}
+		CmdDropItem (index);
+	}
 
 	public void Update() {
 		if (isLocalPlayer) {
@@ -20,12 +45,13 @@ public class Inventory : NetworkBehaviour {
 				}
 			} else {			//holding an item
 				if (IsSpotEmpty (selected)) {
-					CmdRemoveHeldItem ();
+					CmdHideItem (held);
+					held = null;
 				} else {		//Supposed to be holding an item
-					if (held.GetComponent<Item> ().itemName == items [selected]) {
+					if (held == items [selected]) {
 						//Do nothing, this is good
 					} else {
-						CmdRemoveHeldItem ();
+						CmdHideItem (held);
 						CmdHoldItem (items [selected]);
 					}
 				}
@@ -34,30 +60,34 @@ public class Inventory : NetworkBehaviour {
 	}
 
 	[Command]
-	public void CmdRemoveHeldItem() {
-		RpcRemoveHeldItem ();
-	}
-
-	[Command]
 	public void CmdDropItem(int index)
 	{
-		GameObject spawned = ItemManager.SpawnItem (items [index]);
-		spawned.transform.position = held.transform.position;
-		spawned.transform.rotation = held.transform.rotation;
-		RpcRemoveHeldItem ();
-		RpcEmptyItemSlot (index);
+		GameObject dropped = items [index];
+		if (dropped != null) {
+			items [index] = null;
+			if (index == selected) {
+				held = null;
+			}
+			dropped.transform.position = hand.transform.position;
+			dropped.transform.rotation = hand.transform.rotation;
+			dropped.transform.parent = null;
+			RpcDropItem (index, dropped);
+			dropped.GetComponent<Item> ().EnablePhysics ();
+			dropped.GetComponentInChildren<NetworkTransform> ().enabled = true;
+			dropped.GetComponent<Item> ().isHeld = false;
+		}
 	}
 
 	[Command]
-	public void CmdHoldItem(string itemName) {
-		RpcRemoveHeldItem ();
-		RpcPutItemInHand (itemName);
+	public void CmdHoldItem(GameObject item) {
+		CmdHideItem (held);
+		RpcPutItemInHand (item);
 	}
 
 	[ClientRpc]
-	public void RpcPutItemInHand(string itemName) {
-		GameObject item = ItemManager.SpawnHeldItem (itemName);
+	public void RpcPutItemInHand(GameObject item) {
 		item.GetComponent<Item> ().DisablePhysics ();
+		item.GetComponentInChildren<NetworkTransform> ().enabled = false;
 		item.transform.position = hand.position;
 		item.transform.rotation = hand.rotation;
 		item.transform.parent = hand;
@@ -65,40 +95,52 @@ public class Inventory : NetworkBehaviour {
 	}
 
 	[ClientRpc]
-	public void RpcRemoveHeldItem() {
-		if (held != null) {
-			Destroy (held);
-			held = null;
+	public void RpcDropItem (int index, GameObject dropped) {
+		dropped.transform.parent = null;
+		items [index] = null;
+	}
+
+	[Command]
+	public void CmdHideItem(GameObject item) {
+		RpcHideItem (item);
+	}
+
+	[ClientRpc]
+	public void RpcHideItem(GameObject item) {
+		if (item != null) {
+			item.transform.parent = inactiveItems.transform;
+			item = null;
 		}
 	}
 
 	[ServerCallback]
 	public void PickupItem(GameObject item) {
-		NetworkServer.Destroy (item);
+		RpcHideItem (item);
 	}
 
 	[ServerCallback]
 	public void AttemptPickup(Item item) {
 		if (HasOpenSpace ()) {
-			RpcAddItemToHand (item.itemName, FirstOpenSpace ());
-			items [FirstOpenSpace ()] = item.itemName;
+			int space = FirstOpenSpace ();
+			items [space] = item.gameObject;
+			RpcAddItemToHand (item.gameObject, space);
 			item.isHeld = true;
 			PickupItem (item.gameObject);
 		}
 	}
 
 	[ClientRpc]
-	public void RpcAddItemToHand(string item, int space) {
+	public void RpcAddItemToHand(GameObject item, int space) {
 		items [space] = item;
 	}
 
 	[ClientRpc]
 	public void RpcEmptyItemSlot(int space) {
-		items [space] = "";
+		items [space] = null;
 	}
 
 	public bool IsSpotEmpty(int spot) {
-		return items [spot] == null || items [spot] == "";
+		return items [spot] == null;
 	}
 
 	public int FirstOpenSpace() {
