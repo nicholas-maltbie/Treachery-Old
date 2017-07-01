@@ -24,8 +24,7 @@ public class Door : NetworkBehaviour {
 	public void Close() {
 		RpcUpdateInteractState (true);
 	}
-
-	// Update is called once per frame
+	
 	void Interact (GameObject actor) {
 		doorAnimator.SetBool ("open", !doorAnimator.GetBool ("open"));
 		RpcUpdateInteractState (false);
