@@ -5,6 +5,8 @@ using UnityEngine.Networking;
 
 public class Damageable : NetworkBehaviour {
 
+	public GameObject colliderBase;
+
 	[SyncVar]
 	public float maxHealth = 80, maxSanity = 80,
 					health, sanity;
@@ -13,6 +15,10 @@ public class Damageable : NetworkBehaviour {
 	void Start () {
 		health = maxHealth;
 		sanity = maxSanity;
+		foreach (Collider col in colliderBase.GetComponentsInChildren<Collider>()) {
+			DamageCollider damageThingy = col.gameObject.AddComponent<DamageCollider> ();
+			damageThingy.damageable = this;
+		}
 	}
 
 	[ServerCallback]

@@ -59,7 +59,7 @@ public class Actor : NetworkBehaviour {
 		//Check with a sphere cast on the if the player si loking at something interactable
 		RaycastHit hit;
 		if (canInteract && Physics.SphereCast(actorCamera.position, .1f, 
-			actorCamera.forward, out hit, Mathf.Infinity) && 
+			actorCamera.forward, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore) && 
 			hit.collider.gameObject.GetComponent<Interactable>() != null && 
 			Mathf.Min(viewDistance, hit.distance) <= hit.collider.gameObject.GetComponent<Interactable>().useDistance)
 		{
