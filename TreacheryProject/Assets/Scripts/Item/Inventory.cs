@@ -28,8 +28,6 @@ public class Inventory : NetworkBehaviour {
 			items [index] = null;
 			if (index == selected)
 				held = null;
-			dropped.GetComponent<Item> ().EnablePhysics ();
-			dropped.GetComponentInChildren<NetworkTransform> ().enabled = true;
 			dropped.GetComponent<Item> ().isHeld = false;
 		}
 		CmdDropItem (index);
@@ -87,7 +85,6 @@ public class Inventory : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcPutItemInHand(GameObject item) {
 		item.GetComponent<Item> ().DisablePhysics ();
-		item.GetComponentInChildren<NetworkTransform> ().enabled = false;
 		item.transform.position = hand.position;
 		item.transform.rotation = hand.rotation;
 		item.transform.parent = hand;
@@ -97,6 +94,8 @@ public class Inventory : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcDropItem (int index, GameObject dropped) {
 		dropped.transform.parent = null;
+		dropped.GetComponent<Item> ().EnablePhysics ();
+		dropped.GetComponentInChildren<NetworkTransform> ().enabled = true;
 		items [index] = null;
 	}
 

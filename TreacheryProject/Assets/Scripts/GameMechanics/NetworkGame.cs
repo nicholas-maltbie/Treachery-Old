@@ -40,7 +40,6 @@ public class NetworkGame : NetworkManager {
 	void Start () {
 		if (!Network.isServer) {
 			for (int i = 0; i < itemPrefabs.Length; i++) {
-				print (itemPrefabs [i]);
 				ClientScene.RegisterPrefab (itemPrefabs [i]);
 			}
 			for (int i = 0; i < playerPrefabs.Length; i++) {

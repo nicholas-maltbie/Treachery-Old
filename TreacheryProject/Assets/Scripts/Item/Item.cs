@@ -29,14 +29,18 @@ public class Item : NetworkBehaviour {
 
 	public void DisablePhysics()
 	{
-		if(GetComponent<Rigidbody> () != null)
+		if (GetComponent<Rigidbody> () != null) {
 			Destroy (GetComponent<Rigidbody> ());
+			Destroy (GetComponent<NetworkTransform> ());
+		}
 	}
 	
 	public void EnablePhysics()
 	{
 		gameObject.AddComponent<Rigidbody> ();
 		Rigidbody rigidbody = GetComponent<Rigidbody> ();
+		gameObject.AddComponent<NetworkTransform> ();
+		gameObject.GetComponent<NetworkTransform> ().transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
 		rigidbody.mass = mass;
 		rigidbody.drag = drag;
 		rigidbody.angularDrag = angularDrag;
