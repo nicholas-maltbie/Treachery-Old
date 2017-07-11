@@ -70,8 +70,6 @@ public class Inventory : NetworkBehaviour {
 			dropped.transform.rotation = hand.transform.rotation;
 			dropped.transform.parent = null;
 			RpcDropItem (index, dropped);
-			dropped.GetComponent<Item> ().EnablePhysics ();
-			dropped.GetComponentInChildren<NetworkTransform> ().enabled = true;
 			dropped.GetComponent<Item> ().isHeld = false;
 		}
 	}
@@ -95,7 +93,6 @@ public class Inventory : NetworkBehaviour {
 	public void RpcDropItem (int index, GameObject dropped) {
 		dropped.transform.parent = null;
 		dropped.GetComponent<Item> ().EnablePhysics ();
-		dropped.GetComponentInChildren<NetworkTransform> ().enabled = true;
 		items [index] = null;
 	}
 

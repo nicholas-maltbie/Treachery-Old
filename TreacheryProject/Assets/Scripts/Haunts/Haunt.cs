@@ -50,7 +50,7 @@ public abstract class Haunt : NetworkBehaviour {
 	/// <summary>
 	/// The name of the haunt, by default  it is an empty string.
 	/// </summary>
-	public string name = "";
+	public string hauntName = "";
 
 	/// <summary>
 	/// Determines whether this instance can start haunt. This is determined by the haunt checking
@@ -69,49 +69,48 @@ public abstract class Haunt : NetworkBehaviour {
 	/// </summary>
 	/// <returns>The tratior.</returns>
 	/// <param name="players">Players.</param>
-	//abstract public Player SelectTratior (Player[] players);
+	abstract public GamePlayer SelectTratior (GamePlayer[] players);
 
 	// Use this for initialization
 	void Start () {
-
 		if (isServer) {
 			//Debug.Log ("Starting haunt");
-			/*Player[] players = NetworkGame.GetPlayers ();
+			GamePlayer[] players = NetworkGame.GetPlayers ();
 			switch (type) {
 			case HauntType.Tratior:
 				for (int i = 0; i < players.Length; i++) {
-					players [i].SetPlayerType (Player.PlayerType.Hero);
+					players [i].RpcSetPlayerState (GamePlayer.PlayerType.HERO);
 				}
-				SelectTratior (players).SetPlayerType (Player.PlayerType.Tratior);
+				SelectTratior (players).RpcSetPlayerState(GamePlayer.PlayerType.TRAITOR);
 				break;
 			case HauntType.Cooperative:
 				for (int i = 0; i < players.Length; i++) {
-					players [i].SetPlayerType (Player.PlayerType.Hero);
+					players [i].RpcSetPlayerState (GamePlayer.PlayerType.HERO);
 				}
 				break;
 			case HauntType.HiddenTratior:
 				for (int i = 0; i < players.Length; i++) {
-					players [i].SetPlayerType (Player.PlayerType.Hero);
+					players [i].RpcSetPlayerState (GamePlayer.PlayerType.HERO);
 				}
-				SelectTratior (players).SetPlayerType (Player.PlayerType.Tratior);
+				SelectTratior (players).RpcSetPlayerState (GamePlayer.PlayerType.TRAITOR);
 				break;
 			case HauntType.FreeForAll:
 				for (int i = 0; i < players.Length; i++) {
-					players [i].SetPlayerType (Player.PlayerType.Madman);
+					players [i].RpcSetPlayerState (GamePlayer.PlayerType.MADMAN);
 				}			
 				break;
 			case HauntType.Mixed:
 				for (int i = 0; i < players.Length; i++) {
-					players [i].SetPlayerType (Player.PlayerType.Hero);
+					players [i].RpcSetPlayerState (GamePlayer.PlayerType.HERO);
 				}
 				break;
-			}*/
+			}
 			HauntStarted ();
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 }
