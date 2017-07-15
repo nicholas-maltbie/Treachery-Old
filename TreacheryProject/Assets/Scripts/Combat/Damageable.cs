@@ -23,11 +23,13 @@ public class Damageable : NetworkBehaviour {
 
 	[ServerCallback]
 	public void DamageHealth(int amount) {
+		SendMessage ("OnDamageHealth", amount);
 		health -= amount;
 	}
 
 	[ServerCallback]
 	public void DamageSanity(int amount) {
+		SendMessage ("OnDamageSanity", amount);
 		sanity -= amount;
 	}
 

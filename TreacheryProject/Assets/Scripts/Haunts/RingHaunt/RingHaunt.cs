@@ -37,5 +37,5 @@ public class RingHaunt : Haunt {
 	/// <param name="players">Players.</param>
 	public override GamePlayer SelectTratior (GamePlayer[] players) {
 		return chosenOne;
-	}
+	}	
 }

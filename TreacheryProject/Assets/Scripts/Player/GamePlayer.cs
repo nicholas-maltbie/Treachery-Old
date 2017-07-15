@@ -19,6 +19,8 @@ public class GamePlayer : NetworkBehaviour {
 		public bool canSwitchItems;
 		public bool canUseItems;
 		public bool canBeInterrupted;
+		public bool canMelee;
+		public string actionMessage;
 		public GameObject controller;
 
 		public Action(string name, GameObject controller, bool canBeInterrupted) {
@@ -34,21 +36,30 @@ public class GamePlayer : NetworkBehaviour {
 			canSwitchItems = true;
 			canUseItems = true;
 			canBeInterrupted = true;
+			canMelee = false;
+			actionMessage = "Acting";
 		}
 	}
 
 	public PlayerType playerState = PlayerType.EXPLORER;
+	public string cooldownMessage;
+	public PlayerAttack attacker;
 	private Actor playerActor;
 	private PlayerMove playerMove;
 	private Inventory inventory;
-	public bool canSwitch = true, canDrop = true, canUse = true;
+	public bool canSwitch = true, canDrop = true, canUse = true, canMelee = true;
 	public float cooldownRemain;
+	public float cooldownMax;
 	
 	private ActionState state = ActionState.FREE;
-	private Action action;
+	public Action action;
 	private bool prevHeld;
 
 	private Haunt display;
+
+	public ActionState GetActionState() {
+		return state;
+	}
 
 	void Start() {
 		playerActor = GetComponent<Actor> ();
@@ -64,7 +75,7 @@ public class GamePlayer : NetworkBehaviour {
 	[ServerCallback]
 	public bool InterruptAction(Action action) {
 		if (action.canBeInterrupted) {
-			action.controller.SendMessage ("Interrupt");
+			action.controller.SendMessage ("Interrupt", action.name);
 			return true;
 		}
 		return false;
@@ -78,10 +89,10 @@ public class GamePlayer : NetworkBehaviour {
 	}
 
 	[ServerCallback]
-	public void EndAction(float cooldown) {
+	public void EndAction(float cooldown, string message) {
 		this.state = ActionState.COOLDOWN;
 		this.cooldownRemain = cooldown;
-		RpcEndAction(cooldown);
+		RpcEndAction(cooldown, message);
 	}
 
 	[ClientRpc]
@@ -91,9 +102,11 @@ public class GamePlayer : NetworkBehaviour {
 	}
 
 	[ClientRpc]
-	public void RpcEndAction(float cooldown) {
+	public void RpcEndAction(float cooldown, string message) {
 		this.state = ActionState.COOLDOWN;
 		this.cooldownRemain = cooldown;
+		this.cooldownMax = cooldown;
+		this.cooldownMessage = message;
 	}
 
 	public void DisplayHauntInfo(Haunt haunt) {
@@ -133,12 +146,47 @@ public class GamePlayer : NetworkBehaviour {
 				    "Ready"))
 				CmdHauntReady ();
 		}
+
+		if (state == ActionState.COOLDOWN) {
+			float percent = cooldownRemain / cooldownMax;
+			if (percent <= .10f)
+				percent = .10f;
+			float heightMod = 2.9f;
+			Vector2 textSize = GUI.skin.label.CalcSize (new GUIContent (cooldownMessage));
+			float width = textSize.x;
+			float height = textSize.y;
+			Color oldColor = Color.white;
+			GUI.color = Color.green;
+			GUI.Box (new Rect (Screen.width / 2 - width * 0.55f, Screen.height - height * 2f,
+				width * 1.1f * percent, height * 1f), "");
+			GUI.color = Color.white;
+			GUI.contentColor = Color.white;
+			GUI.Label (new Rect (Screen.width / 2 - width / 2, Screen.height - height * 2,
+				width, height), cooldownMessage);
+		} else if (state == ActionState.ACTING) {
+			float percent = 1;
+			if (percent <= .10f)
+				percent = .10f;
+			float heightMod = 2.9f;
+			Vector2 textSize = GUI.skin.label.CalcSize (new GUIContent (action.actionMessage));
+			float width = textSize.x;
+			float height = textSize.y;
+			Color oldColor = Color.white;
+			GUI.color = Color.green;
+			GUI.Box (new Rect (Screen.width / 2 - width * 0.55f, Screen.height - height * 2f,
+				width * 1.1f * percent, height * 1f), "");
+			GUI.color = Color.white;
+			GUI.contentColor = Color.white;
+			GUI.Label (new Rect (Screen.width / 2 - width / 2, Screen.height - height * 2,
+				width, height), action.actionMessage);
+		}
 	}
 
 	void Update() {
 		if (state == ActionState.PAUSED) {
 			canUse = false;
 			canDrop = false;
+			canMelee = false;
 			canSwitch = false;
 			playerActor.canInteract = false;
 			playerMove.canJump = false;
@@ -148,6 +196,7 @@ public class GamePlayer : NetworkBehaviour {
 		} else if (state == ActionState.FREE) {
 			canUse = true;
 			canDrop = true;
+			canMelee = true;
 			canSwitch = true;
 			playerActor.canInteract = true;
 			playerMove.canJump = true;
@@ -157,6 +206,7 @@ public class GamePlayer : NetworkBehaviour {
 		} else if (state == ActionState.ACTING) {
 			canUse = action.canUseItems;
 			canDrop = action.canDrop;
+			canMelee = false;
 			canSwitch = action.canSwitchItems;
 			playerActor.canInteract = action.canInteract;
 			playerMove.canJump = action.canJump;
@@ -169,6 +219,7 @@ public class GamePlayer : NetworkBehaviour {
 				state = ActionState.FREE;
 				canUse = true;
 				canDrop = true;
+				canMelee = true;
 				canSwitch = true;
 				playerActor.canInteract = true;
 				playerMove.canJump = true;
@@ -178,6 +229,7 @@ public class GamePlayer : NetworkBehaviour {
 			} else {
 				canUse = false;
 				canDrop = true;
+				canMelee = false;
 				canSwitch = true;
 				playerActor.canInteract = false;
 				playerMove.canJump = true;
@@ -196,6 +248,9 @@ public class GamePlayer : NetworkBehaviour {
 			}
 			if (canUse && Input.GetButton ("Use") && inventory.IsHoldingItem () && !prevHeld) {
 				CmdUse ();
+			}
+			if (canMelee && Input.GetButton ("Melee")) {
+				attacker.CmdAttemptMeleeAttack ();
 			}
 			if (canSwitch) {
 				if (Input.GetAxis ("Mouse ScrollWheel") < 0) {
