@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class TargetDummy : MonoBehaviour {
+public class TargetDummy : NetworkBehaviour {
 
 	private float shakeTime = 2f;
 	private float shakeElapsed = 0f;
@@ -20,11 +21,11 @@ public class TargetDummy : MonoBehaviour {
 	}
 
 	void Update() {
-		if (GetComponent<Animator> ().GetBool ("Shake")) {
+		if (isServer && GetComponent<Animator> ().GetBool ("Shake")) {
 			shakeElapsed += Time.deltaTime;
 			if (shakeElapsed >= shakeTime) {
 				shakeElapsed = 0;
-				GetComponent<Animator>().SetBool("Shake", false);
+				GetComponent<Animator> ().SetBool ("Shake", false);
 			}
 		}
 	}

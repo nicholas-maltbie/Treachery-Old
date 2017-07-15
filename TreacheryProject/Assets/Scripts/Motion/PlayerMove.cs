@@ -21,7 +21,7 @@ public class PlayerMove : NetworkBehaviour {
 	/// <summary>
 	/// Distance between a hand and player.
 	/// </summary>
-	private float handDist = 0.25f;
+	public float handDist = 0.1f;
 	/// <summary>
 	/// Speed at which the player moves
 	/// </summary>
@@ -170,7 +170,7 @@ public class PlayerMove : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcSetHandIK(bool active) {
 		if (!isLocalPlayer) {
-			handMoveScript.active = active;
+			handMoveScript.ikActive = active;
 		}
 	}
 
@@ -195,7 +195,7 @@ public class PlayerMove : NetworkBehaviour {
 				//Update position of the look transform based on new look angles
 
 				CmdSetLook (Quaternion.Euler (lookAngleHoriz, lookAngleVert, 0));
-				CmdSetHandIK (inv.IsHoldingItem ());
+				CmdSetHandIK (inv.IsHoldingItem () || GetComponent<PlayerAttack>().meleeAttack);
 			}
 
 
@@ -299,7 +299,7 @@ public class PlayerMove : NetworkBehaviour {
 		Vector3 handPos = handPivotPos.position + look * Vector3.forward * handDist;
 		handTransform.position = handPos;
 		handTransform.rotation = look;
-		handMoveScript.active = inv.IsHoldingItem ();
+		handMoveScript.ikActive = inv.IsHoldingItem () || GetComponent<PlayerAttack>().meleeAttack;
 		headMoveScript.lookPos = lookPos;
 	}
 }

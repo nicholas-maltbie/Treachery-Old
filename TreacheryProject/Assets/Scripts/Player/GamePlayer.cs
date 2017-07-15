@@ -134,51 +134,53 @@ public class GamePlayer : NetworkBehaviour {
 	}
 
 	void OnGUI() {
-		if (display != null) {
-			Cursor.lockState = CursorLockMode.None;
-			Cursor.visible = true;
-			GUI.Label (new Rect (Screen.width / 2 - Screen.width / 4, 
-				Screen.height / 2 - Screen.height / 4, 
-				Screen.width / 2, Screen.height / 4), 
-				display.hauntName);
-			if (GUI.Button (new Rect (Screen.width / 2 - Screen.width / 8, 
-				    Screen.height / 2, Screen.width / 4, Screen.height / 8), 
-				    "Ready"))
-				CmdHauntReady ();
-		}
+		if (isLocalPlayer) {
+			if (display != null) {
+				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible = true;
+				GUI.Label (new Rect (Screen.width / 2 - Screen.width / 4, 
+					Screen.height / 2 - Screen.height / 4, 
+					Screen.width / 2, Screen.height / 4), 
+					display.hauntName);
+				if (GUI.Button (new Rect (Screen.width / 2 - Screen.width / 8, 
+					   Screen.height / 2, Screen.width / 4, Screen.height / 8), 
+					   "Ready"))
+					CmdHauntReady ();
+			}
 
-		if (state == ActionState.COOLDOWN) {
-			float percent = cooldownRemain / cooldownMax;
-			if (percent <= .10f)
-				percent = .10f;
-			float heightMod = 2.9f;
-			Vector2 textSize = GUI.skin.label.CalcSize (new GUIContent (cooldownMessage));
-			float width = textSize.x;
-			float height = textSize.y;
-			Color oldColor = Color.white;
-			GUI.color = Color.green;
-			GUI.Box (new Rect (Screen.width / 2 - width * 0.55f, Screen.height - height * 2f,
-				width * 1.1f * percent, height * 1f), "");
-			GUI.color = Color.white;
-			GUI.contentColor = Color.white;
-			GUI.Label (new Rect (Screen.width / 2 - width / 2, Screen.height - height * 2,
-				width, height), cooldownMessage);
-		} else if (state == ActionState.ACTING) {
-			float percent = 1;
-			if (percent <= .10f)
-				percent = .10f;
-			float heightMod = 2.9f;
-			Vector2 textSize = GUI.skin.label.CalcSize (new GUIContent (action.actionMessage));
-			float width = textSize.x;
-			float height = textSize.y;
-			Color oldColor = Color.white;
-			GUI.color = Color.green;
-			GUI.Box (new Rect (Screen.width / 2 - width * 0.55f, Screen.height - height * 2f,
-				width * 1.1f * percent, height * 1f), "");
-			GUI.color = Color.white;
-			GUI.contentColor = Color.white;
-			GUI.Label (new Rect (Screen.width / 2 - width / 2, Screen.height - height * 2,
-				width, height), action.actionMessage);
+			if (state == ActionState.COOLDOWN) {
+				float percent = cooldownRemain / cooldownMax;
+				if (percent <= .10f)
+					percent = .10f;
+				float heightMod = 2.9f;
+				Vector2 textSize = GUI.skin.label.CalcSize (new GUIContent (cooldownMessage));
+				float width = textSize.x;
+				float height = textSize.y;
+				Color oldColor = Color.white;
+				GUI.color = Color.green;
+				GUI.Box (new Rect (Screen.width / 2 - width * 0.55f, Screen.height - height * 2f,
+					width * 1.1f * percent, height * 1f), "");
+				GUI.color = Color.white;
+				GUI.contentColor = Color.white;
+				GUI.Label (new Rect (Screen.width / 2 - width / 2, Screen.height - height * 2,
+					width, height), cooldownMessage);
+			} else if (state == ActionState.ACTING) {
+				float percent = 1;
+				if (percent <= .10f)
+					percent = .10f;
+				float heightMod = 2.9f;
+				Vector2 textSize = GUI.skin.label.CalcSize (new GUIContent (action.actionMessage));
+				float width = textSize.x;
+				float height = textSize.y;
+				Color oldColor = Color.white;
+				GUI.color = Color.green;
+				GUI.Box (new Rect (Screen.width / 2 - width * 0.55f, Screen.height - height * 2f,
+					width * 1.1f * percent, height * 1f), "");
+				GUI.color = Color.white;
+				GUI.contentColor = Color.white;
+				GUI.Label (new Rect (Screen.width / 2 - width / 2, Screen.height - height * 2,
+					width, height), action.actionMessage);
+			}
 		}
 	}
 

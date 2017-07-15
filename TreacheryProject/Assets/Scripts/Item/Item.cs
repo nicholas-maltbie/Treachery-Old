@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 public class Item : NetworkBehaviour {
 	
 	public string itemName;
+	public Transform holdPos;
 	public float mass = 1, drag = 0, angularDrag = 0.05f;
 	public bool useGravity = true, isHeld;
 

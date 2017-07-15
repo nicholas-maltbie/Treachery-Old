@@ -8,11 +8,20 @@ public class PlayerAttack : NetworkBehaviour {
 
 	public GamePlayer player;
 	public Damageable self;
+	public IKHandMove handMover;
+	public PlayerMove playerMove;
+
+	private float baseHandDist;
+	public bool meleeAttack;
 
 	private Damageable lastHit;
 
 	public Transform playerCamera;
 
+	private float meleeAttackAnim = 0.35f;
+	private float meleeAttackElapsed = 0f;
+
+	private float meleeAttackReach = 0.5f;
 	public float meleeAttackTime = 0.5f;
 	public float meleeAttackCooldown = 1.5f;
 	public float meleeAttackRange = 2f;
@@ -56,6 +65,13 @@ public class PlayerAttack : NetworkBehaviour {
 		}
 	}
 
+	[ClientRpc]
+	public void RpcMeleeAttacMotion() {
+		handMover.ikActive = true;
+		meleeAttack = true;
+		meleeAttackElapsed = 0;
+	}
+
 	[Command]
 	public void CmdAttemptMeleeAttack() {
 		if (player.GetActionState() == GamePlayer.ActionState.FREE) {
@@ -64,6 +80,7 @@ public class PlayerAttack : NetworkBehaviour {
 			StartAttack ("Melee Attack");
 
 			Damageable target = GetLooking (meleeAttackRange);
+			RpcMeleeAttacMotion ();
 			if (target != null) {
 				target.DamageHealth (meleeDamage);
 				lastHit = target;
@@ -92,6 +109,10 @@ public class PlayerAttack : NetworkBehaviour {
 		return null;
 	}
 
+	void Start() {
+		baseHandDist = playerMove.handDist;
+	}
+
 	void Update() {
 		if (isServer) {
 			if (isAttacking) {
@@ -107,6 +128,17 @@ public class PlayerAttack : NetworkBehaviour {
 				}
 			} else {
 				attackTime = 0;
+			}
+		}
+		if (meleeAttack) {
+			meleeAttackElapsed += Time.deltaTime;
+			handMover.ikActive = true;
+			playerMove.handDist = meleeAttackReach * Mathf.Sin (Mathf.PI * (meleeAttackElapsed / meleeAttackAnim));
+			if (meleeAttackElapsed >= meleeAttackAnim) {
+				playerMove.handDist = baseHandDist;
+				handMover.ikActive = GetComponent<Inventory>().IsHoldingItem();
+				meleeAttack = false;
+				meleeAttackElapsed = 0;
 			}
 		}
 	}
