@@ -10,13 +10,18 @@ public class TargetDummy : NetworkBehaviour {
 
 	void OnDamageHealth(int amount) {
 		if (shakeElapsed == 0) {
-			GetComponent<Animator> ().SetBool ("Shake", true);
+			RpcSetShakeState(true);
 		}
+	}
+
+	[ClientRpc]
+	public void RpcSetShakeState(bool state) {
+		GetComponent<Animator> ().SetBool ("Shake", state);
 	}
 
 	void OnDamageSanity(int amount) {
 		if (shakeElapsed == 0) {
-			GetComponent<Animator> ().SetBool ("Shake", true);
+			RpcSetShakeState(true);
 		}
 	}
 
@@ -25,7 +30,7 @@ public class TargetDummy : NetworkBehaviour {
 			shakeElapsed += Time.deltaTime;
 			if (shakeElapsed >= shakeTime) {
 				shakeElapsed = 0;
-				GetComponent<Animator> ().SetBool ("Shake", false);
+				RpcSetShakeState(false);
 			}
 		}
 	}
