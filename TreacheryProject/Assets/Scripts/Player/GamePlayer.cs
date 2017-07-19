@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 [RequireComponent(typeof (PlayerMove))]
 [RequireComponent(typeof(Inventory))]
 public class GamePlayer : NetworkBehaviour {
-	public enum ActionState {FREE, ACTING, COOLDOWN, PAUSED};
+	public enum ActionState {FREE, ACTING, COOLDOWN, PAUSED, DEAD};
 	public enum PlayerType {EXPLORER, TRAITOR, HERO, MADMAN};
 	public struct Action
 	{
@@ -52,6 +52,7 @@ public class GamePlayer : NetworkBehaviour {
 	public float cooldownMax;
 	
 	private ActionState state = ActionState.FREE;
+	private ActionState prevState = ActionState.FREE;
 	public Action action;
 	private bool prevHeld;
 
@@ -215,6 +216,16 @@ public class GamePlayer : NetworkBehaviour {
 			playerMove.canMove = action.canMove;
 			playerMove.canMoveHead = action.canCameraTurn;
 			playerMove.canTurnBody = action.canTurnBody;
+		} else if (state == ActionState.DEAD) {
+			canUse = false;
+			canDrop = false;
+			canMelee = false;
+			canSwitch = false;
+			playerActor.canInteract = false;
+			playerMove.canJump = false;
+			playerMove.canMove = false;
+			playerMove.canMoveHead = false;
+			playerMove.canTurnBody = false;
 		} else if (state == ActionState.COOLDOWN) {
 			cooldownRemain -= Time.deltaTime;
 			if (cooldownRemain <= 0) {
@@ -240,6 +251,14 @@ public class GamePlayer : NetworkBehaviour {
 				playerMove.canTurnBody = true;
 			}
 		}
+
+		if (state == ActionState.DEAD && prevState != ActionState.DEAD) {
+			for (int i = 0; i < inventory.items.Length; i++) {
+				inventory.DropItem(i);
+			}
+		}
+
+		prevState = state;
 
 		if (isLocalPlayer) {
 			if (Input.GetButton ("Interact")) {

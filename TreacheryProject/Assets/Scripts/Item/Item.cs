@@ -6,8 +6,8 @@ public class Item : NetworkBehaviour {
 	
 	public string itemName;
 	public Transform holdPos;
-	public float mass = 1, drag = 0, angularDrag = 0.05f;
-	public bool useGravity = true, isHeld;
+	[SyncVar]
+	public bool isHeld;
 
 	[ServerCallback]
 	public void ServerUse(GameObject holder) {
@@ -31,20 +31,16 @@ public class Item : NetworkBehaviour {
 	public void DisablePhysics()
 	{
 		if (GetComponent<Rigidbody> () != null) {
-			Destroy (GetComponent<Rigidbody> ());
-			Destroy (GetComponent<NetworkTransform> ());
+			GetComponent<Rigidbody> ().useGravity = false;
+			GetComponent<Rigidbody> ().detectCollisions = false;
+			GetComponent<NetworkTransform> ().transformSyncMode = NetworkTransform.TransformSyncMode.SyncNone;
 		}
 	}
-	
+
 	public void EnablePhysics()
 	{
-		gameObject.AddComponent<Rigidbody> ();
-		Rigidbody rigidbody = GetComponent<Rigidbody> ();
-		gameObject.AddComponent<NetworkTransform> ();
+		GetComponent<Rigidbody> ().useGravity = true;
+		GetComponent<Rigidbody> ().detectCollisions = true;
 		gameObject.GetComponent<NetworkTransform> ().transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
-		rigidbody.mass = mass;
-		rigidbody.drag = drag;
-		rigidbody.angularDrag = angularDrag;
-		rigidbody.useGravity = useGravity;
 	}
 }

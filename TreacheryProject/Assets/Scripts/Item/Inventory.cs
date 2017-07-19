@@ -5,8 +5,10 @@ using UnityEngine.Networking;
 
 public class Inventory : NetworkBehaviour {
 
+	[SyncVar]
 	public int selected;
 	public GameObject[] items;
+	[SyncVar]
 	public GameObject held;
 	public Transform hand;
 
@@ -82,18 +84,22 @@ public class Inventory : NetworkBehaviour {
 
 	[ClientRpc]
 	public void RpcPutItemInHand(GameObject item) {
-		item.GetComponent<Item> ().DisablePhysics ();
-		item.transform.position = hand.position;
-		item.transform.rotation = hand.rotation;
-		item.transform.parent = hand;
-		held = item;
+		if (item != null && item.GetComponent<Item> () != null) {
+			item.GetComponent<Item> ().DisablePhysics ();
+			item.transform.position = hand.position;
+			item.transform.rotation = hand.rotation;
+			item.transform.parent = hand;
+			held = item;
+		}
 	}
 
 	[ClientRpc]
 	public void RpcDropItem (int index, GameObject dropped) {
-		dropped.transform.parent = null;
-		dropped.GetComponent<Item> ().EnablePhysics ();
-		items [index] = null;
+		if (dropped != null) {
+			dropped.transform.parent = null;
+			dropped.GetComponent<Item> ().EnablePhysics ();
+			items [index] = null;
+		}
 	}
 
 	[Command]
