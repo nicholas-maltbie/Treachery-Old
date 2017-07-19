@@ -102,7 +102,7 @@ public class PlayerAttack : NetworkBehaviour {
 			   Physics.DefaultRaycastLayers, 
 			   QueryTriggerInteraction.Collide)) {
 			DamageCollider col = hit.collider.gameObject.GetComponentInChildren<DamageCollider> ();
-			if (col != null && col.damageable != self) {
+			if (col != null && col.damageable != self && col.damageable.canBeAttacked) {
 				return col.damageable;
 			}
 		}

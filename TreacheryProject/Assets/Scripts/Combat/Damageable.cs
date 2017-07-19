@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 public class Damageable : NetworkBehaviour {
 
 	public GameObject colliderBase;
+	public bool canBeAttacked = true;
 
 	[SyncVar]
 	public float maxHealth = 80, maxSanity = 80,
@@ -23,14 +24,23 @@ public class Damageable : NetworkBehaviour {
 
 	[ServerCallback]
 	public void DamageHealth(int amount) {
-		SendMessage ("OnDamageHealth", amount);
-		health -= amount;
+		if (canBeAttacked) {
+			SendMessage ("OnDamageHealth", amount);
+			health -= amount;
+		}
+	}
+
+	[ServerCallback]
+	public void SetHealth(int value) {
+		health = value;
 	}
 
 	[ServerCallback]
 	public void DamageSanity(int amount) {
-		SendMessage ("OnDamageSanity", amount);
-		sanity -= amount;
+		if (canBeAttacked) {
+			SendMessage ("OnDamageSanity", amount);
+			sanity -= amount;
+		}
 	}
 
 	[ServerCallback]
