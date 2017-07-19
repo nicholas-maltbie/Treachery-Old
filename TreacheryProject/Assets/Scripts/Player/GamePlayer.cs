@@ -144,16 +144,25 @@ public class GamePlayer : NetworkBehaviour {
 	void OnGUI() {
 		if (isLocalPlayer) {
 			if (display != null) {
-				Cursor.lockState = CursorLockMode.None;
-				Cursor.visible = true;
-				GUI.Label (new Rect (Screen.width / 2 - Screen.width / 4, 
-					Screen.height / 2 - Screen.height / 4, 
-					Screen.width / 2, Screen.height / 4), 
-					display.hauntName);
-				if (GUI.Button (new Rect (Screen.width / 2 - Screen.width / 8, 
-					   Screen.height / 2, Screen.width / 4, Screen.height / 8), 
-					   "Ready"))
-					CmdHauntReady ();
+				if (HauntManager.gameState == HauntManager.HauntState.PREP) {
+					Cursor.lockState = CursorLockMode.None;
+					Cursor.visible = true;
+					GUI.Label (new Rect (Screen.width / 2 - Screen.width / 4, 
+						Screen.height / 2 - Screen.height / 4, 
+						Screen.width / 2, Screen.height / 4), 
+						display.hauntName);
+					if (GUI.Button (new Rect (Screen.width / 2 - Screen.width / 8, 
+						    Screen.height / 2, Screen.width / 4, Screen.height / 8), 
+						    "Ready"))
+						CmdHauntReady ();
+				} else {
+					Cursor.lockState = CursorLockMode.None;
+					Cursor.visible = true;
+					GUI.Label (new Rect (Screen.width / 2 - Screen.width / 4, 
+						Screen.height / 2 - Screen.height / 4, 
+						Screen.width / 2, Screen.height / 4), 
+						display.GetEndText());
+				}
 			}
 
 			if (state == ActionState.COOLDOWN) {

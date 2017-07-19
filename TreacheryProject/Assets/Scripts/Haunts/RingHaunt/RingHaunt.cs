@@ -1,10 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 using UnityEngine;
 
 public class RingHaunt : Haunt {
 
 	public static GamePlayer chosenOne = null;
+	[SyncVar]
+	public GamePlayer.PlayerType winner = GamePlayer.PlayerType.EXPLORER;
+
+	void Update() {
+		if (isServer && HauntManager.gameState == HauntManager.HauntState.HAUNT) {
+			bool allHeroesDead = true;
+			foreach (GamePlayer player in NetworkGame.GetPlayers()) {
+				if (player.playerState == GamePlayer.PlayerType.HERO && player.gameObject.GetComponent<Damageable> ().IsDead () == false) {
+					allHeroesDead = false;
+				}
+			}
+
+			if (allHeroesDead) {
+				//Traitor wins
+				HauntManager.EndHaunt();
+				winner = GamePlayer.PlayerType.TRAITOR;
+			}
+		}
+	}
 
 	/// <summary>
 	/// Determines whether this instance can start haunt. This is determined by the haunt checking
@@ -38,4 +58,17 @@ public class RingHaunt : Haunt {
 	public override GamePlayer SelectTratior (GamePlayer[] players) {
 		return chosenOne;
 	}	
+
+
+	/// <summary>
+	/// Get text to display once the haunt has ended
+	/// </summary>
+	/// <returns>The end text.</returns>
+	public override string GetEndText() {
+		if (winner == GamePlayer.PlayerType.TRAITOR) {
+			return "The traitor has killed all the heroes, better luck next time";
+		} else {
+			return "The traitor has been stopped, good job heroes";
+		}
+	}
 }

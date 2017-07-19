@@ -33,6 +33,8 @@ public class Item : NetworkBehaviour {
 		if (GetComponent<Rigidbody> () != null) {
 			GetComponent<Rigidbody> ().useGravity = false;
 			GetComponent<Rigidbody> ().detectCollisions = false;
+			GetComponent<Rigidbody> ().velocity = Vector3.zero;
+			GetComponent<Rigidbody> ().angularVelocity = Vector3.zero;
 			GetComponent<NetworkTransform> ().transformSyncMode = NetworkTransform.TransformSyncMode.SyncNone;
 		}
 	}

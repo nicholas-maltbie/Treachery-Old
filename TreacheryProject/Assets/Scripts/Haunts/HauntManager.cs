@@ -24,10 +24,13 @@ public class HauntManager : NetworkBehaviour {
 	/// Has the haunt started.
 	/// </summary>
 	public static HauntState gameState = HauntState.EXPLORE;
+	public static HauntState prevState = HauntState.EXPLORE;
+	[SyncVar]
+	private HauntState currState;
 	/// <summary>
 	/// The haunt.
 	/// </summary>
-	public GameObject gameHaunt;
+	public static GameObject gameHaunt;
 
 	public static HashSet<GamePlayer> ready = new HashSet<GamePlayer> ();
 
@@ -37,9 +40,23 @@ public class HauntManager : NetworkBehaviour {
 	}
 
 	[ServerCallback]
+	public static void EndHaunt() {
+		gameState = HauntState.END;
+	}
+
+	[ServerCallback]
 	public static void PlayerReady(GamePlayer player) {
 		if (gameState == HauntState.PREP) 
 			ready.Add (player);
+	}
+
+	[ClientRpc]
+	public void RpcHauntEnded() {
+		foreach (GamePlayer player in NetworkGame.GetPlayers()) {
+			if (player.isLocalPlayer) {
+				player.DisplayHauntInfo (gameHaunt.GetComponent<Haunt>());
+			}
+		}
 	}
 
 	/// <summary>
@@ -72,6 +89,11 @@ public class HauntManager : NetworkBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (!isServer) {
+			gameState = currState;
+		} else {
+			currState = gameState;
+		}
 		///Check if the haunt has started yet.
 		if (isServer && gameState == HauntState.EXPLORE) {
 			elapsed += Time.deltaTime;
@@ -94,6 +116,11 @@ public class HauntManager : NetworkBehaviour {
 				gameState = HauntState.HAUNT;
 				RpcPrepEnd ();
 			}
+		} else if (isServer && gameState == HauntState.END) {
+			if (prevState != HauntState.END) {
+				RpcHauntEnded ();
+			}
 		}
+		prevState = gameState;
 	}
 }

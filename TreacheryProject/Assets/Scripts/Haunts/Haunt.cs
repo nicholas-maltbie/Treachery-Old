@@ -70,6 +70,11 @@ public abstract class Haunt : NetworkBehaviour {
 	/// <returns>The tratior.</returns>
 	/// <param name="players">Players.</param>
 	abstract public GamePlayer SelectTratior (GamePlayer[] players);
+	/// <summary>
+	/// Get text to display once the haunt has ended
+	/// </summary>
+	/// <returns>The end text.</returns>
+	abstract public string GetEndText();
 
 	// Use this for initialization
 	void Start () {
