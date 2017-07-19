@@ -41,6 +41,7 @@ public class GamePlayer : NetworkBehaviour {
 		}
 	}
 
+	public Animator animator;
 	public PlayerType playerState = PlayerType.EXPLORER;
 	public string cooldownMessage;
 	public PlayerAttack attacker;
@@ -74,12 +75,18 @@ public class GamePlayer : NetworkBehaviour {
 	}
 
 	[ServerCallback]
-	public bool InterruptAction(Action action) {
+	public bool InterruptAction() {
 		if (action.canBeInterrupted) {
 			action.controller.SendMessage ("Interrupt", action.name);
 			return true;
 		}
 		return false;
+	}
+
+	[Command]
+	private void CmdDie() {
+		InterruptAction ();
+		state = ActionState.DEAD;
 	}
 
 	[ServerCallback]
@@ -251,16 +258,21 @@ public class GamePlayer : NetworkBehaviour {
 				playerMove.canTurnBody = true;
 			}
 		}
-
-		if (state == ActionState.DEAD && prevState != ActionState.DEAD) {
-			for (int i = 0; i < inventory.items.Length; i++) {
-				inventory.DropItem(i);
-			}
-		}
-
 		prevState = state;
 
 		if (isLocalPlayer) {
+			if (GetComponent<Damageable> ().IsDead ()) {
+				state = ActionState.DEAD;
+
+				GetComponent<CharacterController> ().enabled = false;
+
+				animator.SetBool ("Dead", true);
+
+				for (int i = 0; i < inventory.items.Length; i++) {
+					inventory.DropItem(i);
+				}
+			}
+
 			if (Input.GetButton ("Interact")) {
 				playerActor.InteractWithObject ();
 			}
