@@ -36,6 +36,14 @@ public class Inventory : NetworkBehaviour {
 	}
 
 	public void Update() {
+		if (isServer) {
+			foreach (GameObject i in items) {
+				if (i != null) {
+					i.GetComponent<Item> ().holder = gameObject;
+				}
+			}
+		}
+
 		if (isLocalPlayer) {
 			if (held == null) { //not holding an item
 				if (IsSpotEmpty (selected)) {
@@ -76,6 +84,16 @@ public class Inventory : NetworkBehaviour {
 		}
 	}
 
+	public void PutItemInHand(GameObject item) {
+		if (item != null && item.GetComponent<Item> () != null) {
+			item.GetComponent<Item> ().DisablePhysics ();
+			item.transform.position = hand.position;
+			item.transform.rotation = hand.rotation;
+			item.transform.parent = hand;
+			held = item;
+		}
+	}
+
 	[Command]
 	public void CmdHoldItem(GameObject item) {
 		CmdHideItem (held);
@@ -84,13 +102,7 @@ public class Inventory : NetworkBehaviour {
 
 	[ClientRpc]
 	public void RpcPutItemInHand(GameObject item) {
-		if (item != null && item.GetComponent<Item> () != null) {
-			item.GetComponent<Item> ().DisablePhysics ();
-			item.transform.position = hand.position;
-			item.transform.rotation = hand.rotation;
-			item.transform.parent = hand;
-			held = item;
-		}
+		PutItemInHand (item);
 	}
 
 	[ClientRpc]
@@ -102,6 +114,13 @@ public class Inventory : NetworkBehaviour {
 		}
 	}
 
+	public void HideItem(GameObject item) {
+		if (item != null) {
+			item.transform.parent = inactiveItems.transform;
+			item = null;
+		}
+	}
+
 	[Command]
 	public void CmdHideItem(GameObject item) {
 		RpcHideItem (item);
@@ -109,10 +128,7 @@ public class Inventory : NetworkBehaviour {
 
 	[ClientRpc]
 	public void RpcHideItem(GameObject item) {
-		if (item != null) {
-			item.transform.parent = inactiveItems.transform;
-			item = null;
-		}
+		HideItem (item);
 	}
 
 	[ServerCallback]
@@ -127,6 +143,7 @@ public class Inventory : NetworkBehaviour {
 			items [space] = item.gameObject;
 			RpcAddItemToHand (item.gameObject, space);
 			item.isHeld = true;
+			item.holder = gameObject;
 			PickupItem (item.gameObject);
 		}
 	}
@@ -153,7 +170,7 @@ public class Inventory : NetworkBehaviour {
 	}
 
 	public bool IsHoldingItem() {
-		return ! IsSpotEmpty (selected);
+		return held != null;
 	}
 
 	public bool HasOpenSpace()

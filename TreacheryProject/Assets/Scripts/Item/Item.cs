@@ -8,6 +8,23 @@ public class Item : NetworkBehaviour {
 	public Transform holdPos;
 	[SyncVar]
 	public bool isHeld;
+	[SyncVar]
+	public GameObject holder;
+
+	void Update() {
+		if (isHeld) {
+			//GetComponent<NetworkTransform> ().transformSyncMode = NetworkTransform.TransformSyncMode.SyncNone;
+			if (holder != null) {
+				if (holder.GetComponent<Inventory> ().held == gameObject) {
+					holder.GetComponent<Inventory> ().PutItemInHand (gameObject);
+				} else {
+					holder.GetComponent<Inventory> ().HideItem (gameObject);
+				}
+			}
+		} else {
+			//GetComponent<NetworkTransform> ().transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
+		}
+	}
 
 	[ServerCallback]
 	public void ServerUse(GameObject holder) {
@@ -35,7 +52,7 @@ public class Item : NetworkBehaviour {
 			GetComponent<Rigidbody> ().detectCollisions = false;
 			GetComponent<Rigidbody> ().velocity = Vector3.zero;
 			GetComponent<Rigidbody> ().angularVelocity = Vector3.zero;
-			GetComponent<NetworkTransform> ().transformSyncMode = NetworkTransform.TransformSyncMode.SyncNone;
+			//GetComponent<NetworkTransform> ().transformSyncMode = NetworkTransform.TransformSyncMode.SyncNone;
 		}
 	}
 
@@ -43,6 +60,6 @@ public class Item : NetworkBehaviour {
 	{
 		GetComponent<Rigidbody> ().useGravity = true;
 		GetComponent<Rigidbody> ().detectCollisions = true;
-		gameObject.GetComponent<NetworkTransform> ().transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
+		//gameObject.GetComponent<NetworkTransform> ().transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
 	}
 }
