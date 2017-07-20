@@ -42,6 +42,7 @@ public class GamePlayer : NetworkBehaviour {
 	}
 
 	public Animator animator;
+	public GameObject playerModel;
 	public PlayerType playerState = PlayerType.EXPLORER;
 	public string cooldownMessage;
 	public PlayerAttack attacker;

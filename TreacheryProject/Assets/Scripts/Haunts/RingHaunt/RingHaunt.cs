@@ -48,8 +48,25 @@ public class RingHaunt : Haunt {
 	/// setup the default state of the game for the given kind of haunt.
 	/// </summary>
 	public override void HauntStarted() {
-		//Do some stuff :)
+		//make traitor invisible
+		RpcMakeInvisible (chosenOne.gameObject);
 	}
+
+	[ClientRpc]
+	public void RpcMakeInvisible(GameObject gamePlayer) {
+		Debug.Log (gamePlayer);
+		GameObject obj = gamePlayer.GetComponent<GamePlayer> ().playerModel;
+		foreach (Renderer ren in obj.GetComponentsInChildren<Renderer>()) {
+			ren.enabled = false;
+		}
+		foreach (SkinnedMeshRenderer ren in obj.GetComponentsInChildren<SkinnedMeshRenderer>()) {
+			ren.enabled = false;
+		}
+		foreach (MeshRenderer ren in obj.GetComponentsInChildren<MeshRenderer>()) {
+			ren.enabled = false;
+		}
+	}
+
 	/// <summary>
 	/// From the given list of all players in the game, select which one should become the tratior.
 	/// </summary>

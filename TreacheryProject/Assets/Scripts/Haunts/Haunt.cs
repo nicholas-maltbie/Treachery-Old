@@ -110,7 +110,6 @@ public abstract class Haunt : NetworkBehaviour {
 				}
 				break;
 			}
-			HauntStarted ();
 		}
 	}
 	

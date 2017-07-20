@@ -105,6 +105,8 @@ public class HauntManager : NetworkBehaviour {
 						gameHaunt = GameObject.Instantiate (haunt.gameObject);
 						NetworkServer.Spawn (gameHaunt);
 						gameState = HauntState.PREP;
+
+						gameHaunt.GetComponent<Haunt>().HauntStarted ();
 						RpcHauntStarted (gameHaunt);
 						return;
 					}
