@@ -6,6 +6,7 @@ using UnityEngine;
 public class RingHaunt : Haunt {
 
 	public static GamePlayer chosenOne = null;
+	public static GameObject theRing = null;
 	[SyncVar]
 	public GamePlayer.PlayerType winner = GamePlayer.PlayerType.EXPLORER;
 
@@ -23,6 +24,11 @@ public class RingHaunt : Haunt {
 				HauntManager.EndHaunt();
 				winner = GamePlayer.PlayerType.TRAITOR;
 			}
+
+			if (theRing == null) {
+				HauntManager.EndHaunt ();
+				winner = GamePlayer.PlayerType.HERO;
+			}
 		}
 	}
 
@@ -36,6 +42,7 @@ public class RingHaunt : Haunt {
 		foreach (GamePlayer player in NetworkGame.GetPlayers()) {
 			foreach (GameObject item in player.GetComponent<Inventory>().items) {
 				if (item != null && item.GetComponent<Item>().itemName == "Ring") {
+					theRing = item;
 					chosenOne = player;
 					return true;
 				}
@@ -83,9 +90,9 @@ public class RingHaunt : Haunt {
 	/// <returns>The end text.</returns>
 	public override string GetEndText() {
 		if (winner == GamePlayer.PlayerType.TRAITOR) {
-			return "The traitor has killed all the heroes, better luck next time";
+			return "Traitor Wins! - The traitor has killed all the heroes, better luck next time";
 		} else {
-			return "The traitor has been stopped, good job heroes";
+			return "Heroes Win! - The ring is finally destroyed, never to be seen again, goodbye and your power shall forever be gone.";
 		}
 	}
 }
