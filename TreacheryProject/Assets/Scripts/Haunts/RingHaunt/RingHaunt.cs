@@ -7,27 +7,79 @@ public class RingHaunt : Haunt {
 
 	public static GamePlayer chosenOne = null;
 	public static GameObject theRing = null;
+
+	private float respawnTime = 10f;
+	private static Dictionary<GamePlayer, Vector3> traitorSpawns = new Dictionary<GamePlayer, Vector3> ();
+	private static Dictionary<GamePlayer, float> traitorDeadTimes = new Dictionary<GamePlayer, float>();
 	[SyncVar]
 	public GamePlayer.PlayerType winner = GamePlayer.PlayerType.EXPLORER;
 
 	void Update() {
 		if (isServer && HauntManager.gameState == HauntManager.HauntState.HAUNT) {
+			//Check if traitor(s) have won
 			bool allHeroesDead = true;
 			foreach (GamePlayer player in NetworkGame.GetPlayers()) {
 				if (player.playerState == GamePlayer.PlayerType.HERO && player.gameObject.GetComponent<Damageable> ().IsDead () == false) {
 					allHeroesDead = false;
 				}
 			}
-
 			if (allHeroesDead) {
 				//Traitor wins
 				HauntManager.EndHaunt();
 				winner = GamePlayer.PlayerType.TRAITOR;
 			}
 
+			//Check if heroes have won
 			if (theRing == null) {
 				HauntManager.EndHaunt ();
 				winner = GamePlayer.PlayerType.HERO;
+			}
+
+			//Update ring and invisibility
+			foreach (GamePlayer player in NetworkGame.GetPlayers()) {
+				if (player.playerState == GamePlayer.PlayerType.TRAITOR) {
+					bool hasRing = false;
+					foreach (GameObject item in player.GetComponent<Inventory>().items) {
+						if (item != null) {
+							if (item.GetComponent<Item> ().itemName == "Ring") {
+								hasRing = true;
+								item.GetComponent<Item> ().canDrop = false;
+							}
+						}
+					}
+					if (hasRing) {
+						RpcMakeInvisible (chosenOne.gameObject);
+					} else {
+						RpcMakeVisible (chosenOne.gameObject);
+					}
+				}
+				if (player.playerState == GamePlayer.PlayerType.HERO) {
+					bool hasRing = false;
+					foreach (GameObject item in player.GetComponent<Inventory>().items) {
+						if (item != null && item.GetComponent<Item> ().itemName == "Ring") {
+							item.GetComponent<Item> ().canDrop = true;
+						}
+					}
+				}
+			}
+
+			//Update traitor death times
+			foreach(GamePlayer player in NetworkGame.GetPlayers()) {
+				if (player.playerState == GamePlayer.PlayerType.TRAITOR && 
+					player.GetComponent<Damageable>().IsDead()) {
+
+					if (traitorDeadTimes [player] == 0) {
+						//If the traitor just died
+						player.AddTimedMessage("You are dead, but it's only temporary", respawnTime);
+					}
+					traitorDeadTimes [player] = traitorDeadTimes [player] + Time.deltaTime;
+					if (traitorDeadTimes [player] >= respawnTime) {
+						traitorDeadTimes [player] = 0;
+						player.ServerRespawn ();
+						player.gameObject.transform.position = traitorSpawns [player];
+						player.AddTimedMessage ("You are back in the world of the living, for now...", 2.5f);
+					}
+				}
 			}
 		}
 	}
@@ -44,6 +96,8 @@ public class RingHaunt : Haunt {
 				if (item != null && item.GetComponent<Item>().itemName == "Ring") {
 					theRing = item;
 					chosenOne = player;
+					traitorSpawns[player] = player.gameObject.transform.position;
+					traitorDeadTimes [player] = 0;
 					return true;
 				}
 			}
@@ -56,12 +110,10 @@ public class RingHaunt : Haunt {
 	/// </summary>
 	public override void HauntStarted() {
 		//make traitor invisible
-		RpcMakeInvisible (chosenOne.gameObject);
 	}
 
 	[ClientRpc]
 	public void RpcMakeInvisible(GameObject gamePlayer) {
-		Debug.Log (gamePlayer);
 		GameObject obj = gamePlayer.GetComponent<GamePlayer> ().playerModel;
 		foreach (Renderer ren in obj.GetComponentsInChildren<Renderer>()) {
 			ren.enabled = false;
@@ -71,6 +123,20 @@ public class RingHaunt : Haunt {
 		}
 		foreach (MeshRenderer ren in obj.GetComponentsInChildren<MeshRenderer>()) {
 			ren.enabled = false;
+		}
+	}
+
+	[ClientRpc]
+	public void RpcMakeVisible(GameObject gamePlayer) {
+		GameObject obj = gamePlayer.GetComponent<GamePlayer> ().playerModel;
+		foreach (Renderer ren in obj.GetComponentsInChildren<Renderer>()) {
+			ren.enabled = true;
+		}
+		foreach (SkinnedMeshRenderer ren in obj.GetComponentsInChildren<SkinnedMeshRenderer>()) {
+			ren.enabled = true;
+		}
+		foreach (MeshRenderer ren in obj.GetComponentsInChildren<MeshRenderer>()) {
+			ren.enabled = true;
 		}
 	}
 

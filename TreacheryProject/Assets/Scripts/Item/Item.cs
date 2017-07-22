@@ -10,6 +10,10 @@ public class Item : NetworkBehaviour {
 	public bool isHeld;
 	[SyncVar]
 	public GameObject holder;
+	[SyncVar]
+	public bool canDrop = true;
+	[SyncVar]
+	public bool canPickup = true;
 
 	void Update() {
 		if (isHeld) {
@@ -37,7 +41,7 @@ public class Item : NetworkBehaviour {
 
 	public void Interact (GameObject actor)
 	{
-		if (!isHeld) {
+		if (!isHeld && canPickup) {
 			Inventory bag = actor.GetComponent<Inventory> ();
 			if (bag != null) {
 				bag.AttemptPickup (this);

@@ -7,6 +7,21 @@ using UnityEngine.Networking;
 public class GamePlayer : NetworkBehaviour {
 	public enum ActionState {FREE, ACTING, COOLDOWN, PAUSED, DEAD};
 	public enum PlayerType {EXPLORER, TRAITOR, HERO, MADMAN};
+	public struct PlayerMessage
+	{
+		public float percent;
+		public string message;
+		public bool timed;
+		public float fullTime;
+		public float elapsed;
+		public PlayerMessage(string message, float percent, bool timed = false, float fullTime = 0f) {
+			this.percent = percent;
+			this.message = message;
+			this.timed = timed;
+			this.fullTime = fullTime;
+			this.elapsed = 0f;
+		}
+	}
 	public struct Action
 	{
 		public string name;
@@ -40,7 +55,13 @@ public class GamePlayer : NetworkBehaviour {
 			actionMessage = "Acting";
 		}
 	}
+	public class MessageList : SyncListStruct<PlayerMessage>
+	{
 
+	}
+
+	public string playerName;
+	private MessageList messageList = new MessageList();
 	public Animator animator;
 	public GameObject playerModel;
 	public PlayerType playerState = PlayerType.EXPLORER;
@@ -70,6 +91,23 @@ public class GamePlayer : NetworkBehaviour {
 		inventory = GetComponent<Inventory> ();
 	}
 
+	[ServerCallback]
+	public void AddMessage(PlayerMessage message) {
+		messageList.Add (message);
+	}
+
+	[ServerCallback]
+	public PlayerMessage AddTimedMessage(string message, float maxtime) {
+		PlayerMessage m = new PlayerMessage (message, 1, true, maxtime);
+		AddMessage (m);
+		return m;
+	}
+
+	[ServerCallback]
+	public void RemoveMessage(PlayerMessage message) {
+		messageList.Remove (message);
+	}
+
 	[Command]
 	public void CmdUse() {
 		inventory.held.GetComponent<Item> ().ServerUse (gameObject);
@@ -84,17 +122,16 @@ public class GamePlayer : NetworkBehaviour {
 		return false;
 	}
 
-	[Command]
-	private void CmdDie() {
-		InterruptAction ();
-		state = ActionState.DEAD;
-	}
-
 	[ServerCallback]
 	public void SetAction(Action action) {
 		this.state = ActionState.ACTING;
 		this.action = action;
 		RpcSetAction (action);
+	}
+
+	[Command]
+	public void CmdEndAction(float cooldown, string message) {
+		EndAction (cooldown, message);
 	}
 
 	[ServerCallback]
@@ -142,8 +179,23 @@ public class GamePlayer : NetworkBehaviour {
 		HauntManager.PlayerReady (this);
 	}
 
+	[ClientRpc]
+	public void RpcRespawn() {
+		GetComponent<Damageable> ().SetHealth (GetComponent<Damageable> ().maxHealth);
+		GetComponent<Damageable> ().SetSanity (GetComponent<Damageable> ().maxSanity);
+		GetComponent<CharacterController> ().enabled = true;
+		animator.SetBool ("Dead", false);
+		state = ActionState.FREE;
+	}
+
+	[ServerCallback]
+	public void ServerRespawn() {
+		RpcRespawn ();
+	}
+
 	void OnGUI() {
 		if (isLocalPlayer) {
+			int message = 0;
 			if (display != null) {
 				if (HauntManager.gameState == HauntManager.HauntState.PREP) {
 					Cursor.lockState = CursorLockMode.None;
@@ -166,43 +218,75 @@ public class GamePlayer : NetworkBehaviour {
 				}
 			}
 
+			foreach (PlayerMessage playerM in messageList) {
+				DisplayMessage (playerM.message, playerM.percent, message);
+				message += 1;
+			}
+
 			if (state == ActionState.COOLDOWN) {
-				float percent = cooldownRemain / cooldownMax;
-				if (percent <= .10f)
-					percent = .10f;
-				float heightMod = 2.9f;
-				Vector2 textSize = GUI.skin.label.CalcSize (new GUIContent (cooldownMessage));
-				float width = textSize.x;
-				float height = textSize.y;
-				Color oldColor = Color.white;
-				GUI.color = Color.green;
-				GUI.Box (new Rect (Screen.width / 2 - width * 0.55f, Screen.height - height * 2f,
-					width * 1.1f * percent, height * 1f), "");
-				GUI.color = Color.white;
-				GUI.contentColor = Color.white;
-				GUI.Label (new Rect (Screen.width / 2 - width / 2, Screen.height - height * 2,
-					width, height), cooldownMessage);
+				DisplayMessage (cooldownMessage, cooldownRemain / cooldownMax, message);
+				message += 1;
 			} else if (state == ActionState.ACTING) {
-				float percent = 1;
-				if (percent <= .10f)
-					percent = .10f;
-				float heightMod = 2.9f;
-				Vector2 textSize = GUI.skin.label.CalcSize (new GUIContent (action.actionMessage));
-				float width = textSize.x;
-				float height = textSize.y;
-				Color oldColor = Color.white;
-				GUI.color = Color.green;
-				GUI.Box (new Rect (Screen.width / 2 - width * 0.55f, Screen.height - height * 2f,
-					width * 1.1f * percent, height * 1f), "");
-				GUI.color = Color.white;
-				GUI.contentColor = Color.white;
-				GUI.Label (new Rect (Screen.width / 2 - width / 2, Screen.height - height * 2,
-					width, height), action.actionMessage);
+				DisplayMessage (action.actionMessage, 1, message);
+				message += 1;
 			}
 		}
 	}
 
+	private void DisplayMessage(string message, float percent, int pos) {
+		if (percent <= .10f)
+			percent = .10f;
+		Vector2 textSize = GUI.skin.label.CalcSize (new GUIContent (message));
+		float width = textSize.x;
+		float height = textSize.y;
+		Color oldColor = Color.white;
+		GUI.color = Color.green;
+		GUI.Box (new Rect (Screen.width / 2 - width * 0.55f, Screen.height - height * (2 + pos * 1.25f),
+			width * 1.1f * percent, height * 1f), "");
+		GUI.color = Color.white;
+		GUI.contentColor = Color.white;
+		GUI.Label (new Rect (Screen.width / 2 - width / 2, Screen.height - height * (2 + pos * 1.25f),
+			width, height), message);
+	}
+
+	[ClientRpc]
+	public void RpcKillPlayer() {
+		InterruptAction ();
+		state = ActionState.DEAD;
+
+		GetComponent<CharacterController> ().enabled = false;
+
+		animator.SetBool ("Dead", true);
+
+		for (int i = 0; i < inventory.items.Length; i++) {
+			inventory.DropItem(inventory.items[i], i);
+		}
+	}
+
 	void Update() {
+		if (isServer) {
+			if (GetComponent<Damageable> ().IsDead () && state != ActionState.DEAD) {
+				RpcKillPlayer ();
+			}
+
+			for (int i = 0; i < messageList.Count; i++) {
+				PlayerMessage m = messageList [i];
+				if (m.timed) {
+					m.elapsed += Time.deltaTime;
+					m.percent = 1 - (m.elapsed / m.fullTime);
+				}
+				messageList [i] = m;
+			}
+			int index = 0;
+			while (index < messageList.Count) {
+				if (messageList [index].timed && messageList [index].elapsed >= messageList [index].fullTime) {
+					messageList.RemoveAt (index);
+				} else {
+					index++;
+				}
+			}
+		}
+
 		if (state == ActionState.PAUSED) {
 			canUse = false;
 			canDrop = false;
@@ -271,23 +355,15 @@ public class GamePlayer : NetworkBehaviour {
 		prevState = state;
 
 		if (isLocalPlayer) {
-			if (GetComponent<Damageable> ().IsDead ()) {
-				state = ActionState.DEAD;
-
-				GetComponent<CharacterController> ().enabled = false;
-
-				animator.SetBool ("Dead", true);
-
-				for (int i = 0; i < inventory.items.Length; i++) {
-					inventory.DropItem(i);
-				}
-			}
-
 			if (Input.GetButton ("Interact")) {
 				playerActor.InteractWithObject ();
 			}
 			if (canDrop && Input.GetButton ("Drop") && inventory.IsHoldingItem ()) {
-				inventory.DropItem (inventory.selected);
+				if (inventory.held.GetComponent<Item> ().canDrop) {
+					inventory.DropItem (inventory.items[inventory.selected], inventory.selected);
+				} else {
+					CmdEndAction (1.0f, "Can't drop that");
+				}
 			}
 			if (canUse && Input.GetButton ("Use") && inventory.IsHoldingItem () && !prevHeld) {
 				CmdUse ();

@@ -23,7 +23,7 @@ public class Damageable : NetworkBehaviour {
 	}
 
 	[ServerCallback]
-	public void DamageHealth(int amount) {
+	public void DamageHealth(float amount) {
 		if (canBeAttacked) {
 			SendMessage ("OnDamageHealth", amount);
 			health -= amount;
@@ -31,12 +31,17 @@ public class Damageable : NetworkBehaviour {
 	}
 
 	[ServerCallback]
-	public void SetHealth(int value) {
+	public void SetHealth(float value) {
 		health = value;
 	}
 
 	[ServerCallback]
-	public void DamageSanity(int amount) {
+	public void SetSanity(float value) {
+		sanity = value;
+	}
+
+	[ServerCallback]
+	public void DamageSanity(float amount) {
 		if (canBeAttacked) {
 			SendMessage ("OnDamageSanity", amount);
 			sanity -= amount;
@@ -44,12 +49,12 @@ public class Damageable : NetworkBehaviour {
 	}
 
 	[ServerCallback]
-	public void HealHealth(int amount) {
+	public void HealHealth(float amount) {
 		health = Mathf.Min (maxHealth, health + amount);
 	}
 
 	[ServerCallback]
-	public void HealSanity(int amount) {
+	public void HealSanity(float amount) {
 		sanity = Mathf.Min (maxSanity, sanity + amount);
 	}
 

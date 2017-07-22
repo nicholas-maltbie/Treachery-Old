@@ -21,16 +21,17 @@ public class Inventory : NetworkBehaviour {
 		inactiveItems.name = "InactiveItems";
 	}
 
-	public void DropItem(int index) {
+	public void DropItem(GameObject dropped, int index) {
 		if (!isServer) {
-			GameObject dropped = items [index];
-			dropped.transform.position = hand.transform.position;
-			dropped.transform.rotation = hand.transform.rotation;
-			dropped.transform.parent = null;
-			items [index] = null;
-			if (index == selected)
-				held = null;
-			dropped.GetComponent<Item> ().isHeld = false;
+			if (dropped) {
+				dropped.transform.position = hand.transform.position;
+				dropped.transform.rotation = hand.transform.rotation;
+				dropped.transform.parent = null;
+				items [index] = null;
+				if (index == selected)
+					held = null;
+				dropped.GetComponent<Item> ().isHeld = false;
+			}
 		}
 		CmdDropItem (index);
 	}

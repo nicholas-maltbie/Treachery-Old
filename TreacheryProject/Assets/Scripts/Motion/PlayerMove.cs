@@ -285,7 +285,9 @@ public class PlayerMove : NetworkBehaviour {
 			}
 
 			//Translate character based on move.
-			characterController.Move (new Vector3 (move.x, verticalVel, move.z) * Time.deltaTime);
+			if (canMove) {
+				characterController.Move (new Vector3 (move.x, verticalVel, move.z) * Time.deltaTime);
+			}
 
 			//set animator value walking to true (just for now though)
 			characterAnimator.SetBool ("walking", Mathf.Abs (dz) + Mathf.Abs (dx) > 0);

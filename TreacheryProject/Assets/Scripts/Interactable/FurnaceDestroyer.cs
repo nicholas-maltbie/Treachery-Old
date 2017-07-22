@@ -54,15 +54,20 @@ public class FurnaceDestroyer : NetworkBehaviour {
 					Inventory inv = player.GetComponent<Inventory> ();
 					GameObject held = inv.held;
 					if (held != null) {
-						inv.ServerDropItem (inv.selected);
-						consuming = held;
-						consuming.transform.position = coal.position;
-						player.EndAction (1.75f, "You put the item into the furnace");
-						consuming.GetComponent<Item> ().DisablePhysics ();
-						state = FurnaceState.CONSUMING;
-						doorAnim.SetBool ("Open", false);
-						transitionDelay = 1f;
+						if (inv.held.GetComponent<Item> ().canDrop) {
+							inv.ServerDropItem (inv.selected);
+							consuming = held;
+							consuming.transform.position = coal.position;
+							player.EndAction (1.75f, "You put the " + consuming.GetComponent<Item>().itemName + " into the furnace");
+							consuming.GetComponent<Item> ().DisablePhysics ();
+							state = FurnaceState.CONSUMING;
+							doorAnim.SetBool ("Open", false);
+							transitionDelay = 1f;
+						} else {
+							player.EndAction (1.5f, "Can't put that into the furnace");
+						}
 					} else {
+						player.AddTimedMessage ("You must hold an item to put into the furnace", 1.5f);
 						state = FurnaceState.CLOSED;
 						doorAnim.SetBool ("Open", false);
 					}
@@ -79,9 +84,10 @@ public class FurnaceDestroyer : NetworkBehaviour {
 						transitionDelay = 2f;
 						doorAnim.SetBool ("Open", true);
 						inv.AttemptPickup (consuming.GetComponent<Item> ());
-						player.EndAction (2.5f, "You pull the item from the burning furnace");
+						player.EndAction (2.5f, "You pull the " + consuming.GetComponent<Item>().itemName + " from the burning furnace");
+						consuming = null;
 					} else {
-						player.EndAction (1.0f, "Open space to pick up the item quick");
+						player.AddTimedMessage ("Open space to pick up the item quick", 1.5f);
 					}
 				}
 			}
