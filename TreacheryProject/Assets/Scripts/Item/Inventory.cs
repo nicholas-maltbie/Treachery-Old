@@ -67,9 +67,8 @@ public class Inventory : NetworkBehaviour {
 		}
 	}
 
-	[Command]
-	public void CmdDropItem(int index)
-	{
+	[ServerCallback]
+	public void ServerDropItem(int index) {
 		GameObject dropped = items [index];
 		if (dropped != null) {
 			items [index] = null;
@@ -82,6 +81,11 @@ public class Inventory : NetworkBehaviour {
 			RpcDropItem (index, dropped);
 			dropped.GetComponent<Item> ().isHeld = false;
 		}
+	}
+
+	[Command]
+	public void CmdDropItem(int index) {
+		ServerDropItem (index);
 	}
 
 	public void PutItemInHand(GameObject item) {
