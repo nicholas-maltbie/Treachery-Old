@@ -23,11 +23,11 @@ public class RingHaunt : Haunt {
 					allHeroesDead = false;
 				}
 			}
-			if (allHeroesDead) {
+			/*if (allHeroesDead) {
 				//Traitor wins
 				HauntManager.EndHaunt();
 				winner = GamePlayer.PlayerType.TRAITOR;
-			}
+			}*/
 
 			//Check if heroes have won
 			if (theRing == null) {
@@ -54,7 +54,6 @@ public class RingHaunt : Haunt {
 					}
 				}
 				if (player.playerState == GamePlayer.PlayerType.HERO) {
-					bool hasRing = false;
 					foreach (GameObject item in player.GetComponent<Inventory>().items) {
 						if (item != null && item.GetComponent<Item> ().itemName == "Ring") {
 							item.GetComponent<Item> ().canDrop = true;
@@ -115,29 +114,13 @@ public class RingHaunt : Haunt {
 	[ClientRpc]
 	public void RpcMakeInvisible(GameObject gamePlayer) {
 		GameObject obj = gamePlayer.GetComponent<GamePlayer> ().playerModel;
-		foreach (Renderer ren in obj.GetComponentsInChildren<Renderer>()) {
-			ren.enabled = false;
-		}
-		foreach (SkinnedMeshRenderer ren in obj.GetComponentsInChildren<SkinnedMeshRenderer>()) {
-			ren.enabled = false;
-		}
-		foreach (MeshRenderer ren in obj.GetComponentsInChildren<MeshRenderer>()) {
-			ren.enabled = false;
-		}
+		obj.GetComponent<Invisible> ().SetState (true);
 	}
 
 	[ClientRpc]
 	public void RpcMakeVisible(GameObject gamePlayer) {
 		GameObject obj = gamePlayer.GetComponent<GamePlayer> ().playerModel;
-		foreach (Renderer ren in obj.GetComponentsInChildren<Renderer>()) {
-			ren.enabled = true;
-		}
-		foreach (SkinnedMeshRenderer ren in obj.GetComponentsInChildren<SkinnedMeshRenderer>()) {
-			ren.enabled = true;
-		}
-		foreach (MeshRenderer ren in obj.GetComponentsInChildren<MeshRenderer>()) {
-			ren.enabled = true;
-		}
+		obj.GetComponent<Invisible> ().SetState (false);
 	}
 
 	/// <summary>
