@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class Invisible : NetworkBehaviour {
+public class Invisible : MonoBehaviour {
 	
 	public static HashSet<string> ignoreShaders = new HashSet<string>(new string[]{ "Outlined/Silhouette Only" });
-
-	[SyncVar]
+	
 	public bool invisibleState;
 	private bool currState;
 	public List<Renderer> rens = new List<Renderer>();
 	public Dictionary<Renderer, List<Material>> objectMats = null;
-
-	[ServerCallback]
+	
 	public void SetState(bool state) {
 		invisibleState = state;
 	}
