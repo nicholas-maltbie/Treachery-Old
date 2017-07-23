@@ -112,6 +112,10 @@ public class RingHaunt : Haunt {
 	/// setup the default state of the game for the given kind of haunt.
 	/// </summary>
 	public override void HauntStarted() {
+		// Restore traitor health
+		chosenOne.GetComponent<Damageable>().SetHealth(chosenOne.GetComponent<Damageable>().maxHealth);
+		chosenOne.GetComponent<Damageable>().SetSanity(chosenOne.GetComponent<Damageable>().maxSanity);
+
 		// Add speical actions to all Players
 		foreach (GamePlayer player in NetworkGame.GetPlayers()) {
 			if (player != chosenOne) {
