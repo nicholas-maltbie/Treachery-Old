@@ -5,8 +5,10 @@ using UnityEngine.Networking;
 
 public class Inventory : NetworkBehaviour {
 
+	[SyncVar]
 	public int selected;
 	public GameObject[] items;
+	[SyncVar]
 	public GameObject held;
 	public Transform hand;
 
@@ -19,23 +21,30 @@ public class Inventory : NetworkBehaviour {
 		inactiveItems.name = "InactiveItems";
 	}
 
-	public void DropItem(int index) {
+	public void DropItem(GameObject dropped, int index) {
 		if (!isServer) {
-			GameObject dropped = items [index];
-			dropped.transform.position = hand.transform.position;
-			dropped.transform.rotation = hand.transform.rotation;
-			dropped.transform.parent = null;
-			items [index] = null;
-			if (index == selected)
-				held = null;
-			dropped.GetComponent<Item> ().EnablePhysics ();
-			dropped.GetComponentInChildren<NetworkTransform> ().enabled = true;
-			dropped.GetComponent<Item> ().isHeld = false;
+			if (dropped) {
+				dropped.transform.position = hand.transform.position;
+				dropped.transform.rotation = hand.transform.rotation;
+				dropped.transform.parent = null;
+				items [index] = null;
+				if (index == selected)
+					held = null;
+				dropped.GetComponent<Item> ().isHeld = false;
+			}
 		}
 		CmdDropItem (index);
 	}
 
 	public void Update() {
+		if (isServer) {
+			foreach (GameObject i in items) {
+				if (i != null) {
+					i.GetComponent<Item> ().holder = gameObject;
+				}
+			}
+		}
+
 		if (isLocalPlayer) {
 			if (held == null) { //not holding an item
 				if (IsSpotEmpty (selected)) {
@@ -59,9 +68,8 @@ public class Inventory : NetworkBehaviour {
 		}
 	}
 
-	[Command]
-	public void CmdDropItem(int index)
-	{
+	[ServerCallback]
+	public void ServerDropItem(int index) {
 		GameObject dropped = items [index];
 		if (dropped != null) {
 			items [index] = null;
@@ -72,9 +80,22 @@ public class Inventory : NetworkBehaviour {
 			dropped.transform.rotation = hand.transform.rotation;
 			dropped.transform.parent = null;
 			RpcDropItem (index, dropped);
-			dropped.GetComponent<Item> ().EnablePhysics ();
-			dropped.GetComponentInChildren<NetworkTransform> ().enabled = true;
 			dropped.GetComponent<Item> ().isHeld = false;
+		}
+	}
+
+	[Command]
+	public void CmdDropItem(int index) {
+		ServerDropItem (index);
+	}
+
+	public void PutItemInHand(GameObject item) {
+		if (item != null && item.GetComponent<Item> () != null) {
+			item.GetComponent<Item> ().DisablePhysics ();
+			item.transform.position = hand.position;
+			item.transform.rotation = hand.rotation;
+			item.transform.parent = hand;
+			held = item;
 		}
 	}
 
@@ -86,18 +107,23 @@ public class Inventory : NetworkBehaviour {
 
 	[ClientRpc]
 	public void RpcPutItemInHand(GameObject item) {
-		item.GetComponent<Item> ().DisablePhysics ();
-		item.GetComponentInChildren<NetworkTransform> ().enabled = false;
-		item.transform.position = hand.position;
-		item.transform.rotation = hand.rotation;
-		item.transform.parent = hand;
-		held = item;
+		PutItemInHand (item);
 	}
 
 	[ClientRpc]
 	public void RpcDropItem (int index, GameObject dropped) {
-		dropped.transform.parent = null;
-		items [index] = null;
+		if (dropped != null) {
+			dropped.transform.parent = null;
+			dropped.GetComponent<Item> ().EnablePhysics ();
+			items [index] = null;
+		}
+	}
+
+	public void HideItem(GameObject item) {
+		if (item != null) {
+			item.transform.parent = inactiveItems.transform;
+			item = null;
+		}
 	}
 
 	[Command]
@@ -107,10 +133,7 @@ public class Inventory : NetworkBehaviour {
 
 	[ClientRpc]
 	public void RpcHideItem(GameObject item) {
-		if (item != null) {
-			item.transform.parent = inactiveItems.transform;
-			item = null;
-		}
+		HideItem (item);
 	}
 
 	[ServerCallback]
@@ -125,6 +148,7 @@ public class Inventory : NetworkBehaviour {
 			items [space] = item.gameObject;
 			RpcAddItemToHand (item.gameObject, space);
 			item.isHeld = true;
+			item.holder = gameObject;
 			PickupItem (item.gameObject);
 		}
 	}
@@ -151,7 +175,7 @@ public class Inventory : NetworkBehaviour {
 	}
 
 	public bool IsHoldingItem() {
-		return ! IsSpotEmpty (selected);
+		return held != null;
 	}
 
 	public bool HasOpenSpace()
