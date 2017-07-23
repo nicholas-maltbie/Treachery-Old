@@ -24,6 +24,18 @@ public class NetworkGame : NetworkManager {
 	/// The prefabs to register.
 	/// </summary>
 	public GameObject[] playerPrefabs;
+	/// <summary>
+	/// The item prefabs.
+	/// </summary>
+	public GameObject[] itemPrefabs;
+	/// <summary>
+	/// Game haunt prefabs.
+	/// </summary>
+	public GameObject[] hauntPrefabs;
+	/// <summary>
+	/// Special Action haunt prefabs.
+	/// </summary>
+	public GameObject[] specialActions;
 
 	/// <summary>
 	/// The players connected if this is the server.
@@ -35,8 +47,17 @@ public class NetworkGame : NetworkManager {
 	/// </summary>
 	void Start () {
 		if (!Network.isServer) {
+			for (int i = 0; i < itemPrefabs.Length; i++) {
+				ClientScene.RegisterPrefab (itemPrefabs [i]);
+			}
 			for (int i = 0; i < playerPrefabs.Length; i++) {
 				ClientScene.RegisterPrefab (playerPrefabs [i]);
+			}
+			foreach (GameObject hauntPrefab in hauntPrefabs) {
+				ClientScene.RegisterPrefab (hauntPrefab);
+			}
+			foreach (GameObject specialAction in specialActions) {
+				ClientScene.RegisterPrefab (specialAction);
 			}
 		}
 	}
@@ -60,9 +81,14 @@ public class NetworkGame : NetworkManager {
 	/// identify objects tagged as "Player"
 	/// </summary>
 	/// <returns>The players.</returns>
-	public static GameObject[] GetPlayers()
+	public static GamePlayer[] GetPlayers()
 	{
-		return GameObject.FindGameObjectsWithTag ("Player");
+		GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
+		GamePlayer[] playerObjs = new GamePlayer [players.Length];
+		for (int i = 0; i < players.Length; i++) {
+			playerObjs [i] = players [i].GetComponent<GamePlayer> ();
+		}
+		return playerObjs;
 	}
 
 	/// <summary>

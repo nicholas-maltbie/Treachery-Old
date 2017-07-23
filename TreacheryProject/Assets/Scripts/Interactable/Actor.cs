@@ -37,8 +37,10 @@ public class Actor : NetworkBehaviour {
 	/// Command to interact with the object.
 	/// </summary>
 	[Command]
-	public void CmdInteract() {
-		interactable.InteractWithObject (gameObject);
+	public void CmdInteract(GameObject looking) {
+		if (looking != null) {
+			looking.GetComponentInChildren<Interactable> ().InteractWithObject (gameObject);
+		}
 	}
 
 	/// <summary>
@@ -46,7 +48,7 @@ public class Actor : NetworkBehaviour {
 	/// </summary>
 	public void InteractWithObject() {
 		if (IsLooking () && canInteract) {
-			CmdInteract ();
+			CmdInteract (interactable.gameObject.GetComponentInParent<NetworkIdentity> ().gameObject);
 		}
 	}
 
@@ -56,8 +58,8 @@ public class Actor : NetworkBehaviour {
 	void Update () {
 		//Check with a sphere cast on the if the player si loking at something interactable
 		RaycastHit hit;
-		if (canInteract && Physics.SphereCast(actorCamera.position, .5f, 
-			actorCamera.forward, out hit, Mathf.Infinity) && 
+		if (canInteract && Physics.SphereCast(actorCamera.position, .1f, 
+			actorCamera.forward, out hit, Mathf.Infinity, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore) && 
 			hit.collider.gameObject.GetComponent<Interactable>() != null && 
 			Mathf.Min(viewDistance, hit.distance) <= hit.collider.gameObject.GetComponent<Interactable>().useDistance)
 		{

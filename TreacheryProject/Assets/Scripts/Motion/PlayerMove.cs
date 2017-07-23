@@ -6,105 +6,172 @@ using UnityEngine.Networking;
 /**
  * This script manages how a player can move
  */
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(FootSounds))]
 public class PlayerMove : NetworkBehaviour {
 
-	/**
-	 * Gravity on the character (Acceleration due to gravity)
-	 */
+	/// <summary>
+	/// Volume for sound
+	/// </summary>
+	public float baseVolume;
+	/// <summary>
+	/// Acceleartion due to Gravity
+	/// </summary>
 	public float gravity = 1.0f;
-	/**
-	 * Speed that the character moves
-	 */
+	/// <summary>
+	/// Distance between a hand and player.
+	/// </summary>
+	public float handDist = 0.1f;
+	/// <summary>
+	/// Speed at which the player moves
+	/// </summary>
 	public float moveSpeed = 1.0f;
-	/**
-	 * Velocity the character takes off from the ground at
-	 */
+	/// <summary>
+	/// Acceleartion of a player jump
+	/// </summary>
 	public float jumpSpeed = 3.0f;
-	/**
-	 * Minimum ground time between jumps
-	 */
+	/// <summary>
+	/// Minimum cooldown between jumps
+	/// </summary>
 	public float minDownTimeBeforeJump = 1.0f;
 
-	/**
-	 * Can the player currently move
-	 */
+	/// <summary>
+	/// Can the player Move.
+	/// </summary>
 	public bool canMove = true;
-	/**
-	 * Can the player currently jump
-	 */
+	/// <summary>
+	/// Can the player Jump
+	/// </summary>
 	public bool canJump = true;
-	//Can move head
+	/// <summary>
+	/// Can the player move his/her head
+	/// </summary>
 	public bool canMoveHead = true;
-	//Can move body
+	/// <summary>
+	/// Can the player turn their body
+	/// </summary>
 	public bool canTurnBody = true;
 
-	//Camera transform
+	/// <summary>
+	/// Current look angle of the character
+	/// </summary>
+	private Quaternion look = Quaternion.identity;
+
+	/// <summary>
+	/// Copy of player inventory
+	/// </summary>
+	public Inventory inv;
+
+	/// <summary>
+	/// Transform of the player hand pivot
+	/// </summary>
+	public Transform handPivotPos;
+	/// <summary>
+	/// Camera position
+	/// </summary>
 	public Transform cameraTransform;
-	//Head transform
+	/// <summary>
+	/// Hand position
+	/// </summary>
+	public Transform handTransform;
+	/// <summary>
+	/// Head position.
+	/// </summary>
 	public Transform headBone;
 
-	public IKHeadMove headMoveScript;
-	
-	//Distance look object is placed in front of the camera, this is just some arbitrary value
+	/// <summary>
+	/// Distance look object is placed in front of the camera, this is just some arbitrary value
+	/// </summary>
 	private float lookDist = 1;
-	//Angle of the object in front of the character (in radians)
-	private float lookAngleVert = 0;	//Angle with respect to vertical axis (left, right)
-	private float lookAngleHoriz = 0;	//Angle with respect to horizontal axis (up, down)
-	//Define bounds for head movement
-	private float minAngleHoriz = -80, maxAngleHoriz = 50;
-
-
+	/// <summary>
+	/// Angle of the object in front of the character (in radians)
+	/// Angle with respect to vertical axis (left, right) and Angle with respect to horizontal axis (up, down)
+	/// </summary>
+	private float lookAngleVert = 0, lookAngleHoriz = 0;
+	/// <summary>
+	/// Defined head bound movement
+	/// </summary>
+	private float minAngleHoriz = -80, maxAngleHoriz = 40;
 	/// <summary>
 	/// Was the player grounded last frame
 	/// </summary>
 	private bool wasGrounded = true;
-	/**
-	 * How long has the character been on the ground
-	 */
+	/// <summary>
+	/// How long has the character been on the ground
+	/// </summary>
 	private float groundTime = 0.0f;
-	/**
-	 * Vertical velocity of the character
-	 */
+	/// <summary>
+	/// Vertical velocity of the character
+	/// </summary>
 	private float verticalVel = 0.0f;
 
 
 	/// <summary>
 	/// Object that makes foot sounds for this player.
 	/// </summary>
-	public FootSounds footSounds;
-	/**
-	 * Character's movement controller
-	 */
-	public CharacterController characterController;
-	/**
-	 * Character base that moves
-	 */
-	public Transform characterTransform;
-	/**
-	 * Character animator, for animating the character.
-	 * The animator must have the following parameters.
-	 * 	vx - x velocity
-	 *  vz - z velocity
-	 *  walking - Is the character walking
-	 *  jump - Is the character currently jumping/airborne
-	 */
+	private FootSounds footSounds;
+	/// <summary>
+	/// Character's movement controller
+	/// </summary>
+	private CharacterController characterController;
+	/// <summary>
+	/// The head move script.
+	/// </summary>
+	public IKHeadMove headMoveScript;
+	/// <summary>
+	/// The hand move script.
+	/// </summary>
+	public IKHandMove handMoveScript;
+
+	/// <summary>
+	/// Character animator, for animating the character.
+	/// The animator must have the following parameters.
+	/// vx - x velocity
+	/// vz - z velocity
+	/// walking - Is the character walking
+	/// jump - Is the character currently jumping/airborne
+	/// </summary>
 	public Animator characterAnimator;
 
-	/**
-	 * Function to check if the character is currently grounded
-	 */
+	/// <summary>
+	/// Character base that moves
+	/// </summary>
+	public Transform characterTransform;
+
+	void Start() {
+		characterController = GetComponent<CharacterController> ();
+		footSounds = GetComponent<FootSounds> ();
+		baseVolume = footSounds.volumeMult;
+	}
+
+	/// <summary>
+	/// Function to check if the character is currently grounded
+	/// </summary>
+	/// <returns><c>true</c> if this player is grounded; otherwise, <c>false</c>.</returns>
 	bool IsGrounded() {
 		return characterController.isGrounded;
 	}
 
 	[Command]
-	public void CmdSetHeadIK(Vector3 lookPos) {
-		RpcSetHeadIK (lookPos);
+	public void CmdSetLook(Quaternion look) {
+		RpcSetLook (look);
 	}
 
 	[ClientRpc]
-	public void RpcSetHeadIK(Vector3 lookPos) {
-		headMoveScript.lookPos = lookPos;
+	public void RpcSetLook(Quaternion look) {
+		this.look = look;
+	}
+
+	[Command]
+	public void CmdSetHandIK(bool active) {
+		RpcSetHandIK (active);
+	}
+
+	[ClientRpc]
+	public void RpcSetHandIK(bool active) {
+		if (!isLocalPlayer) {
+			handMoveScript.ikActive = active;
+		}
 	}
 
 	// Update is called once per frame
@@ -126,11 +193,11 @@ public class PlayerMove : NetworkBehaviour {
 					lookAngleHoriz - bodyHoriz)) + bodyHoriz;
 
 				//Update position of the look transform based on new look angles
-				Vector3 lookPos = cameraTransform.position + Quaternion.Euler (lookAngleHoriz,
-					lookAngleVert, 0) * Vector3.forward * lookDist;
 
-				CmdSetHeadIK(lookPos);
+				CmdSetLook (Quaternion.Euler (lookAngleHoriz, lookAngleVert, 0));
+				CmdSetHandIK (inv.IsHoldingItem () || GetComponent<PlayerAttack>().meleeAttack);
 			}
+
 
 			if (canTurnBody) {
 				//Rotate body towards camera angle at a speed of bodyRotateSpeed
@@ -164,7 +231,7 @@ public class PlayerMove : NetworkBehaviour {
 			else if (sprint == 1)
 				speed = 2 * speed;
 
-			GetComponentInChildren<FootSounds> ().volumeMult = speed * speed;
+			GetComponentInChildren<FootSounds> ().volumeMult = baseVolume * speed * speed;
 
 			if (crouch == 1) {
 				characterAnimator.SetBool ("crouch", true);
@@ -218,7 +285,9 @@ public class PlayerMove : NetworkBehaviour {
 			}
 
 			//Translate character based on move.
-			characterController.Move (new Vector3 (move.x, verticalVel, move.z) * Time.deltaTime);
+			if (canMove) {
+				characterController.Move (new Vector3 (move.x, verticalVel, move.z) * Time.deltaTime);
+			}
 
 			//set animator value walking to true (just for now though)
 			characterAnimator.SetBool ("walking", Mathf.Abs (dz) + Mathf.Abs (dx) > 0);
@@ -228,5 +297,11 @@ public class PlayerMove : NetworkBehaviour {
 
 			wasGrounded = grounded;
 		}
+		Vector3 lookPos = cameraTransform.position + look * Vector3.forward * lookDist;
+		Vector3 handPos = handPivotPos.position + look * Vector3.forward * handDist;
+		handTransform.position = handPos;
+		handTransform.rotation = look;
+		handMoveScript.ikActive = inv.IsHoldingItem () || GetComponent<PlayerAttack>().meleeAttack;
+		headMoveScript.lookPos = lookPos;
 	}
 }
