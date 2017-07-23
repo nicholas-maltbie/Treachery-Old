@@ -61,28 +61,28 @@ public class Vision : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcHighlightRing(GameObject ring, GameObject user) {
 		if (user != null && user.GetComponent<GamePlayer> ().isLocalPlayer) {
-			ring.GetComponent<Highlighter> ().HighlightItem ();
+			ring.GetComponent<Highlighter> ().shouldHighlight = true;
 		}
 	}
 
 	[ClientRpc]
 	public void RpcDeHighlightRing(GameObject ring, GameObject user) {
 		if (user != null && user.GetComponent<GamePlayer> ().isLocalPlayer) {
-			ring.GetComponent<Highlighter> ().RemoveHighlight ();
+			ring.GetComponent<Highlighter> ().shouldHighlight = false;
 		}
 	}
 
 	[ClientRpc]
 	public void RpcHighlightPlayer(GameObject target, GameObject user) {
 		if (user != null && user.GetComponent<GamePlayer> ().isLocalPlayer) {
-			target.GetComponent<GamePlayer> ().playerModel.GetComponent<Highlighter> ().HighlightItem ();
+			target.GetComponent<GamePlayer> ().playerModel.GetComponent<Highlighter> ().shouldHighlight = true;
 		}
 	}
 
 	[ClientRpc]
 	public void RpcDeHighlightPlayer(GameObject target, GameObject user) {
 		if (user != null && user.GetComponent<GamePlayer> ().isLocalPlayer) {
-			target.GetComponent<GamePlayer> ().playerModel.GetComponent<Highlighter> ().RemoveHighlight ();
+			target.GetComponent<GamePlayer> ().playerModel.GetComponent<Highlighter> ().shouldHighlight = false;
 		}
 	}
 
