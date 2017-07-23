@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class Invisible : MonoBehaviour {
 	
-	public static HashSet<string> ignoreShaders = new HashSet<string>(new string[]{ "Outlined/Silhouette Only" });
+	public static HashSet<string> ignoreShaders = new HashSet<string>(new string[]{ "Outlined" });
 	
 	public bool invisibleState;
 	private bool currState;

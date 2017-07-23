@@ -60,6 +60,7 @@ public class GamePlayer : NetworkBehaviour {
 
 	}
 
+	public GameObject special1;
 	public string playerName;
 	private MessageList messageList = new MessageList();
 	public Animator animator;
@@ -233,6 +234,13 @@ public class GamePlayer : NetworkBehaviour {
 		}
 	}
 
+	[Command]
+	public void CmdSpecial1() {
+		if (special1 != null) {
+			special1.SendMessage ("UseSpecial1", gameObject);
+		}
+	}
+
 	private void DisplayMessage(string message, float percent, int pos) {
 		if (percent <= .10f)
 			percent = .10f;
@@ -367,6 +375,9 @@ public class GamePlayer : NetworkBehaviour {
 			}
 			if (canUse && Input.GetButton ("Use") && inventory.IsHoldingItem () && !prevHeld) {
 				CmdUse ();
+			}
+			if (canMelee && Input.GetButton("Special1")) {
+				CmdSpecial1 ();
 			}
 			if (canMelee && Input.GetButton ("Melee")) {
 				attacker.CmdAttemptMeleeAttack ();

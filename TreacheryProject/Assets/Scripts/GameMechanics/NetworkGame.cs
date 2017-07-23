@@ -32,6 +32,10 @@ public class NetworkGame : NetworkManager {
 	/// Game haunt prefabs.
 	/// </summary>
 	public GameObject[] hauntPrefabs;
+	/// <summary>
+	/// Special Action haunt prefabs.
+	/// </summary>
+	public GameObject[] specialActions;
 
 	/// <summary>
 	/// The players connected if this is the server.
@@ -51,6 +55,9 @@ public class NetworkGame : NetworkManager {
 			}
 			foreach (GameObject hauntPrefab in hauntPrefabs) {
 				ClientScene.RegisterPrefab (hauntPrefab);
+			}
+			foreach (GameObject specialAction in specialActions) {
+				ClientScene.RegisterPrefab (specialAction);
 			}
 		}
 	}

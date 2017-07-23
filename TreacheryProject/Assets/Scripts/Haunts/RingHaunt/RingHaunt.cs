@@ -7,6 +7,9 @@ public class RingHaunt : Haunt {
 
 	public static GamePlayer chosenOne = null;
 	public static GameObject theRing = null;
+	public static bool traitorHasRing = true;
+
+	public GameObject visionActionBox;
 
 	private float respawnTime = 10f;
 	private static Dictionary<GamePlayer, Vector3> traitorSpawns = new Dictionary<GamePlayer, Vector3> ();
@@ -47,6 +50,7 @@ public class RingHaunt : Haunt {
 							}
 						}
 					}
+					traitorHasRing = hasRing;
 					if (hasRing) {
 						RpcMakeInvisible (chosenOne.gameObject);
 					} else {
@@ -108,7 +112,21 @@ public class RingHaunt : Haunt {
 	/// setup the default state of the game for the given kind of haunt.
 	/// </summary>
 	public override void HauntStarted() {
-		//make traitor invisible
+		// Add speical actions to all Players
+		foreach (GamePlayer player in NetworkGame.GetPlayers()) {
+			if (player != chosenOne) {
+				GameObject visionBox = Instantiate (visionActionBox);
+				visionBox.transform.parent = player.transform.parent;
+				visionBox.transform.localPosition = Vector3.zero;
+				NetworkServer.Spawn (visionBox);
+				RpcAddVisionAction (player.gameObject, visionBox);
+			}
+		}
+	}
+
+	[ClientRpc]
+	public void RpcAddVisionAction(GameObject gamePlayer, GameObject visionAction) {
+		gamePlayer.GetComponent<GamePlayer> ().special1 = visionAction;
 	}
 
 	[ClientRpc]

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Highlighter : MonoBehaviour {
 
-	public static HashSet<string> ignoreShaders = new HashSet<string>(new string[]{ "Outlined/Silhouette Only" });
+	public static HashSet<string> ignoreShaders = new HashSet<string>(new string[]{ "Outlined" });
 
-	public float thickness = 0.005f;
+	public float thickness = 0.05f;
 	public Color outlineColor = Color.red;
 	public bool shouldHighlight = false;
 	private Material highlight = null;
@@ -17,6 +17,7 @@ public class Highlighter : MonoBehaviour {
 			highlight = new Material (Shader.Find ("Outlined/Silhouette Only"));
 			highlight.SetFloat ("_Outline", thickness);
 			highlight.SetColor ("_OutlineColor", outlineColor);
+			highlight.shader.name = "Outlined";
 			foreach (Renderer ren in rens) {
 				Material[] mats = ren.materials;
 				Material[] newMats = new Material[mats.Length + 1];
