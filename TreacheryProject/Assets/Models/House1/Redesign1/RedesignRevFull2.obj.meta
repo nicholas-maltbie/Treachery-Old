@@ -3,7 +3,7 @@ guid: 67af8b2f3f7ac574cb8eb6a42f37639f
 timeCreated: 1497198642
 licenseType: Free
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: 1333
     100002: 1532
@@ -9222,10 +9222,129 @@ ModelImporter:
     4303680: wall_9_67
     4303682: wall_9_68
     4303684: wall_9_69
+    4303686: 1532
+    4303688: 1830
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Brass
+    second: {fileID: 2100000, guid: 77c26de15c47a84489cdbdfb6250729d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DoorFrame
+    second: {fileID: 2100000, guid: 4956ae21a5188ca47ba58de53bafb378, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DoorPanel
+    second: {fileID: 2100000, guid: 599b1767137b8504495a0753f0b570e6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: default
+    second: {fileID: 2100000, guid: f7e7238e30eeb7c40985fd2a8589ba9d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: flblonde
+    second: {fileID: 2100000, guid: cfe2cf0fca1e48946b9223035f7965c2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: flltgrey
+    second: {fileID: 2100000, guid: ffbccc546f2c471408f2ba7add289cd2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ground_1
+    second: {fileID: 2100000, guid: 5c8cea6239a772a4dab53696430808a1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lighttan
+    second: {fileID: 2100000, guid: e7b5af1863037304bac24a48e6b7f4e4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: room_164_1227
+    second: {fileID: 2100000, guid: f8b361eb98e19f048b77956035c250f5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: room_164_1228
+    second: {fileID: 2100000, guid: 2e61024094654b7478d192d31c78417b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: room_169_1237
+    second: {fileID: 2100000, guid: 0c841a3a868c49741bdd1f1f663ba8be, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: room_177_1252
+    second: {fileID: 2100000, guid: 887960d813cea9e49858049b0d834104, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: room_178_1253
+    second: {fileID: 2100000, guid: ff0f8afb2081965438417863c0c218b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: room_178_1254
+    second: {fileID: 2100000, guid: 8204222a8c5d2d5419fad98534ff8edf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: silver
+    second: {fileID: 2100000, guid: 7333e1b43da3138428c1c3321b827254, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: silver_Cube_1_1458
+    second: {fileID: 2100000, guid: 2627d0147a2e93046b1fad797e670d3a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wall_150_1121
+    second: {fileID: 2100000, guid: 564c51f2ecdc7c040a2ea5f7acdb67fb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wall_1_2
+    second: {fileID: 2100000, guid: 28753ebae19703f439f615297e0dab4c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wall_1_3
+    second: {fileID: 2100000, guid: 1844a84069af1dd42a61629941a79c57, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wall_1_4
+    second: {fileID: 2100000, guid: bab25ab9ab3307e4fa1dc7ed41d67fc7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wall_55_415
+    second: {fileID: 2100000, guid: 17c28bf03983cad46b32c58419841521, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: white
+    second: {fileID: 2100000, guid: 6c367f6bd1ff18d48a0c6586b86ee3c7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: white_Poignee_1531
+    second: {fileID: 2100000, guid: d2f0843c541e1f345a892df68bc861b0, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -9238,12 +9357,14 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -9251,7 +9372,10 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
@@ -9267,6 +9391,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:

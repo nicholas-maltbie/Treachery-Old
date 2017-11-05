@@ -4,6 +4,8 @@ using System.Text;
 using System.IO;
 using UnityEngine.Networking;
 using System;
+using UnityEngine.UI;
+using UnityEngine.Networking.NetworkSystem;
 
 /// <summary>
 /// Game options for running the game.
@@ -26,25 +28,13 @@ public class GameOptions : MonoBehaviour {
 	/// </summary>
 	public Animator cameraAnimator;
 	/// <summary>
-	/// the size of the credit boxes.
-	/// </summary>
-	private float creditWidth = -1, creditHeight = -1;
-	/// <summary>
-	/// The scroll position for viewing a scrolly box or something like that.
-	/// </summary>
-	private Vector2 scrollPosition = Vector2.zero;
-	/// <summary>
 	/// Managing the menu states.
 	/// </summary>
-	private bool canDisplay = true, wasConnected, isMenuOpen;
+	private bool wasConnected;
 	/// <summary>
 	/// The network manager for managing connections to the network.
 	/// </summary>
 	private NetworkManager networkManager;
-	/// <summary>
-	/// The credits file.
-	/// </summary>
-	public TextAsset creditsFile;
 	/// <summary>
 	/// The game camera.
 	/// </summary>
@@ -53,145 +43,143 @@ public class GameOptions : MonoBehaviour {
 	/// The listener of the player.
 	/// </summary>
 	public AudioListener listener;
-	/// <summary>
-	/// The address for connecting to the server.
-	/// </summary>
-	private string address = "localhost";
-	/// <summary>
-	/// The credit lines.
-	/// </summary>
-	private string creditLines;
 
-	/// <summary>
-	/// Allows the menu to dsplay.
-	/// </summary>
-	public void CanDisplay()
-	{
-		canDisplay = true;
-	}
+	public GameObject creditsScreen, titleScreen;
 
-	void OnGUI()
-	{
-		//if not connected to server
-		if (currentState == GameState.OFFLINE) {
-			Cursor.lockState = CursorLockMode.None;
-			Cursor.visible = true;
-			//if not in animation
-			if (canDisplay) {
-				//if the state is the basic menu, display buttons and allow changes
-				if (cameraAnimator.GetInteger ("State") == 0) {
+	NetworkClient client;
+	NetworkClient server;
 
-					camera.enabled = true;
-					listener.enabled = true;
+	public Text serverIp, serverPort, joinIp, joinPort, joinError, hostError;
 
-					address = GUI.TextField (new Rect (Screen.width * .21f, Screen.height * .2f, Screen.width * .19f, Screen.height * .05f), address);
-					if (GUI.Button (new Rect (Screen.width * .1f, Screen.height * .1f, Screen.width * .3f, Screen.height * .05f), "Host Game")) {
-						networkManager.StartHost ();
-						Cursor.lockState = CursorLockMode.Locked;
-						Cursor.visible = false;
-					}
-					else if (GUI.Button (new Rect (Screen.width * .1f, Screen.height * .2f, Screen.width * .1f, Screen.height * .05f), "Join Game")) {
-						networkManager.networkAddress = address;
-						networkManager.StartClient ();
-						Cursor.lockState = CursorLockMode.Locked;
-						Cursor.visible = false;
-					}
-					else if (GUI.Button (new Rect (Screen.width * .1f, Screen.height * .3f, Screen.width * .3f, Screen.height * .05f), "Credits")) {
-						cameraAnimator.SetInteger ("State", 1);
-						canDisplay = false;
-					}
-					else if (GUI.Button (new Rect (Screen.width * .1f, Screen.height * .4f, Screen.width * .3f, Screen.height * .05f), "Exit Game")) {
-						#if UNITY_EDITOR
-						UnityEditor.EditorApplication.isPlaying = false;
-						#elif UNITY_WEBPLAYER
-						Application.OpenURL(webplayerQuitURL);
-						#else
-						Application.Quit();
-						#endif 
-					}
-				} 
-				//if the display is credis, display credits and allow the user to interact
-				else if (cameraAnimator.GetInteger ("State") == 1) {
-						if (GUI.Button (new Rect (Screen.width * .1f, Screen.height * .1f, Screen.width * .3f, Screen.height * .05f), "Back")) {
-						cameraAnimator.SetInteger ("State", 0);
-						canDisplay = false;
-					}
-				
-					if(creditHeight == -1 && creditWidth == -1)
-					{
-						Vector2 size = GUI.skin.textArea.CalcSize (new GUIContent (creditLines));
-						creditHeight = size.y;
-						creditWidth = size.x;
-					}
-					scrollPosition = GUI.BeginScrollView (new Rect (Screen.width * .1f, Screen.height * .2f, Math.Min (creditWidth + 30, Screen.width * .4f), 
-				                                                Math.Min (creditHeight + 30, Screen.height * .7f)), scrollPosition, new Rect (0, 0, creditWidth, creditHeight));
-					GUI.TextArea (new Rect (0, 0, creditWidth + 30, creditHeight + 30), creditLines);
-					GUI.EndScrollView ();
-			
-				}
+	public void HostGame() {
+		if (client == null) {
+			int port = 7777;
+			if (serverIp.text.Length == 0) {
+				networkManager.serverBindAddress = serverIp.text;
+				networkManager.serverBindToIP = true;
+			} else {
+				networkManager.serverBindToIP = false;
 			}
-		} 
-		//if the user is online
-		else if(currentState == GameState.ONLINE) {
-			//if the menu is open, display the menu and allow the player to interact.
-			if(isMenuOpen)
-			{
-				camera.enabled = false;
-				listener.enabled = false;
-				GUI.Box(new Rect(Screen.width * .4f, Screen.height * .2f, Screen.width * .2f, Screen.height * .24f), "", squareStyle);
-				if(GUI.Button(new Rect(Screen.width * .42f, Screen.height * .22f, Screen.width * .16f, Screen.height * .08f), "Back To Game"))
-				{
-					ToggleMenu();
-				}
-				else if(GUI.Button(new Rect(Screen.width * .42f, Screen.height * .32f, Screen.width * .16f, Screen.height * .08f), "Disconnect"))
-				{
-					Application.LoadLevel(networkManager.offlineScene);
-					currentState = GameState.OFFLINE;
-					camera.enabled = true;
-					listener.enabled = true;
-					ToggleMenu();
-					networkManager.StopHost();
-					networkManager.StopClient();
-					networkManager.StopServer();
-				}
 
-			}
-			//if the menu is not open, display instructions to open the menu
-			else
-			{
-				GUI.Label(new Rect(Screen.width * .8f, Screen.height * .05f, Screen.width * .4f, Screen.width * .1f), "Press [ESC] to open menu");
+			if (joinPort.text.Length == 0 || Int32.TryParse (joinPort.text, out port)) {
+				networkManager.networkPort = port;
+				hostError.text = "Attempting to host server";
+				server = networkManager.StartHost ();
+				server.RegisterHandler (MsgType.Error, OnHostError);
+			} else {
+				hostError.text = "Port " + joinPort.text + " is not a valid number";
 			}
 		}
+		else {
+			hostError.text = "Alerady attempting to connect...";
+		}
+	}
+
+	public void DisableStartScreen() {
+		creditsScreen.SetActive (false);
+		titleScreen.SetActive (false);
+	}
+
+	public void OnHostError(NetworkMessage error) {
+		ErrorMessage msg = error.ReadMessage<ErrorMessage> ();
+		hostError.text = "Could not host server: " + msg.errorCode +
+			"\n" + ((NetworkError)msg.errorCode).ToString();
+		server = null;
+
+	}
+
+	public void JoinGame() {
+		if (server == null) {
+			if (client == null) {
+				networkManager.networkAddress = joinIp.text;
+				int port = 7777;
+				if (joinIp.text.Length == 0) {
+					joinError.text = "Must enter a valid ip";
+					return;
+				}
+				if (joinPort.text.Length == 0 || Int32.TryParse (joinPort.text, out port)) {
+					networkManager.networkPort = port;
+					joinError.text = "Attempting to join...";
+					client = networkManager.StartClient ();
+					client.RegisterHandler (MsgType.Error, OnJoinError);
+					client.RegisterHandler (MsgType.Disconnect, OnJoinDisconnect);
+				} else {
+					joinError.text = "Port " + joinPort.text + " is not a valid number";
+				}
+			} else {
+				joinError.text = "Alerady attempting to connect...";
+			}
+		}
+		else {
+			joinError.text = "Already trying to host a server";
+		}
+			
+	}
+
+	public void OnJoinDisconnect(NetworkMessage message) {
+		joinError.text = "Could not connect to server: " +
+			"\nError due to timeout";
+		client = null;
+	}
+
+	public void OnHost(NetworkConnection conn, NetworkReader reader)
+	{
+		DisableStartScreen ();
+		Debug.Log("Hosting server");
+	}
+
+	public void OnJoinError(NetworkMessage error)
+	{
+		ErrorMessage msg = error.ReadMessage<ErrorMessage> ();
+		joinError.text = "Could not connect to server: " + msg.errorCode +
+			"\n" + ((NetworkError)msg.errorCode).ToString();
+		client = null;
+	}
+
+
+	public void Exit() {
+		#if UNITY_EDITOR
+		UnityEditor.EditorApplication.isPlaying = false;
+		#elif UNITY_WEBPLAYER
+		Application.OpenURL(webplayerQuitURL);
+		#else
+		Application.Quit();
+		#endif 
+	}
+
+	public void Disconnect() {
+		Application.LoadLevel(networkManager.offlineScene);
+		titleScreen.SetActive (true);
+		currentState = GameState.OFFLINE;
+		camera.enabled = true;
+		listener.enabled = true;
+		networkManager.StopHost();
+		networkManager.StopClient();
+		networkManager.StopServer();
+	}
+
+	public void CanDisplay() {
+		if (cameraAnimator.GetInteger ("State") == 1) {
+			creditsScreen.SetActive (true);
+		} else if (cameraAnimator.GetInteger ("State") == 0) {
+			titleScreen.SetActive (true);
+		}
+	}
+	
+	public void OpenCredits() {
+		cameraAnimator.SetInteger ("State", 1);
+		titleScreen.SetActive (false);
+	}
+	
+	public void CloseCredits() {
+		cameraAnimator.SetInteger ("State", 0);
+		creditsScreen.SetActive (false);
 	}
 	
 	void Start () {
-		style.alignment = TextAnchor.MiddleCenter;
-		creditLines = creditsFile.text;
-		Texture2D gray = new Texture2D (1, 1);
-		gray.SetPixel (0, 0, Color.gray);
-		gray.wrapMode = TextureWrapMode.Repeat;
-		gray.Apply ();
-		squareStyle.normal.background = gray;
-		networkManager = GetComponent<NetworkManager> ();
+		networkManager = GetComponent<NetworkGame> ();
 		camera = GetComponent<Camera> ();
 		listener = GetComponent<AudioListener> ();
-	}
-	
-	/// <summary>
-	/// Toggles the menu.
-	/// </summary>
-	public void ToggleMenu()
-	{
-		isMenuOpen = !isMenuOpen;
-		if(isMenuOpen)
-		{
-			Cursor.lockState = CursorLockMode.Confined;
-			Cursor.visible = true;
-		}
-		else{
-			Cursor.lockState = CursorLockMode.Locked;
-			Cursor.visible = false;
-		}
 	}
 	
 	void Update () {
@@ -210,7 +198,7 @@ public class GameOptions : MonoBehaviour {
 		case GameState.ONLINE:
 			if(Input.GetKeyDown(KeyCode.Escape))
 			{
-				ToggleMenu();
+				//ToggleMenu();
 			}
 			break;
 		}
