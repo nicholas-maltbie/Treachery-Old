@@ -85,6 +85,7 @@ public class GameOptions : MonoBehaviour {
 		hostError.text = "Could not host server: " + msg.errorCode +
 			"\n" + ((NetworkError)msg.errorCode).ToString();
 		server = null;
+
 	}
 
 	public void JoinGame() {
@@ -121,9 +122,10 @@ public class GameOptions : MonoBehaviour {
 		client = null;
 	}
 
-	public void OnConnected(NetworkConnection conn, NetworkReader reader)
+	public void OnHost(NetworkConnection conn, NetworkReader reader)
 	{
-		Debug.Log("Connected to server");
+		DisableStartScreen ();
+		Debug.Log("Hosting server");
 	}
 
 	public void OnJoinError(NetworkMessage error)
@@ -147,6 +149,7 @@ public class GameOptions : MonoBehaviour {
 
 	public void Disconnect() {
 		Application.LoadLevel(networkManager.offlineScene);
+		titleScreen.SetActive (true);
 		currentState = GameState.OFFLINE;
 		camera.enabled = true;
 		listener.enabled = true;

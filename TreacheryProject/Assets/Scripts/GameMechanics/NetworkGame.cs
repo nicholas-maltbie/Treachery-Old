@@ -42,6 +42,19 @@ public class NetworkGame : NetworkManager {
 	/// </summary>
 	private static List<GameObject> players = new List<GameObject> ();
 
+	public GameOptions opts;
+
+	public override void OnStartHost()
+	{
+		opts.DisableStartScreen ();
+	}
+
+	public override void OnStartClient(NetworkClient client)
+	{
+		opts.DisableStartScreen ();
+	}
+
+
 	/// <summary>
 	/// Register all prefabs for the game
 	/// </summary>
